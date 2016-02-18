@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9060" systemVersion="14F1605" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="69" id="KGk-i7-Jjw" customClass="SCSearchTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="768" height="69"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="768" height="68"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="O9B-38-vSZ">
+                        <rect key="frame" x="-96" y="-43" width="63" height="58"/>
+                    </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="小圆" translatesAutoresizingMaskIntoConstraints="NO" id="DDC-4H-frW">
+                        <rect key="frame" x="21" y="25" width="16" height="16"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="16" id="73r-Lt-6JH"/>
+                            <constraint firstAttribute="height" constant="16" id="DcL-Ze-ewR"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Gh-Sh-EFu">
+                        <rect key="frame" x="498" y="28" width="102" height="23"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" white="0.77798622532894746" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="highlightedColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J6g-Pi-bRp">
+                        <rect key="frame" x="73" y="19" width="328" height="31"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="31" id="Prc-Vy-oEq"/>
+                            <constraint firstAttribute="width" constant="328" id="UbR-fR-Egs"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="27"/>
+                        <state key="normal" title="Button">
+                            <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="DDC-4H-frW" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="17" id="1J7-QD-BVq"/>
+                    <constraint firstItem="DDC-4H-frW" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="13" id="FMu-qG-KPe"/>
+                    <constraint firstItem="J6g-Pi-bRp" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="11" id="OFB-GA-2kP"/>
+                    <constraint firstItem="J6g-Pi-bRp" firstAttribute="leading" secondItem="DDC-4H-frW" secondAttribute="trailing" constant="36" id="nDq-bR-DcE"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="heighthBtn" destination="Prc-Vy-oEq" id="Ag7-gh-IWZ"/>
+                <outlet property="heighthImage" destination="DcL-Ze-ewR" id="kcn-hY-2PX"/>
+                <outlet property="leftBtn" destination="nDq-bR-DcE" id="TYf-4R-IaZ"/>
+                <outlet property="leftImage" destination="FMu-qG-KPe" id="O4R-vm-BB0"/>
+                <outlet property="searchBtn" destination="J6g-Pi-bRp" id="IwU-ed-c2x"/>
+                <outlet property="status" destination="6Gh-Sh-EFu" id="TIJ-yc-XFc"/>
+                <outlet property="topBtn" destination="OFB-GA-2kP" id="Meo-J1-3a0"/>
+                <outlet property="topImage" destination="1J7-QD-BVq" id="cwo-nl-78t"/>
+                <outlet property="widthBtn" destination="UbR-fR-Egs" id="7Io-g2-Zsx"/>
+                <outlet property="widthImage" destination="73r-Lt-6JH" id="6aE-0s-Vbd"/>
+            </connections>
+            <point key="canvasLocation" x="286" y="292.5"/>
+        </tableViewCell>
+        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="PK9-bT-4EW">
+            <rect key="frame" x="0.0" y="0.0" width="7" height="20"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <point key="canvasLocation" x="48.5" y="401"/>
+        </imageView>
+        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="FCV-cL-eT9">
+            <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <point key="canvasLocation" x="8" y="300"/>
+        </imageView>
+    </objects>
+    <resources>
+        <image name="小圆" width="26" height="26"/>
+    </resources>
+</document>

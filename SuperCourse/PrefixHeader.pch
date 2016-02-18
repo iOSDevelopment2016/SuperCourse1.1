@@ -1,0 +1,83 @@
+//
+//  PrefixHeader.pch
+//  SuperCourse
+//
+//  Created by Develop on 16/1/23.
+//  Copyright © 2016年 Develop. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+
+#define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
+
+#define UIThemeColor UIColorFromRGB(0x6fccdb) //主题蓝色
+#define UIBackgroundColor UIColorFromRGB(0xf4f4f4) //view底色，浅灰色
+
+#define UIScreenWidth     [UIScreen mainScreen].bounds.size.width
+#define UIScreenHeight    [UIScreen mainScreen].bounds.size.height
+
+#define WidthScale [UIScreen mainScreen].bounds.size.width/2048
+#define HeightScale [UIScreen mainScreen].bounds.size.height/1536
+#define kyd [UIScreen mainScreen].bounds.size.height/1536*1000
+
+#define ApplicationDelegate ((AppDelegate *)[UIApplication sharedApplication].delegate)
+
+//判断机型
+#define IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+#define IS_IPHONE (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+#define IS_RETINA ([[UIScreen mainScreen] scale] >= 2.0)
+//判断iPhone机型
+#define IS_IPHONE_6 (IS_IPHONE && SCREEN_MAX_LENGTH == 667.0)
+#define IS_IPHONE_6P (IS_IPHONE && SCREEN_MAX_LENGTH == 736.0)
+
+#define SCREEN_WIDTH ([[UIScreen mainScreen] bounds].size.width)
+#define SCREEN_HEIGHT ([[UIScreen mainScreen] bounds].size.height)
+#define SCREEN_MAX_LENGTH (MAX(SCREEN_WIDTH, SCREEN_HEIGHT))
+#define SCREEN_MIN_LENGTH (MIN(SCREEN_WIDTH, SCREEN_HEIGHT))
+
+
+//字体适配
+#define FONT_18 IS_IPAD ? [UIFont systemFontOfSize:18] : IS_IPHONE_6P ? [UIFont systemFontOfSize:11] : IS_IPHONE_6 ? [UIFont systemFontOfSize:10] : [UIFont systemFontOfSize:9]
+
+#define FONT_20 IS_IPAD ? [UIFont systemFontOfSize:20] : IS_IPHONE_6P ? [UIFont systemFontOfSize:13] : IS_IPHONE_6 ? [UIFont systemFontOfSize:12] : [UIFont systemFontOfSize:11]
+#define FONT_21 IS_IPAD ? [UIFont systemFontOfSize:21] : IS_IPHONE_6P ? [UIFont systemFontOfSize:14] : IS_IPHONE_6 ? [UIFont systemFontOfSize:13] : [UIFont systemFontOfSize:12]
+#define FONT_22 IS_IPAD ? [UIFont systemFontOfSize:22] : IS_IPHONE_6P ? [UIFont systemFontOfSize:15] : IS_IPHONE_6 ? [UIFont systemFontOfSize:14] : [UIFont systemFontOfSize:13]
+#define FONT_23 IS_IPAD ? [UIFont systemFontOfSize:23] : IS_IPHONE_6P ? [UIFont systemFontOfSize:16] : IS_IPHONE_6 ? [UIFont systemFontOfSize:15] : [UIFont systemFontOfSize:14]
+#define FONT_24 IS_IPAD ? [UIFont systemFontOfSize:24] : IS_IPHONE_6P ? [UIFont systemFontOfSize:17] : IS_IPHONE_6 ? [UIFont systemFontOfSize:16] : [UIFont systemFontOfSize:15]
+#define FONT_25 IS_IPAD ? [UIFont systemFontOfSize:25] : IS_IPHONE_6P ? [UIFont systemFontOfSize:18] : IS_IPHONE_6 ? [UIFont systemFontOfSize:17] : [UIFont systemFontOfSize:16]
+#define FONT_26 IS_IPAD ? [UIFont systemFontOfSize:26] : IS_IPHONE_6P ? [UIFont systemFontOfSize:19] : IS_IPHONE_6 ? [UIFont systemFontOfSize:18] : [UIFont systemFontOfSize:17]
+#define FONT_27 IS_IPAD ? [UIFont systemFontOfSize:27] : IS_IPHONE_6P ? [UIFont systemFontOfSize:20] : IS_IPHONE_6 ? [UIFont systemFontOfSize:19] : [UIFont systemFontOfSize:18]
+#define FONT_28 IS_IPAD ? [UIFont systemFontOfSize:28] : IS_IPHONE_6P ? [UIFont systemFontOfSize:21] : IS_IPHONE_6 ? [UIFont systemFontOfSize:20] : [UIFont systemFontOfSize:19]
+#define FONT_29 IS_IPAD ? [UIFont systemFontOfSize:29] : IS_IPHONE_6P ? [UIFont systemFontOfSize:22] : IS_IPHONE_6 ? [UIFont systemFontOfSize:21] : [UIFont systemFontOfSize:20]
+#define FONT_30 IS_IPAD ? [UIFont systemFontOfSize:30] : IS_IPHONE_6P ? [UIFont systemFontOfSize:23] : IS_IPHONE_6 ? [UIFont systemFontOfSize:22] : [UIFont systemFontOfSize:21]
+#define FONT_35 IS_IPAD ? [UIFont systemFontOfSize:35] : IS_IPHONE_6P ? [UIFont systemFontOfSize:23] : IS_IPHONE_6 ? [UIFont systemFontOfSize:25] : [UIFont systemFontOfSize:24]
+
+
+
+
+//用户身份标示
+#define UserSessionKey @"UserSession"
+//用户手机号
+#define UserPhoneKey @"UserPhoneKey"
+//用户密码
+#define UserPswKey @"UserPswKey"
+
+
+#define PlayLogKey @"PlayLogKey"
+
+//未登录学员标示
+#define UnLoginUserSession @"UnLoginUserSession"
+
+#import "UIView+SZY.h"
+#import "AppDelegate.h"
+#import "UIAlertController+SZYKit.h"
+
+//消除警告
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+
+#endif /* PrefixHeader_pch */
