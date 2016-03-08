@@ -43,7 +43,7 @@
         
         [self addSubview:self.historyTableView];
         [self observer];
-        //        [self loadCourseListFromNetwork];
+//        [self loadCourseListFromNetwork];
         
         
         
@@ -57,7 +57,16 @@
                                              selector: @selector(updateHistoryInfo)
                                                  name: @"updateHistoryInfo"
                                                object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(clearHistoryInfo)
+                                                 name: @"clearHistoryInfo"
+                                               object: nil];
     
+}
+
+-(void)clearHistoryInfo{
+    _historyArr=nil;
+    [self.historyTableView reloadData];
 }
 
 

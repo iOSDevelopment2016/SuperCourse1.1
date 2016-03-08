@@ -186,6 +186,9 @@
             
             [self removeFromSuperview];
             [self.delegate removeHub];
+            
+            [[NSNotificationCenter defaultCenter]postNotificationName:@"updateHistoryInfo" object:nil];
+
         }else{
             [self shakeAnimationForView:self];
         }
@@ -194,6 +197,7 @@
     } failure:^(NSError *error) {
         NSLog(@"%@",error);
     }];
+    
 
     
 }

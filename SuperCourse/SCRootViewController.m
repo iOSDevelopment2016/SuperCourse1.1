@@ -954,7 +954,8 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
             [defaultes removeObjectForKey:PlayLogKey];
             [defaultes synchronize];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"UserDidLogout" object:nil];
-            
+            [[NSNotificationCenter defaultCenter]postNotificationName:@"clearHistoryInfo" object:nil];
+
             [self unlogin];
         }];
     }
