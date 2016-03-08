@@ -15,6 +15,7 @@
 @end
 @implementation SCSearchTableViewCell
 -(void)layoutSubviews{
+    //11
     CGFloat topImage=self.bounds.size.height*0.362;
     CGFloat leftImage=self.bounds.size.width*0.027;
     CGFloat widthImage=self.bounds.size.width*0.0232;

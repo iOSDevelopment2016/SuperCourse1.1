@@ -7,6 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SCDownloader.h"
+#import "FMDatabase.h"
+#include "FMDatabaseQueue.h"
+#import "WXApi.h"
+#import <TencentOpenAPI/TencentApiInterface.h>
+//#import <TencentOpenAPI/TencentOAuth.h>
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
@@ -18,9 +24,17 @@
 
 @property (strong ,nonatomic) NSString *playLog;
 
+@property (strong ,nonatomic)SCDownloader *download;
+
+@property (nonatomic,strong) NSString *program;
+
+@property (nonatomic,strong) NSString *mark;
 -(NSString *)monitorWebState;
 
 - (NSString *)getNetWorkStates;
+@property (nonatomic)float pram;
+
+@property (nonatomic, strong)FMDatabaseQueue *dbQueue;
 
 @end
 

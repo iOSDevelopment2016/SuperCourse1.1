@@ -27,7 +27,9 @@
 #import "SCCoursePlayLog.h"
 #import "SCExtendView.h"
 #import "MBProgressHUD.h"
-
+//#import "LocalDatabase.h"
+#import "SZYNoteSolidater.h"
+#import "SCDownlodaMode.h"
 typedef NS_ENUM(NSInteger,SCShowViewType) {
     SCShowViewType_MyNotes = 0,
     SCShowViewType_VideoHistory,
@@ -35,13 +37,14 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
 };
 
 
-@interface SCRootViewController ()<SCLoginViewDelegate,SCAllCourseViewDelegate,UITextFieldDelegate,SCCourseTableViewDelegate,SCExtendViewDelegate,SCHistoryViewDelegate,SCSearchViewDelegate,SCSettingViewControllerDelegate,MBProgressHUDDelegate,UIPageViewControllerDelegate>
+@interface SCRootViewController ()<SCLoginViewDelegate,SCAllCourseViewDelegate,UITextFieldDelegate,SCCourseTableViewDelegate,SCExtendViewDelegate,SCHistoryViewDelegate,SCSearchViewDelegate,SCSettingViewControllerDelegate,MBProgressHUDDelegate,UIPageViewControllerDelegate,WXApiDelegate>
 
 
 @property (nonatomic ,strong) UIButton                 *loginBtn;
 @property (nonatomic ,strong) UIButton                 *loginBtnImage;
 @property (nonatomic ,strong) UIView                   *leftView;
 @property (nonatomic ,strong) UITextField              *searchTextField;
+@property (nonatomic ,strong) UIView                   *backView;
 @property (nonatomic ,strong) UIButton                 *allCourseBtn;
 @property (nonatomic ,strong) UIButton                 *allCourseBtnImage;
 @property (nonatomic ,strong) UIButton                 *videoHistoryBtn;
@@ -65,6 +68,7 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
 @property (nonatomic ,strong) SCIntroductionDataSource *datasource;
 @property (nonatomic ,strong) MBProgressHUD            *hud;
 @property (nonatomic ,strong) SCCoursePlayLog          *playLog;
+@property (nonatomic, strong) SZYNoteSolidater          *db;
 
 @property CGFloat Variety;
 
@@ -80,6 +84,13 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *docDir = [paths objectAtIndex:0];
+    self.db=[[SZYNoteSolidater alloc]init];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(echo)
+                                                 name: @"echo"
+                                               object: nil];
     self.allCourseBtn.selected=YES;
     self.allCourseBtnImage.selected=YES;
     //隐藏导航栏
@@ -100,10 +111,11 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
     [self.leftView addSubview:self.videoHistoryBtnImage];
     [self.leftView addSubview:self.myNotesBtn];
     [self.leftView addSubview:self.myNotesBtnImage];
-    //    [self.leftView addSubview:self.favouriteSettingBtn];
-    //    [self.leftView addSubview:self.favouriteSettingBtnImage];
+    [self.leftView addSubview:self.favouriteSettingBtn];
+    [self.leftView addSubview:self.favouriteSettingBtnImage];
     
-    [self.view addSubview:self.searchTextField];
+    [self.view addSubview:self.backView];
+    [self.backView addSubview:self.searchTextField];
     [self.view addSubview:self.mainView];
     
     [self.mainView addSubview:self.myNotesView];//0
@@ -118,6 +130,7 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
     //    NSString *str=intro.les_intrdoc;
     //    NSLog(@"%@",str);
     self.selectedBtn = self.allCourseBtn;
+    
 }
 
 -(void)webDataLoaddDone{
@@ -139,8 +152,8 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
     self.myNotesBtnImage.frame=CGRectMake(51*WidthScale, 350*HeightScale+35*HeightScale, 64*WidthScale, 64*HeightScale);
     self.favouriteSettingBtn.frame = CGRectMake(0, self.leftView.height-150*HeightScale,400*WidthScale, 150*HeightScale);
     self.favouriteSettingBtnImage.frame = CGRectMake(51*WidthScale, self.leftView.height-150*HeightScale+35*HeightScale,64*WidthScale, 64*HeightScale);
-    self.searchTextField.frame= CGRectMake(1234*WidthScale, 56*HeightScale, self.view.width/3, 100*HeightScale);
-    
+    self.searchTextField.frame= CGRectMake(25, 0, self.view.width/3-15, 100*HeightScale);
+    self.backView.frame= CGRectMake(1234*WidthScale, 56*HeightScale, self.view.width/3, 100*HeightScale);
     //中央视图尺寸
     mainFrame = CGRectMake(self.leftView.right, self.leftView.top, self.view.width-self.leftView.width, self.leftView.height);
     self.mainView.frame = mainFrame;
@@ -150,6 +163,28 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
     self.videoHistoryView.frame = self.allCourseView.frame;
     //    self.searchView.frame = self.allCourseView.frame;
 }
+
+
+
+
+- (void)Share {
+    if ([WXApi isWXAppInstalled] && [WXApi isWXAppSupportApi]) {
+        SendMessageToWXReq* req = [[SendMessageToWXReq alloc] init];
+        req.bText = YES;
+        req.text = @"超课";
+        req.scene = WXSceneTimeline;
+        
+        [WXApi sendReq:req];
+        
+    } else{
+        UIAlertView *alView = [[UIAlertView alloc]initWithTitle:@"" message:@"你还没有安装微信,无法使用此功能" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"免费下载微信", nil];
+        [alView show];
+    }
+}
+
+
+
+
 
 
 -(void)loadData{
@@ -177,6 +212,7 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
     [self.hubView removeFromSuperview];
     [self hideLoginView];
     [self.allCourseView change];
+    
 }
 -(void)getuser:(NSString *)userphone{
     [self.loginBtnImage removeFromSuperview];
@@ -198,6 +234,8 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
     [leftTopView addSubview:btn];
     
 }
+
+
 
 #pragma mark - SCAllCourseViewDelegate
 -(IBAction)contendClick:(NSInteger)secIndex AndRowIndex:(NSInteger)rouIndex AndUrl:(NSString *)url{
@@ -221,31 +259,114 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
 //    playVC.currentVideoInfo = allCourseArr[5];
 //    [self.navigationController pushViewController:playVC animated:YES];
 //}
+
+-(void)postDownloadName:(NSString *)name AndURL:(NSString *)url AndSize:(NSString *)size AndID:(NSString *)les_id{
+    __block BOOL beExist;
+    
+    
+    
+    [ApplicationDelegate.dbQueue inDatabase:^(FMDatabase *database) {
+        [self.db readOneByID:@"YES" successHandler:^(id result) {
+            NSArray *noteArr = (NSArray *)result;
+            if ([noteArr count] < 1) {
+                beExist=NO;
+            }else{
+                beExist=YES;
+            }
+        } failureHandler:^(NSString *errorMsg) {
+            NSLog(@"%@",errorMsg);
+        }];
+        
+    }];
+    if(beExist==YES){
+        [self downloadingAlart];
+    }else{
+        [self downloadingMsg];
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"sendDownloadCondition" object:self userInfo:@{@"name":name,@"size":size,@"url":url,@"id":les_id}];
+        
+    }
+    
+}
+
+
+
 -(void)changeToLearn{
     [self.allCourseView change];
+}
+
+-(void)poseDownloads{
+//    [UIAlertController showAlertAtViewController:self withMessage:@"当前已存在该课下载进程" cancelTitle:@"" confirmTitle:@"我知道了" cancelHandler:^(UIAlertAction *action) {
+//    } confirmHandler:^(UIAlertAction *action) {
+//    }];
+    [UIAlertController showAlertAtViewController:self title:@"提示" message:@"已成功加入下载列表" confirmTitle:@"我知道了" confirmHandler:^(UIAlertAction *action) {
+    }];
+}
+-(void)echo{
+//    [UIAlertController showAlertAtViewController:self withMessage:@"当前已存在该课下载进程" cancelTitle:@"" confirmTitle:@"我知道了" cancelHandler:^(UIAlertAction *action) {
+//    } confirmHandler:^(UIAlertAction *action) {
+//    }];
+    [UIAlertController showAlertAtViewController:self title:@"提示" message:@"已成功加入下载列表" confirmTitle:@"我知道了" confirmHandler:^(UIAlertAction *action) {
+    }];
+}
+-(void)downloadingAlart{
+//    [UIAlertController showAlertAtViewController:self withMessage:@"该进程在下载列表中已存在" cancelTitle:@"" confirmTitle:@"我知道了" cancelHandler:^(UIAlertAction *action) {
+//    } confirmHandler:^(UIAlertAction *action) {
+//    }];
+    [UIAlertController showAlertAtViewController:self title:@"提示" message:@"已成功加入下载列表" confirmTitle:@"我知道了" confirmHandler:^(UIAlertAction *action) {
+    }];
+
+}
+-(void)downloadingMsg{
+//    [UIAlertController showAlertAtViewController:self withMessage:@"已成功加入下载列表" cancelTitle:@"" confirmTitle:@"我知道了" cancelHandler:^(UIAlertAction *action) {
+//    } confirmHandler:^(UIAlertAction *action) {
+//    }];
+    [UIAlertController showAlertAtViewController:self title:@"提示" message:@"已成功加入下载列表" confirmTitle:@"我知道了" confirmHandler:^(UIAlertAction *action) {
+    }];
 }
 
 
 -(void)videoPlayClickWithCourse:(SCCourse *)SCcourse{
     //        if([SCcourse.permission isEqualToString:@"是"])
+    __block BOOL isDodownloaded;
+    
+    
+    
+    [ApplicationDelegate.dbQueue inDatabase:^(FMDatabase *database) {
+        [self.db readOneByID:SCcourse.les_id successHandler:^(id result) {
+            NSArray *noteArr = (NSArray *)result;
+            SCDownlodaMode  *mode=[noteArr firstObject];
+            if([mode.finished isEqualToString:@"YES"]){
+                isDodownloaded=YES;
+            }else{
+                isDodownloaded=NO;
+            }
+        } failureHandler:^(NSString *errorMsg) {
+            NSLog(@"%@",errorMsg);
+        }];
+        
+    }];
     if(![ApplicationDelegate.userSession isEqualToString:@"UnLoginUserSession"]){
-        NSString *state = [ApplicationDelegate getNetWorkStates];
-        if ([state isEqualToString:@"无网络"]) {
-            [UIAlertController showAlertAtViewController:self withMessage:@"请检查您的网络连接" cancelTitle:@"取消" confirmTitle:@"我知道了" cancelHandler:^(UIAlertAction *action) {
-            } confirmHandler:^(UIAlertAction *action) {
-            }];
-        }
-        else if ([state isEqualToString:@"wifi"]){
-            
-            [self jumpToPlayerWithCourse:SCcourse];
-            
-        }else{
-            
-            [UIAlertController showAlertAtViewController:self withMessage:@"您当前正在使用3G/4G流量" cancelTitle:@"取消" confirmTitle:@"继续播放" cancelHandler:^(UIAlertAction *action) {
+        if(!isDodownloaded){
+            NSString *state = [ApplicationDelegate getNetWorkStates];
+            if ([state isEqualToString:@"无网络"]) {
+                [UIAlertController showAlertAtViewController:self withMessage:@"请检查您的网络连接" cancelTitle:@"取消" confirmTitle:@"我知道了" cancelHandler:^(UIAlertAction *action) {
+                } confirmHandler:^(UIAlertAction *action) {
+                }];
+            }
+            else if ([state isEqualToString:@"wifi"]){
                 
-            } confirmHandler:^(UIAlertAction *action) {
                 [self jumpToPlayerWithCourse:SCcourse];
-            }];
+                
+            }else{
+                
+                [UIAlertController showAlertAtViewController:self withMessage:@"您当前正在使用3G/4G流量" cancelTitle:@"取消" confirmTitle:@"继续播放" cancelHandler:^(UIAlertAction *action) {
+                    
+                } confirmHandler:^(UIAlertAction *action) {
+                    [self jumpToPlayerWithCourse:SCcourse];
+                }];
+            }
+        }else{
+            [self jumpToPlayerWithCourse:SCcourse];
         }
     }else{
         //        if([SCcourse.permission isEqualToString:@"是"]){
@@ -342,6 +463,10 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
     
     
     
+}
+
+-(void)toLogin{
+    [self loginBtnClick];
 }
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
@@ -456,14 +581,13 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
 {
     
     SCPlayerViewController *playerVC = [[SCPlayerViewController alloc]init];
-    playerVC.delegate=self;
+//    playerVC.delegate=self;
     playerVC.lessonId = les_id;
     [self.navigationController pushViewController:playerVC animated:YES];
-    
 }
 -(void)searchDidClick:(NSString *)les_id {
     SCPlayerViewController *playerVC=[[SCPlayerViewController alloc]init];
-    playerVC.delegate=self;
+//    playerVC.delegate=self;
     playerVC.lessonId = les_id;
     //    playerVC.beginTime = b
     [self.navigationController pushViewController:playerVC animated:YES];
@@ -487,140 +611,296 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
 -(void)changeImage{
     
 }
+-(void)allCourseBtnClickImage:(UIButton *)sender{
+    if(_allCourseBtn.selected==NO){
+        sender=self.allCourseBtn;
+        if(self.searchView){
+            [self.searchView removeFromSuperview];
+        }
+        [self.backView setHidden:NO];
+        self.searchTextField.text=nil;
+        self.allCourseBtn.selected=YES;
+        self.allCourseBtnImage.selected=YES;
+        self.videoHistoryBtn.selected=NO;
+        self.videoHistoryBtnImage.selected=NO;
+        self.myNotesBtn.selected=NO;
+        self.myNotesBtnImage.selected=NO;
+        self.favouriteSettingBtn.selected=NO;
+        self.favouriteSettingBtnImage.selected=NO;
+        
+        [self.scroll setHidden:NO];
+        if (!_scroll) {
+            [self.leftView addSubview:self.scroll];
+            [self scroll:self.allCourseBtn.frame.origin.y];
+            
+        }
+        else{
+            CGFloat a=self.allCourseBtn.frame.origin.y+self.Variety;
+            CGFloat b=self.scroll.frame.origin.y;
+            
+            self.Variety=a-b;
+            [self move];
+        }
+        
+        [self changeViewFrom:self.selectedBtn.tag to:sender.tag];
+        self.selectedBtn.selected=NO;
+        sender.selected=YES;
+        
+        
+        
+        NSInteger tempTag = sender.tag;
+        sender.tag = self.selectedBtn.tag;
+        
+        
+        self.selectedBtn.tag = tempTag;
+        
+        self.selectedBtn = sender;
+    }
+}
+
+
 
 
 -(void)allCourseBtnClick:(UIButton *)sender{
-    if(self.searchView){
-        [self.searchView removeFromSuperview];
-    }
-    [self.searchTextField setHidden:NO];
-    self.searchTextField.text=nil;
-    self.allCourseBtn.selected=YES;
-    self.allCourseBtnImage.selected=YES;
-    self.videoHistoryBtn.selected=NO;
-    self.videoHistoryBtnImage.selected=NO;
-    self.myNotesBtn.selected=NO;
-    self.myNotesBtnImage.selected=NO;
-    self.favouriteSettingBtn.selected=NO;
-    self.favouriteSettingBtnImage.selected=NO;
-    
-    [self.scroll setHidden:NO];
-    if (!_scroll) {
-        [self.leftView addSubview:self.scroll];
-        [self scroll:self.allCourseBtn.frame.origin.y];
+    if(_allCourseBtn.selected==NO){
+            if(self.searchView){
+                [self.searchView removeFromSuperview];
+            }
+            [self.backView setHidden:NO];
+            self.searchTextField.text=nil;
+            self.allCourseBtn.selected=YES;
+            self.allCourseBtnImage.selected=YES;
+            self.videoHistoryBtn.selected=NO;
+            self.videoHistoryBtnImage.selected=NO;
+            self.myNotesBtn.selected=NO;
+            self.myNotesBtnImage.selected=NO;
+            self.favouriteSettingBtn.selected=NO;
+            self.favouriteSettingBtnImage.selected=NO;
+            
+            [self.scroll setHidden:NO];
+            if (!_scroll) {
+                [self.leftView addSubview:self.scroll];
+                [self scroll:self.allCourseBtn.frame.origin.y];
+                
+            }
+            else{
+                CGFloat a=self.allCourseBtn.frame.origin.y+self.Variety;
+                CGFloat b=self.scroll.frame.origin.y;
+                
+                self.Variety=a-b;
+                [self move];
+            }
+            
+            [self changeViewFrom:self.selectedBtn.tag to:sender.tag];
+            self.selectedBtn.selected=NO;
+            sender.selected=YES;
         
+            
+            
+            NSInteger tempTag = sender.tag;
+            sender.tag = self.selectedBtn.tag;
+            
+            
+            self.selectedBtn.tag = tempTag;
+            
+            self.selectedBtn = sender;
     }
-    else{
-        CGFloat a=self.allCourseBtn.frame.origin.y+self.Variety;
-        CGFloat b=self.scroll.frame.origin.y;
-        
-        self.Variety=a-b;
-        [self move];
-    }
-    
-    [self changeViewFrom:self.selectedBtn.tag to:sender.tag];
-    self.selectedBtn.selected=NO;
-    sender.selected=YES;
-    
-    
-    
-    NSInteger tempTag = sender.tag;
-    sender.tag = self.selectedBtn.tag;
-    
-    
-    self.selectedBtn.tag = tempTag;
-    
-    self.selectedBtn = sender;
 }
 
 
 -(void)historyBtnClick:(UIButton *)sender{
-    if(self.searchView){
-        [self.searchView removeFromSuperview];
+    if(_videoHistoryBtn.selected==NO)
+        {
+            if(self.searchView){
+                [self.searchView removeFromSuperview];
+            }
+            [self.backView setHidden:YES];
+            self.searchTextField.text=nil;
+            self.allCourseBtn.selected=NO;
+            self.allCourseBtnImage.selected=NO;
+            self.videoHistoryBtn.selected=YES;
+            self.videoHistoryBtnImage.selected=YES;
+            self.myNotesBtn.selected=NO;
+            self.myNotesBtnImage.selected=NO;
+            self.favouriteSettingBtn.selected=NO;
+            self.favouriteSettingBtnImage.selected=NO;
+            
+            [self.scroll setHidden:NO];
+            if (!_scroll) {
+                [self scroll:self.videoHistoryBtn.frame.origin.y];
+                [self.leftView addSubview:self.scroll];
+            }
+            else{
+                CGFloat a=self.videoHistoryBtn.frame.origin.y+self.Variety;
+                CGFloat b=self.scroll.frame.origin.y;
+                
+                self.Variety=a-b;
+                [self move];
+            }
+            
+            
+            [self changeViewFrom:self.selectedBtn.tag to:sender.tag];
+            self.selectedBtn.selected=NO;
+            sender.selected=YES;
+            
+            
+            
+            NSInteger tempTag = sender.tag;
+            sender.tag = self.selectedBtn.tag;
+            
+            
+            self.selectedBtn.tag = tempTag;
+            
+            self.selectedBtn = sender;
+//            [self.videoHistoryView loadCourseListFromNetwork];
+            
     }
-    [self.searchTextField setHidden:YES];
-    self.searchTextField.text=nil;
-    self.allCourseBtn.selected=NO;
-    self.allCourseBtnImage.selected=NO;
-    self.videoHistoryBtn.selected=YES;
-    self.videoHistoryBtnImage.selected=YES;
-    self.myNotesBtn.selected=NO;
-    self.myNotesBtnImage.selected=NO;
-    self.favouriteSettingBtn.selected=NO;
-    self.favouriteSettingBtnImage.selected=NO;
-    
-    [self.scroll setHidden:NO];
-    if (!_scroll) {
-        [self scroll:self.videoHistoryBtn.frame.origin.y];
-        [self.leftView addSubview:self.scroll];
-    }
-    else{
-        CGFloat a=self.videoHistoryBtn.frame.origin.y+self.Variety;
-        CGFloat b=self.scroll.frame.origin.y;
-        
-        self.Variety=a-b;
-        [self move];
-    }
-    
-    
-    [self changeViewFrom:self.selectedBtn.tag to:sender.tag];
-    self.selectedBtn.selected=NO;
-    sender.selected=YES;
-    
-    
-    
-    NSInteger tempTag = sender.tag;
-    sender.tag = self.selectedBtn.tag;
-    
-    
-    self.selectedBtn.tag = tempTag;
-    
-    self.selectedBtn = sender;
     
 }
--(void)noteBtnClick:(UIButton *)sender{
-    if(self.searchView){
-        [self.searchView removeFromSuperview];
-    }
-    [self.searchTextField setHidden:YES];
-    self.searchTextField.text=nil;
-    self.allCourseBtn.selected=NO;
-    self.allCourseBtnImage.selected=NO;
-    self.videoHistoryBtn.selected=NO;
-    self.videoHistoryBtnImage.selected=NO;
-    self.myNotesBtn.selected=YES;
-    self.myNotesBtnImage.selected=YES;
-    self.favouriteSettingBtn.selected=NO;
-    self.favouriteSettingBtnImage.selected=NO;
-    
-    [self.scroll setHidden:NO];
-    if (!_scroll) {
-        [self scroll:self.myNotesBtn.frame.origin.y];
-        [self.leftView addSubview:self.scroll];
-    }
-    else{
-        CGFloat a=self.myNotesBtn.frame.origin.y+self.Variety;
-        CGFloat b=self.scroll.frame.origin.y;
+-(void)historyBtnClickImage:(UIButton *)sender{
+    if(_videoHistoryBtn.selected==NO)
+    {
+        sender=self.videoHistoryBtn;
+        if(self.searchView){
+            [self.searchView removeFromSuperview];
+        }
+        [self.backView setHidden:YES];
+        self.searchTextField.text=nil;
+        self.allCourseBtn.selected=NO;
+        self.allCourseBtnImage.selected=NO;
+        self.videoHistoryBtn.selected=YES;
+        self.videoHistoryBtnImage.selected=YES;
+        self.myNotesBtn.selected=NO;
+        self.myNotesBtnImage.selected=NO;
+        self.favouriteSettingBtn.selected=NO;
+        self.favouriteSettingBtnImage.selected=NO;
         
-        self.Variety=a-b;
-        [self move];
+        [self.scroll setHidden:NO];
+        if (!_scroll) {
+            [self scroll:self.videoHistoryBtn.frame.origin.y];
+            [self.leftView addSubview:self.scroll];
+        }
+        else{
+            CGFloat a=self.videoHistoryBtn.frame.origin.y+self.Variety;
+            CGFloat b=self.scroll.frame.origin.y;
+            
+            self.Variety=a-b;
+            [self move];
+        }
+        
+        
+        [self changeViewFrom:self.selectedBtn.tag to:sender.tag];
+        self.selectedBtn.selected=NO;
+        sender.selected=YES;
+        
+        
+        
+        NSInteger tempTag = sender.tag;
+        sender.tag = self.selectedBtn.tag;
+        
+        
+        self.selectedBtn.tag = tempTag;
+        
+        self.selectedBtn = sender;
+//        [self.videoHistoryView loadCourseListFromNetwork];
+
     }
     
+}
+
+-(void)noteBtnClick:(UIButton *)sender{
+    if(_myNotesBtn.selected==NO)
+        {
+        if(self.searchView){
+            [self.searchView removeFromSuperview];
+        }
+        [self.backView setHidden:YES];
+        self.searchTextField.text=nil;
+        self.allCourseBtn.selected=NO;
+        self.allCourseBtnImage.selected=NO;
+        self.videoHistoryBtn.selected=NO;
+        self.videoHistoryBtnImage.selected=NO;
+        self.myNotesBtn.selected=YES;
+        self.myNotesBtnImage.selected=YES;
+        self.favouriteSettingBtn.selected=NO;
+        self.favouriteSettingBtnImage.selected=NO;
+        
+        [self.scroll setHidden:NO];
+        if (!_scroll) {
+            [self scroll:self.myNotesBtn.frame.origin.y];
+            [self.leftView addSubview:self.scroll];
+        }
+        else{
+            CGFloat a=self.myNotesBtn.frame.origin.y+self.Variety;
+            CGFloat b=self.scroll.frame.origin.y;
+            
+            self.Variety=a-b;
+            [self move];
+        }
+        
+        
+        [self changeViewFrom:self.selectedBtn.tag to:sender.tag];
+        self.selectedBtn.selected=NO;
+        sender.selected=YES;
+        
+        
+        
+        NSInteger tempTag = sender.tag;
+        sender.tag = self.selectedBtn.tag;
+        
+        
+        self.selectedBtn.tag = tempTag;
+        
+        self.selectedBtn = sender;
+    }
     
-    [self changeViewFrom:self.selectedBtn.tag to:sender.tag];
-    self.selectedBtn.selected=NO;
-    sender.selected=YES;
-    
-    
-    
-    NSInteger tempTag = sender.tag;
-    sender.tag = self.selectedBtn.tag;
-    
-    
-    self.selectedBtn.tag = tempTag;
-    
-    self.selectedBtn = sender;
-    
+}
+-(void)noteBtnClickImage:(UIButton *)sender{
+    if(_myNotesBtn.selected==NO)
+    {
+        sender=self.myNotesBtn;
+        if(self.searchView){
+            [self.searchView removeFromSuperview];
+        }
+        [self.backView setHidden:YES];
+        self.searchTextField.text=nil;
+        self.allCourseBtn.selected=NO;
+        self.allCourseBtnImage.selected=NO;
+        self.videoHistoryBtn.selected=NO;
+        self.videoHistoryBtnImage.selected=NO;
+        self.myNotesBtn.selected=YES;
+        self.myNotesBtnImage.selected=YES;
+        self.favouriteSettingBtn.selected=NO;
+        self.favouriteSettingBtnImage.selected=NO;
+        
+        [self.scroll setHidden:NO];
+        if (!_scroll) {
+            [self scroll:self.myNotesBtn.frame.origin.y];
+            [self.leftView addSubview:self.scroll];
+        }
+        else{
+            CGFloat a=self.myNotesBtn.frame.origin.y+self.Variety;
+            CGFloat b=self.scroll.frame.origin.y;
+            
+            self.Variety=a-b;
+            [self move];
+        }
+        
+        
+        [self changeViewFrom:self.selectedBtn.tag to:sender.tag];
+        self.selectedBtn.selected=NO;
+        sender.selected=YES;
+        
+        
+        
+        NSInteger tempTag = sender.tag;
+        sender.tag = self.selectedBtn.tag;
+        
+        
+        self.selectedBtn.tag = tempTag;
+        
+        self.selectedBtn = sender;
+    }
     
 }
 
@@ -673,7 +953,6 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
             [defaultes removeObjectForKey:UserPhoneKey];
             [defaultes removeObjectForKey:PlayLogKey];
             [defaultes synchronize];
-            
             [[NSNotificationCenter defaultCenter] postNotificationName:@"UserDidLogout" object:nil];
             
             [self unlogin];
@@ -702,6 +981,7 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
     self.webView=nil;
     [self.extendView removeFromSuperview];
     self.extendView=nil;
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"releaseClick" object:self userInfo:@{}];
     
 }
 
@@ -731,8 +1011,7 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
     //    self.favouriteSettingBtn.selected=YES;
     //    self.favouriteSettingBtnImage.selected=YES;
     
-    self.setVC = [[SCSettingViewController alloc]init];
-    self.setVC.delegate=self;
+    
     [self.navigationController pushViewController:self.setVC animated:YES];
 }
 
@@ -893,21 +1172,31 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
     }
     return YES;
 }
-
+-(UIView *)backView{
+    if(!_backView){
+        _backView=[[UIView alloc]init];
+        _backView.layer.masksToBounds = YES;
+        _backView.layer.cornerRadius = 50*WidthScale;
+        _backView.backgroundColor=[UIColor whiteColor];
+    }
+    return _backView;
+}
 -(UITextField *)searchTextField{
     if(!_searchTextField){
         _searchTextField=[[UITextField alloc]init];
         //_SearchTextField=[[UITextField alloc]init];
         [_searchTextField setBackgroundColor:[UIColor whiteColor]];
-        _searchTextField.placeholder = @"请输入搜索内容";
+        _searchTextField.placeholder = @"      请输入搜索内容";
         //_searchTextField.keyboardType=UIKeyboardAppearanceDefault;
         //_searchTextField.clearButtonMode=UITextFieldViewModeWhileEditing;
         //_searchTextField.secureTextEntry=YES;
         _searchTextField.returnKeyType=UIReturnKeyDone;
+        _searchTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
         _searchTextField.font = [UIFont systemFontOfSize:45*WidthScale];
-        _searchTextField.layer.masksToBounds = YES;
-        _searchTextField.layer.cornerRadius = 50*WidthScale;
-        _searchTextField.textAlignment = UITextAlignmentCenter;
+
+//        _searchTextField.layer.masksToBounds = YES;
+//        _searchTextField.layer.cornerRadius = 50*WidthScale;
+        _searchTextField.textAlignment = UITextAlignmentLeft;
         _searchTextField.rightView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, 170*WidthScale, 150*HeightScale)];
         _searchTextField.rightView.backgroundColor=UIColorFromRGB(0x6fccdb);
         _searchTextField.rightViewMode=UITextFieldViewModeAlways;
@@ -943,10 +1232,10 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
     if(!_allCourseBtnImage)
     {
         _allCourseBtnImage=[UIButton buttonWithType:UIButtonTypeCustom];
-        _allCourseBtnImage.tag = SCShowViewType_AllCourse;
+        _allCourseBtnImage.tag = _allCourseBtn.tag;
         [_allCourseBtnImage setImage:[UIImage imageNamed:@"SC_video"] forState:UIControlStateNormal];
         [_allCourseBtnImage setImage:[UIImage imageNamed:@"SC_video2"] forState:UIControlStateSelected];
-        [_allCourseBtnImage addTarget:self action:@selector(allCourseBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+        [_allCourseBtnImage addTarget:self action:@selector(allCourseBtnClickImage:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _allCourseBtnImage;
     
@@ -972,7 +1261,7 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
         _videoHistoryBtnImage=[UIButton buttonWithType:UIButtonTypeCustom];
         [_videoHistoryBtnImage setImage:[UIImage imageNamed:@"SC_clock"] forState:UIControlStateNormal];
         [_videoHistoryBtnImage setImage:[UIImage imageNamed:@"SC_clock2"] forState:UIControlStateSelected];
-        [_videoHistoryBtnImage addTarget:self action:@selector(historyBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+        [_videoHistoryBtnImage addTarget:self action:@selector(historyBtnClickImage:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _videoHistoryBtnImage;
 }
@@ -997,7 +1286,7 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
         _myNotesBtnImage.tag = SCShowViewType_MyNotes;
         [_myNotesBtnImage setImage:[UIImage imageNamed:@"SC_note"] forState:UIControlStateNormal];
         [_myNotesBtnImage setImage:[UIImage imageNamed:@"SC_note2"] forState:UIControlStateSelected];
-        [_myNotesBtnImage addTarget:self action:@selector(noteBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+        [_myNotesBtnImage addTarget:self action:@selector(noteBtnClickImage:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _myNotesBtnImage;
 }
@@ -1102,6 +1391,13 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
         _searchView.viewController =self;
     }
     return _searchView;
+}
+-(SCSettingViewController *)setVC{
+    if(!_setVC){
+        _setVC = [[SCSettingViewController alloc]init];
+        _setVC.delegate=self;
+    }
+    return _setVC;
 }
 
 @end

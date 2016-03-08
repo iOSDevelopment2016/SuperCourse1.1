@@ -7,6 +7,6 @@
 //
 
 #import "SCBaseViewController.h"
-
+//#import "WXApi.h"
 @interface SCRootViewController : SCBaseViewController
 @end

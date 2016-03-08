@@ -20,7 +20,6 @@
 
 @interface SZYVideoManager ()
 
-@property (nonatomic ,strong) MPMoviePlayerController *player;
 @property (nonatomic, strong) NSTimer                 *playTimer;
 
 @end
@@ -31,7 +30,7 @@
 
 
 //+(instancetype)defaultManager{
-//    
+//
 //    static SZYVideoManager *manager = nil;
 //    static dispatch_once_t once;
 //    dispatch_once(&once, ^{
@@ -39,7 +38,15 @@
 //    });
 //    return manager;
 //}
-
+-(void)setVoice:(CGFloat)voice{
+    
+    MPMusicPlayerController *musicPlayer;
+    musicPlayer = [MPMusicPlayerController applicationMusicPlayer];
+    CGFloat volume = musicPlayer.volume;
+    [musicPlayer setVolume:volume+voice];
+    
+    
+}
 
 -(void)dealloc{
     

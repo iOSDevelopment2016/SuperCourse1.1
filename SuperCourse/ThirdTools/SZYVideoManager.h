@@ -8,12 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import <MediaPlayer/MediaPlayer.h>
 
 #define VideoLoadDoneNotification @"VideoLoadDoneNotification"
 
 typedef void (^playProgressHandler)(NSTimeInterval elapsedTime, NSTimeInterval timeRemaining,NSTimeInterval playableDuration, BOOL finished);
 
 @interface SZYVideoManager : NSObject
+@property (nonatomic ,strong) MPMoviePlayerController *player;
 
 //+(instancetype)defaultManager;
 
@@ -23,6 +25,8 @@ typedef void (^playProgressHandler)(NSTimeInterval elapsedTime, NSTimeInterval t
 -(void)startWithHandler:(playProgressHandler)handler;
 //暂停
 -(void)pause;
+//调整音量
+-(void)setVoice:(CGFloat)voice;
 //恢复
 -(void)resume;
 //结束播放，充值播放器，只有在确定抛弃当前视频的时候才能调用

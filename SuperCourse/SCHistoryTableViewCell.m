@@ -23,6 +23,8 @@
 
 - (void)awakeFromNib {
     // Initialization code
+    
+    self.historyBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -59,6 +61,7 @@
 }
 #pragma - mark getters
 -(UIButton *)historyBtn{
+    _historyBtn.enabled = NO;
     return _historyBtn;
     
 }

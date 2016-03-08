@@ -11,8 +11,9 @@
 #import "SCRootViewController.h"
 #import "AFNetworking.h"
 #import "UIKit+AFNetworking.h"
+#import "SCDownloader.h"
 
-@interface AppDelegate ()
+@interface AppDelegate ()<WXApiDelegate,TencentApiInterfaceDelegate>
 
 @end
 
@@ -20,7 +21,17 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *path = [documentsDirectory stringByAppendingPathComponent:@"myDatabase.sqlite3"];
+    [WXApi registerApp:@"wx81217d6c8f0d0fcd"];
+    self.dbQueue = [FMDatabaseQueue databaseQueueWithPath:path];
+    self.pram=0;
+    self.download = [[SCDownloader alloc]init];
     
+    self.program=@"";
+    self.mark=@"";
+   // self.download=[[SCDownloadConditionViewController alloc]init];
     
     self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];
@@ -43,6 +54,7 @@
 
 -(void)initUserSession{
     NSString *userSession = [[NSUserDefaults standardUserDefaults] objectForKey:UserSessionKey];
+    //self.program= [[NSUserDefaults standardUserDefaults] objectForKey:ProgramKey];
     if (userSession) {
         self.userSession = userSession;
         self.userPsw = [[NSUserDefaults standardUserDefaults] objectForKey:UserPswKey];
@@ -120,7 +132,91 @@
     return state;
 }
 
+-(BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url{
+    if (YES == [TencentApiInterface canOpenURL:url delegate:self])
+    {
+       return [TencentApiInterface handleOpenURL:url delegate:self];
+    }
+    return [WXApi handleOpenURL:url delegate:self];
+}
+-(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
+    if (YES == [TencentApiInterface canOpenURL:url delegate:self])
+    {
+       return [TencentApiInterface handleOpenURL:url delegate:self];
+    }
+    return [WXApi handleOpenURL:url delegate:self];
+}
 
+//-(void) onResp:(BaseResp*)resp
+//{
+//    if([resp isKindOfClass:[SendMessageToWXResp class]])
+//    {
+//        NSString *strTitle = [NSString stringWithFormat:@"发送媒体消息结果"];
+//        NSString *strMsg = [NSString stringWithFormat:@"errcode:%d", resp.errCode];
+//        
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:strTitle message:strMsg delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+//        [alert show];
+//        
+//    }
+//}
+//
+//-(void) onReq:(BaseReq *)req{
+//    
+//}
+//
+
+//-(void) onReq:(BaseReq*)req
+//{
+//    if([req isKindOfClass:[GetMessageFromWXReq class]])
+//    {
+//        // 微信请求App提供内容， 需要app提供内容后使用sendRsp返回
+//        NSString *strTitle = [NSString stringWithFormat:@"微信请求App提供内容"];
+//        NSString *strMsg   = @"微信请求App提供内容，App要调用sendResp:GetMessageFromWXResp返回给微信";
+//        
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:strTitle message:strMsg delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+//        alert.tag = 1000;
+//        [alert show];
+//        //[alert release];
+//    }
+//    else if([req isKindOfClass:[ShowMessageFromWXReq class]])
+//    {
+//        ShowMessageFromWXReq* temp = (ShowMessageFromWXReq*)req;
+//        WXMediaMessage *msg = temp.message;
+//        
+//        //显示微信传过来的内容
+//        WXAppExtendObject *obj = msg.mediaObject;
+//        
+//        NSString *strTitle = [NSString stringWithFormat:@"微信请求App显示内容"];
+//        NSString *strMsg   = [NSString stringWithFormat:@"标题：%@ \n内容：%@ \n附带信息：%@ \n缩略图:%lu bytes\n\n", msg.title, msg.description, obj.extInfo, (unsigned long)msg.thumbData.length];
+//        
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:strTitle message:strMsg delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+//        [alert show];
+//        //[alert release];
+//    }
+//    else if([req isKindOfClass:[LaunchFromWXReq class]])
+//    {
+//        //从微信启动App
+//        NSString *strTitle = [NSString stringWithFormat:@"从微信启动"];
+//        NSString *strMsg   = @"这是从微信启动的消息";
+//        
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:strTitle message:strMsg delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+//        [alert show];
+//        //[alert release];
+//    }
+//}
+//
+//-(void) onResp:(BaseResp*)resp
+//{
+//    if([resp isKindOfClass:[SendMessageToWXResp class]])
+//    {
+//        NSString *strTitle = [NSString stringWithFormat:@"发送媒体消息结果"];
+//        NSString *strMsg = [NSString stringWithFormat:@"errcode:%d", resp.errCode];
+//        
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:strTitle message:strMsg delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+//        [alert show];
+//        //[alert release];
+//    }
+//}
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.

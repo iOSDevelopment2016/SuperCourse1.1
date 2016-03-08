@@ -19,7 +19,8 @@
 #import "MJExtension.h"
 #import "SCHistory.h"
 #import "UIAlertController+SZYKit.h"
-@interface SCVideoHistoryView ()<UITableViewDataSource, UITableViewDelegate,SCHistoryTableViewDelegate>
+#import "SCPlayerViewController.h"
+@interface SCVideoHistoryView ()<UITableViewDataSource, UITableViewDelegate,SCHistoryTableViewDelegate,SCPlayerViewControllerDelegate>
 @property (nonatomic ,strong) UITableView *historyTableView;
 @property (nonatomic ,strong) UIView             *hubView;
 @property (nonatomic ,strong) UIWebView          *webView;
@@ -35,31 +36,35 @@
 {
     self = [super init];
     if (self) {
-//        [self initData];
-         self.backgroundColor = [UIColor whiteColor];
+        //        [self initData];
+        self.backgroundColor = [UIColor whiteColor];
         _historyArr = [[NSMutableArray alloc]init];
-
-//        [self addSubview:self.historyTableView];
-        [self loadCourseListFromNetwork];
         
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadCourseListFromNetwork) name:@"UserDidLogin" object:nil];
-        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(clearHistory) name:@"UserDidLogout" object:nil];
-
+        
+        [self addSubview:self.historyTableView];
+        [self observer];
+        //        [self loadCourseListFromNetwork];
+        
+        
+        
     }
     return self;
 }
 
--(void)clearHistory
-{
+-(void)observer{
     
-    [self.historyTableView removeFromSuperview];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(updateHistoryInfo)
+                                                 name: @"updateHistoryInfo"
+                                               object: nil];
+    
 }
 
 
 -(void)loadCourseListFromNetwork{
     
     NSString *stu_id = ApplicationDelegate.userSession;
-//    NSString *stu_id = @"9720513e-6d0e-d0ef-0a7c-de862380c581";
+    //    NSString *stu_id = @"9720513e-6d0e-d0ef-0a7c-de862380c581";
     NSMutableDictionary *firstDic = [[NSMutableDictionary alloc]init];
     [firstDic setValue:stu_id forKey:@"stu_id"];
     NSMutableDictionary *secondDic = [[NSMutableDictionary alloc]init];
@@ -72,32 +77,43 @@
         
         NSData *data = [[NSData alloc] initWithData:responseObject];
         NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-
+        
         [self setDataWithDic:dic];
         
-        [self addSubview:self.historyTableView];
-        [self.historyTableView reloadData];
-
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.historyTableView reloadData];
+        });
+        
+        
+        
     } failure:^(NSError *error) {
         NSLog(@"%@",error);
     }];
 }
 
 -(void)setDataWithDic:(NSDictionary *)dict{
-
+    
     NSMutableDictionary *dataDict = dict[@"data"];
     NSArray *historyInfoDict = dataDict[@"historyData"];
     NSMutableArray *historyArr = [[NSMutableArray alloc]init];
     for (int i=0; i<historyInfoDict.count; i++) {
         SCHistory *h = [[SCHistory alloc]init];
-        NSDictionary *historyDict = historyInfoDict[i];
-//        NSDictionary *historyDict = dict[@"0"];
-        h.oversty_time = [historyDict[@"oversty_time"] floatValue];
-        h.les_name = historyInfoDict[i][@"les_name"];
+        NSDictionary *dict = historyInfoDict[i];
+        //        NSDictionary *historyDict = dict[@"0"];
+        h.oversty_time = [dict[@"oversty_time"] floatValue];
+        h.les_id = dict[@"les_id"];
+        h.les_name = dict[@"les_name"];
+        
         [historyArr addObject:h];
         _historyArr[i] = historyArr[i];
     }
+    
+    
+}
 
+-(void)updateHistoryInfo{
+    
+    [self loadCourseListFromNetwork];
 }
 
 
@@ -105,7 +121,9 @@
     [super layoutSubviews];
     self.historyTableView.frame = CGRectMake(0, 0, self.width, self.height);
     self.historyTableView.backgroundColor= [UIColor whiteColor];
-//    [self loadCourseListFromNetwork];
+    //    [self.historyTableView removeFromSuperview];
+    [self loadCourseListFromNetwork];
+    
 }
 
 
@@ -131,18 +149,18 @@
     SCHistoryTableViewCell *cell = (SCHistoryTableViewCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     if(cell == nil){
-
+        
         cell= [[[NSBundle mainBundle]loadNibNamed:@"SCHistoryTableViewCell"owner:nil options:nil] firstObject];
         [cell.layer setBorderWidth:1];//设置边界的宽度
         [cell.layer setBorderColor:UIColorFromRGB(0xeeeeee).CGColor];
         cell.delegate=self;
-
+        
         SCHistory *h=_historyArr[indexPath.row];
         //cell.textLabel.text=temp_.courseTitle;
         [cell.historyBtn setTitle:h.les_name forState:UIControlStateNormal];
         [cell.historyBtn setTitleColor:UIColorFromRGB(0x6fccdb) forState:UIControlStateHighlighted];
         cell.historyBtn.tag =indexPath.section * 1000 + indexPath.row;
-
+        
         CGFloat currentTime = h.oversty_time;
         
         int hour = (int)(currentTime/3600);
@@ -186,7 +204,7 @@
         } confirmHandler:^(UIAlertAction *action) {
             SCHistory *currentHis = _historyArr[indexPath.row];
             [self.delegate historyDidClick:currentHis.les_id];
-
+            
         }];
     }
 }

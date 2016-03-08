@@ -20,7 +20,10 @@
 #import "SCLoginView.h"
 #import "HttpTool.h"
 #import "SCCoursePlayLog.h"
-
+//#import "LocalDatabase.h"
+#import "UIImageView+WebCache.h"
+#import "SZYNoteSolidater.h"
+#import "SCDownlodaMode.h"
 @interface SCAllCourseView ()<UITableViewDataSource, UITableViewDelegate,SCCourseTableViewDelegate,MBProgressHUDDelegate,SCLoginViewDelegate>
 
 @property (weak, nonatomic  ) IBOutlet UITextField                *phone;
@@ -50,39 +53,184 @@
 
 @property (nonatomic ,strong) UIView        *headView;
 
+@property (nonatomic, strong) SZYNoteSolidater          *db;
+
 @end
 
 @implementation SCAllCourseView{
     NSMutableArray *courseCategoryArr;
+    CGRect  initFrame;
+    CGFloat defaultViewHeight;
+    CGPoint headImageCenter;
 }
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
-    
+    self.db=[[SZYNoteSolidater alloc]init];
     self = [super initWithFrame:frame];
     if (self) {
         
         self.backgroundColor = [UIColor whiteColor];
         [self addSubview:self.headView];
-        [self.headView addSubview:self.topImageView];
-        [self.topImageView addSubview:self.startBtn];
-        [self.topImageView addSubview:self.characterImageView];
-        [self.topImageView addSubview:self.headImageView];
-        [self.headView addSubview:self.leftBtn];
-        [self.headView addSubview:self.rightBtn];
-        [self.headView addSubview:self.scrollView];
+        [_headView addSubview:self.topImageView];
+        [_headView addSubview:self.startBtn];
+        [_headView addSubview:self.characterImageView];
+        [_headView addSubview:self.headImageView];
+        [_headView addSubview:self.leftBtn];
+        [_headView addSubview:self.rightBtn];
+        [_headView addSubview:self.scrollView];
         [self.HUD show:YES];
         [self loadCourseListFromNetwork];
         //[self change];
         
         [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(imageShouldChange) name:@"ImageShouldChange" object:nil];
         
-        
+        [[NSNotificationCenter defaultCenter] addObserver: self
+                                                 selector: @selector(beDownload:)
+                                                     name: @"beingDownload"
+                                                   object: nil];
+        [[NSNotificationCenter defaultCenter] addObserver: self
+                                                 selector: @selector(beFinished:)
+                                                     name: @"beingFinished"
+                                                   object: nil];
+        [[NSNotificationCenter defaultCenter] addObserver: self
+                                                 selector: @selector(beDelete:)
+                                                     name: @"beingDelete"
+                                                   object: nil];
+        [[NSNotificationCenter defaultCenter] addObserver: self
+                                                 selector: @selector(BeDownloading:)
+                                                     name: @"toBeDownload"
+                                                   object: nil];
+
         
     }
     return self;
 }
 
+
+-(void)beDownload:(NSNotification *)message{
+    NSDictionary *userInfo = [message userInfo];
+    NSString *name = userInfo[@"name"];
+    for(int i=0;i<20;i++){
+        for(int j=0;j<20;j++){
+            NSIndexPath *index =  [NSIndexPath indexPathForItem:j inSection:i];
+            SCCourseTableViewCell *cell =  [self.firstTableView cellForRowAtIndexPath:index];
+            NSLog(@"%@",cell.contentField.titleLabel.text);
+            if([cell.contentField.titleLabel.text isEqualToString:name]){
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    SCCourseGroup *temp=self.currentSource.sec_arr[i];
+                    SCCourse *temp_=temp.lesarr[j];
+                    __block BOOL isDodownloading;
+                    
+                    
+                    
+                    [ApplicationDelegate.dbQueue inDatabase:^(FMDatabase *database) {
+                        [self.db readOneByName:name successHandler:^(id result) {
+                            NSArray *noteArr = (NSArray *)result;
+                            if ([noteArr count] < 1) {
+                                isDodownloading=NO;
+                            }else{
+                                isDodownloading=YES;
+                            }
+                        } failureHandler:^(NSString *errorMsg) {
+                            NSLog(@"%@",errorMsg);
+                        }];
+                        
+                    }];
+                    
+                    if(isDodownloading){
+                        cell.beDownloadingLabel.text=@"当前下载";
+                        temp_.downloading=@"YES";
+                    }else{
+                        cell.beDownloadingLabel.text=@"等待下载";
+                        temp_.downloading=@"NO";
+                    }
+                    
+                    
+                    [self.firstTableView reloadData];
+                    temp_.downloading=nil;
+                });
+                break;
+            }
+           
+        }
+    }
+    
+}
+-(void)BeDownloading:(NSNotification *)message{
+    NSDictionary *userInfo = [message userInfo];
+    NSString *name = userInfo[@"name"];
+    for(int i=0;i<10;i++){
+        for(int j=0;j<10;j++){
+            NSIndexPath *index =  [NSIndexPath indexPathForItem:j inSection:i];
+            SCCourseTableViewCell *cell =  [self.firstTableView cellForRowAtIndexPath:index];
+            NSLog(@"%@",cell.contentField.titleLabel.text);
+            if([cell.contentField.titleLabel.text isEqualToString:name]){
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    SCCourseGroup *temp=self.currentSource.sec_arr[i];
+                    SCCourse *temp_=temp.lesarr[j];
+                    
+                    
+                        cell.beDownloadingLabel.text=@"当前下载";
+                        temp_.downloading=@"YES";
+                                        
+                    
+                    [self.firstTableView reloadData];
+                    temp_.downloading=nil;
+                });
+                break;
+            }
+            
+        }
+    }
+    
+}
+
+-(void)beFinished:(NSNotification *)message{
+    NSDictionary *userInfo = [message userInfo];
+    NSString *name = userInfo[@"name"];
+    for(int i=0;i<10;i++){
+        for(int j=0;j<10;j++){
+            NSIndexPath *index =  [NSIndexPath indexPathForItem:j inSection:i];
+            SCCourseTableViewCell *cell =  [self.firstTableView cellForRowAtIndexPath:index];
+            NSLog(@"%@",cell.contentField.titleLabel.text);
+            if([cell.contentField.titleLabel.text isEqualToString:name]){
+                
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    SCCourseGroup *temp=self.currentSource.sec_arr[i];
+                    SCCourse *temp_=temp.lesarr[j];
+                    temp_.downloaded=@"YES";
+                    [self.firstTableView reloadData];
+                    temp_.downloaded=nil;
+                });
+                break;
+            }
+            
+        }
+    }
+}
+-(void)beDelete:(NSNotification *)message{
+    NSDictionary *userInfo = [message userInfo];
+    NSString *name = userInfo[@"name"];
+    for(int i=0;i<20;i++){
+        for(int j=0;j<20;j++){
+            NSIndexPath *index =  [NSIndexPath indexPathForItem:j inSection:i];
+            SCCourseTableViewCell *cell =  [self.firstTableView cellForRowAtIndexPath:index];
+            NSLog(@"%@",cell.contentField.titleLabel.text);
+            if([cell.contentField.titleLabel.text isEqualToString:name]){
+                cell.downloadBtn.enabled=YES;
+                
+                [cell.downloadBtn setHidden:NO];
+                [cell.beDownloadingLabel setHidden:YES];
+                break;
+            }
+            
+        }
+    }
+}
 
 
 -(void)imageShouldChange{
@@ -109,6 +257,7 @@
     //    }];
     
 }
+
 
 -(void)changeImage{
     [self.startBtn setImage:[UIImage imageNamed:@"SC_continue"] forState:UIControlStateNormal];
@@ -188,16 +337,7 @@
 
 -(void)layoutSubviews{
     [super layoutSubviews];
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     self.leftBtn.selected = YES;
     self.headView.frame= CGRectMake(0, 0, self.width, 800*HeightScale);
     self.topImageView.frame = CGRectMake(0, 0, self.width, 670*HeightScale);
@@ -206,12 +346,70 @@
     self.characterImageView.frame=CGRectMake(270*WidthScale,280*HeightScale, 1087*WidthScale, 138*HeightScale);
     self.leftBtn.frame=CGRectMake(0.312*self.width, 670*HeightScale, 0.127*self.width, 130*HeightScale);
     self.rightBtn.frame=CGRectMake(0.562*self.width, 670*HeightScale, 0.127*self.width, 130*HeightScale);
-    self.firstTableView.frame = CGRectMake(0, 800*HeightScale, self.width, 500*HeightScale);
+    self.firstTableView.frame = CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height);
+//    self.firstTableView.frame = CGRectMake(0, 800*HeightScale, self.width, 500*HeightScale);
     //self.secondTableView.frame = CGRectMake(0, 800*HeightScale, self.width, 500*HeightScale);
     
-    
-    
+    [self setUPAnimation];
 }
+
+#pragma mark - 顶部动画
+
+-(void)setUPAnimation{
+    initFrame = _topImageView.frame;
+    defaultViewHeight = initFrame.size.height;
+    headImageCenter = CGPointMake(_headImageView.centerX, _headImageView.centerY);
+    
+    UIView *headerView = [[UIView alloc]initWithFrame:self.headView.frame];
+    _firstTableView.tableHeaderView = headerView;
+    
+    [_firstTableView addSubview:self.headView];
+}
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    //设置header与tableview同宽
+    CGRect f     = _topImageView.frame;
+    f.size.width = _firstTableView.frame.size.width;
+    _topImageView.frame  = f;
+    
+    CGFloat destinaOffset = 300;
+    CGFloat offset = (scrollView.contentOffset.y + scrollView.contentInset.top) * -1;
+    CGFloat alph = 1;
+    
+    if (scrollView.contentOffset.y < 0){//从起始点向下拉
+        
+        initFrame.origin.x = - offset/2;
+        initFrame.origin.y = - offset;
+        initFrame.size.width = _firstTableView.frame.size.width+offset;
+        initFrame.size.height = defaultViewHeight+offset;
+        _topImageView.frame = initFrame;
+
+        _headImageView.frame = CGRectMake(0, 0, 158*HeightScale+offset/5, 158*HeightScale+offset/5);
+        _headImageView.center = CGPointMake(headImageCenter.x, headImageCenter.y);
+        
+    }
+    else if (scrollView.contentOffset.y >= 0  && scrollView.contentOffset.y < destinaOffset){//从起始点向上拉
+        
+        alph = 1 - (-offset / 300.0f);
+        _headImageView.alpha = alph;
+        _characterImageView.alpha = alph;
+    }
+    else{//向上超过终点之后
+        
+    }
+}
+
+-(void)viewDidLayoutSubviews
+{
+    initFrame.size.width = _firstTableView.frame.size.width;
+    _topImageView.frame = initFrame;
+}
+
+-(void)postDownload{
+    [self.delegate poseDownloads];
+}
+
 
 -(void)change{
     
@@ -247,52 +445,12 @@
                 [self changeImageBack];
             }
             
-            
         } failure:^(NSError *error) {
             NSLog(@"%@",error);
         }];
     }
     
 }
-
-
-#pragma mark - 动画
-
-//-(void)willMoveToSuperview:(UIView *)newSuperview
-//{
-//    //监测滚动视图的滚动距离
-//    [self.firstTableView addObserver:self forKeyPath:@"contentOffset" options:(NSKeyValueObservingOptionNew) context:Nil];
-//    self.firstTableView.contentInset = UIEdgeInsetsMake(self.headView.height, 0 ,0, 0);
-//}
-//
-//-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-//{
-//    //获取content滚动的距离
-//    CGPoint newOffset = [change[@"new"] CGPointValue];
-//    //    NSLog(@"%f,%f",newOffset.x,newOffset.y);
-//    [self updateSubViewsWithScrollOffset:newOffset];
-//}
-//
-//-(void)updateSubViewsWithScrollOffset:(CGPoint)newOffset
-//{
-//    float destinaOffset = -60;
-//    float startChangeOffset = -self.firstTableView.contentInset.top;
-//
-//    newOffset = CGPointMake(newOffset.x, newOffset.y<startChangeOffset?startChangeOffset:(newOffset.y>destinaOffset?destinaOffset:newOffset.y));
-//
-//    float titleDestinateOffset = self.headView.frame.size.height-50;
-//    float newY = -newOffset.y-self.firstTableView.contentInset.top;
-//    float d = destinaOffset-startChangeOffset;
-//    float alpha = 1-(newOffset.y-startChangeOffset)/d;
-//    //副标题渐变消失
-//    self.characterImageView.alpha = alpha;
-//    self.headView.frame = CGRectMake(0, newY, self.headView.frame.size.width, self.headView.frame.size.height);
-//    self.topImageView.frame = CGRectMake(0, -0.5*self.headView.frame.size.height+(1.5*self.headView.frame.size.height-60)*(1-alpha), self.topImageView.frame.size.width, self.topImageView.frame.size.height);
-//    self.startBtn.frame = CGRectMake(0, 0.4*self.headView.frame.size.height+(titleDestinateOffset-0.4*self.headView.frame.size.height)*(1-alpha), self.startBtn.frame.size.width, self.startBtn.frame.size.height);
-//    //缩小主标题
-////    self.titleLabel.font = [UIFont boldSystemFontOfSize:16+(alpha)*4];
-//
-//}
 
 
 #pragma mark - delegate
@@ -303,48 +461,59 @@
 //}
 
 -(IBAction)downloadClickWithWithSectionIndex:(NSInteger)secIndex AndRowIndex:(NSInteger)rowIndex{
-    //    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    //    NSString *docDir = [paths objectAtIndex:0];
-    SCCourseGroup *courseGroup=self.firstCategory.sec_arr[secIndex];
-    SCCourse *selectedCourse = courseGroup.lesarr[rowIndex];
+    //        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    //        NSString *docDir = [paths objectAtIndex:0];
+    //   NSIndexPath *cellIndexpath=[[NSIndexPath alloc]init];
     
-    NSString *url=selectedCourse.les_url;
+    //    cellIndexpath.section=secIndex;
+    //    cellIndexpath.row=rowIndex;
     
-    //NSString *srlStr = @"http://www.shengcaibao.com/download/SCB/1.mp3";
-    //如果请求正文包含中文，需要处理
-    //    srlStr = [srlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
-    NSString *filePath = [NSHomeDirectory() stringByAppendingPathComponent:@"/Library/Caches/music.mp3"];
-    self.fileDownloader = [[AFDownloadRequestOperation alloc]initWithRequest:request fileIdentifier:@"music.mp3" targetPath:filePath shouldResume:YES];
-    self.fileDownloader.shouldOverwrite = YES;
+    //LocalDatabase *db = [LocalDatabase sharedManager];
     
-    [self.fileDownloader start];
+    if(!self.rightBtn.selected){
+        SCCourseGroup *courseGroup=self.firstCategory.sec_arr[secIndex];
+        SCCourse *selectedCourse = courseGroup.lesarr[rowIndex];
+        [self.delegate postDownloadName:selectedCourse.les_name AndURL:selectedCourse.les_url AndSize:selectedCourse.les_size AndID:selectedCourse.les_id];
+        
+    }else{
+        SCCourseGroup *courseGroup=self.secondCategory.sec_arr[secIndex];
+        SCCourse *selectedCourse = courseGroup.lesarr[rowIndex];
+        [self.delegate postDownloadName:selectedCourse.les_name AndURL:selectedCourse.les_url AndSize:selectedCourse.les_size AndID:selectedCourse.les_id];
+    }
     
-    //下载进度
-    [self.fileDownloader setProgressiveDownloadProgressBlock:^(AFDownloadRequestOperation *operation, NSInteger bytesRead, long long totalBytesRead, long long totalBytesExpected, long long totalBytesReadForFile, long long totalBytesExpectedToReadForFile) {
-        
-        CGFloat percent = (float)totalBytesReadForFile / (float)totalBytesExpectedToReadForFile;
-        NSLog(@"百分比:%.3f%% %ld  %lld  %lld  %lld", percent * 100, (long)bytesRead, totalBytesRead, totalBytesReadForFile, totalBytesExpectedToReadForFile);
-        
-        
-        
-    }];
+    // 检查是否正在下载
     
-    //结束
-    [self.fileDownloader setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-        NSLog(@"下载成功 %@", responseObject);
-        
-        
-        
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        
-        NSLog(@"下载失败 %@", error);
-        
-    }];
+//        if([db findConfig:selectedCourse.les_id]==YES){
+//            [self.delegate downloadingAlart];
+//        }else{
+//
+//            [[NSNotificationCenter defaultCenter]postNotificationName:@"sendDownloadCondition" object:self userInfo:@{@"name":selectedCourse.les_name,@"size":selectedCourse.les_size,@"url":selectedCourse.les_url,@"id":selectedCourse.les_id}];
+//            
+//        }
     
+    
+//    [UIAlertController showAlertAtViewController:self withMessage:@"您确定退出登录吗？" cancelTitle:@"取消" confirmTitle:@"注销" cancelHandler:^(UIAlertAction *action) {
+//        
+//    } confirmHandler:^(UIAlertAction *action) {
+//        //退出登录
+//        ApplicationDelegate.userSession=UnLoginUserSession;
+//        
+//        //ApplicationDelegate.userSession = ApplicationDelegat;
+//        ApplicationDelegate.userPsw = nil;
+//        ApplicationDelegate.userPhone =nil;
+//        ApplicationDelegate.playLog=@"";
+//        NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
+//        [defaultes removeObjectForKey:UserSessionKey];
+//        [defaultes removeObjectForKey:UserPswKey];
+//        [defaultes removeObjectForKey:UserPhoneKey];
+//        [defaultes removeObjectForKey:PlayLogKey];
+//        [defaultes synchronize];
+//        
+//        [self unlogin];
+//    }];
+
 }
+
 
 -(IBAction)contendFieldDidClickWithSectionIndex:(NSInteger)secIndex AndRowIndex:(NSInteger)rowIndex{
     SCCourseGroup *courseGroup=self.currentSource.sec_arr[secIndex];
@@ -425,7 +594,9 @@
 -(UIImageView *)topImageView{
     if (!_topImageView){
         _topImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"SC_background"]];
+        
         _topImageView.userInteractionEnabled = YES;
+        _topImageView.clipsToBounds = YES;
     }
     return _topImageView;
 }
@@ -459,7 +630,7 @@
     if(!_headImageView){
         
         _headImageView=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"iOS"]];
-        
+        [_headImageView sd_setImageWithURL:[NSURL URLWithString:@"http://101.200.73.189/SuperCourseServer/Images/AllCourseHeadImage.png"] placeholderImage:[UIImage imageNamed:@"iOS"]];
     }
     return _headImageView;
     
@@ -468,6 +639,7 @@
     if(!_headView){
         _headView=[[UIView alloc]init];
         _headView.clipsToBounds = YES;
+        _headView.clipsToBounds = NO;
         //        _headView.backgroundColor = [UIColor orangeColor];
     }
     return _headView;
@@ -476,7 +648,9 @@
 -(UIImageView *)characterImageView{
     if(!_characterImageView){
         
-        _characterImageView=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"SC_c"]];
+        _characterImageView=[[UIImageView alloc]init];
+        
+        [_characterImageView sd_setImageWithURL:[NSURL URLWithString:@"http://101.200.73.189/SuperCourseServer/Images/AllCourseCharaImage.png"] placeholderImage:[UIImage imageNamed:@"SC_c"]];
         
     }
     
@@ -605,10 +779,12 @@
         [cell.contentField setTitleColor:UIColorFromRGB(0x6fccdb) forState:UIControlStateHighlighted];
         cell.contentField.tag =indexPath.section * 1000 + indexPath.row;
         cell.imageBtn.tag =indexPath.section * 1000 + indexPath.row;
-        
+        cell.downloadBtn.tag =indexPath.section * 1000 + indexPath.row;
         if([temp_.operations isEqualToString:@"网页"]){
             cell.downloadBtn.hidden=YES;
         }
+        [cell.beDownloadingLabel setHidden:YES];
+        cell.beDownloadingLabel.textColor=UIColorFromRGB(0x6fccdb);
         cell.courseLabel.text=temp_.les_size;
         //        cell.courseLabel.font=FONT_18;
         //        cell.courseLabel.font=[UIFont systemFontOfSize:35*HeightScale];
@@ -616,6 +792,105 @@
         //
         //            cell.selected=NO;
         //        //}
+        //LocalDatabase *db=[LocalDatabase sharedManager];
+                if([temp_.downloaded isEqualToString:@"YES"]){
+            cell.downloadBtn.enabled=NO;
+            cell.beDownloadingLabel.text=@"下载完成";
+            cell.beDownloadingLabel.font=FONT_25;
+            [cell.downloadBtn setHidden:YES];
+            [cell.beDownloadingLabel setHidden:NO];
+            
+        }else if([temp_.downloading isEqualToString:@"YES"]){
+            cell.downloadBtn.enabled=NO;
+            cell.beDownloadingLabel.text=@"当前下载";
+            cell.beDownloadingLabel.font=FONT_25;
+            [cell.downloadBtn setHidden:YES];
+            [cell.beDownloadingLabel setHidden:NO];
+        }else if([temp_.downloading isEqualToString:@"NO"]){
+            cell.downloadBtn.enabled=NO;
+            cell.beDownloadingLabel.text=@"等待下载";
+            cell.beDownloadingLabel.font=FONT_25;
+            [cell.downloadBtn setHidden:YES];
+            [cell.beDownloadingLabel setHidden:NO];
+        }else{
+            __block BOOL isDodownloading;
+            [ApplicationDelegate.dbQueue inDatabase:^(FMDatabase *database) {
+                [self.db readOneByID:temp_.les_id successHandler:^(id result) {
+                    NSArray *noteArr = (NSArray *)result;
+                    SCDownlodaMode *mode=[noteArr firstObject];
+                    if([mode.les_downloading isEqualToString:@"YES"]){
+                        isDodownloading=YES;
+                    }else{
+                        isDodownloading=NO;
+                    }
+                } failureHandler:^(NSString *errorMsg) {
+                    NSLog(@"%@",errorMsg);
+                }];
+                
+            }];
+
+            if(isDodownloading){
+                cell.downloadBtn.enabled=NO;
+                cell.beDownloadingLabel.text=@"当前下载";
+                cell.beDownloadingLabel.font=FONT_25;
+                [cell.downloadBtn setHidden:YES];
+                [cell.beDownloadingLabel setHidden:NO];
+            }else{
+                __block BOOL isDodownloaded;
+                [ApplicationDelegate.dbQueue inDatabase:^(FMDatabase *database) {
+                    [self.db readOneByID:temp_.les_id successHandler:^(id result) {
+                        NSArray *noteArr = (NSArray *)result;
+                        SCDownlodaMode *mode=[noteArr firstObject];
+                        if([mode.finished isEqualToString:@"YES"]){
+                            isDodownloaded=YES;
+                        }else{
+                            isDodownloaded=NO;
+                        }
+                    } failureHandler:^(NSString *errorMsg) {
+                        NSLog(@"%@",errorMsg);
+                    }];
+                    
+                }];
+
+                if(isDodownloaded){
+                    cell.downloadBtn.enabled=NO;
+                    cell.beDownloadingLabel.text=@"下载完成";
+                    cell.beDownloadingLabel.font=FONT_25;
+                    [cell.downloadBtn setHidden:YES];
+                    [cell.beDownloadingLabel setHidden:NO];
+                    
+                }else{
+                    __block BOOL isExist;
+                    
+                    
+                    
+                    [ApplicationDelegate.dbQueue inDatabase:^(FMDatabase *database) {
+                        [self.db readOneByID:temp_.les_id successHandler:^(id result) {
+                            NSArray *noteArr = (NSArray *)result;
+                            if ([noteArr count] < 1) {
+                                isExist=NO;
+                            }else{
+                                isExist=YES;
+                            }
+                        } failureHandler:^(NSString *errorMsg) {
+                            NSLog(@"%@",errorMsg);
+                        }];
+                        
+                    }];
+                    if(isExist)
+                    {
+                        cell.downloadBtn.enabled=NO;
+                        cell.beDownloadingLabel.text=@"等待下载";
+                        cell.beDownloadingLabel.font=FONT_25;
+                        [cell.downloadBtn setHidden:YES];
+                        [cell.beDownloadingLabel setHidden:NO];
+                    }
+                }
+            }
+
+        }
+        
+        
         
         cell.width=self.width;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;

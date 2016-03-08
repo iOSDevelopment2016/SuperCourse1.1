@@ -54,7 +54,7 @@
         }
         self.firseLabelText.text=firstText;
         //datasource.har_des.count
-        self.firseLabelText.font=[UIFont systemFontOfSize:28*HeightScale];
+        self.firseLabelText.font=[UIFont systemFontOfSize:34*HeightScale];
         
         
         NSString *secondText=@"";
@@ -63,7 +63,7 @@
             secondText=[secondText stringByAppendingFormat:@"%@\n",knoledge.preknowledge_des];
         }
         self.secondLabelText.text=secondText;
-        self.secondLabelText.font=[UIFont systemFontOfSize:28*HeightScale];
+        self.secondLabelText.font=[UIFont systemFontOfSize:34*HeightScale];
 
         
         NSString *thirdText=@"";
@@ -72,7 +72,7 @@
             thirdText=[thirdText stringByAppendingFormat:@"%@\n",willLearn.har_des];
         }
         self.thirdLabelText.text=thirdText;
-        self.thirdLabelText.font=[UIFont systemFontOfSize:28*HeightScale];
+        self.thirdLabelText.font=[UIFont systemFontOfSize:34*HeightScale];
 
         self.headLabel.font=[UIFont systemFontOfSize:55*HeightScale];
        // self.firseLabel.font=[UIFont systemFontOfSize:25*HeightScale];
@@ -145,6 +145,7 @@
 
 - (void)backBtnClick {
     [self.delegate returnToMainView];
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"releaseClick" object:self userInfo:@{}];
 }
 
 
@@ -274,7 +275,7 @@
 -(UILabel*)secondTitle{
     if(!_secondTitle){
         _secondTitle=[[UILabel alloc]init];
-        _secondTitle.text=@"本节需掌握的知识";
+        _secondTitle.text=@"本节预备知识";
         _secondTitle.font=[UIFont systemFontOfSize:23.5];
     }
     return _secondTitle;
@@ -282,7 +283,7 @@
 -(UILabel*)thirdeTitle{
     if(!_thirdeTitle){
         _thirdeTitle=[[UILabel alloc]init];
-        _thirdeTitle.text=@"本节将学习的知识";
+        _thirdeTitle.text=@"本节收获";
         _thirdeTitle.font=[UIFont systemFontOfSize:23.5];
     }
     return _thirdeTitle;

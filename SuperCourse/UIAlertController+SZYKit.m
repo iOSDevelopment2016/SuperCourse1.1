@@ -46,4 +46,25 @@
     
 }
 
++(void)showAlertAtViewController:(UIViewController *)viewController
+                           title:(NSString *)title
+                         message:(NSString *)message
+                    confirmTitle:(NSString *)confirmButtonTitle
+                  confirmHandler:(confirm)confirm{
+    
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
+    
+    
+    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:confirmButtonTitle style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        confirm(action);
+    }];
+    
+    //[alertController addAction:cancelAction];
+    [alertController addAction:confirmAction];
+    
+    [viewController presentViewController:alertController animated:YES completion:nil];
+    
+}
+
+
 @end

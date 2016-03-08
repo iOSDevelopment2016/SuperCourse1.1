@@ -12,7 +12,7 @@
             <rect key="frame" x="0.0" y="0.0" width="768" height="69"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="768" height="68.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="768" height="69"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="小圆" translatesAutoresizingMaskIntoConstraints="NO" id="cg7-FI-aHh">
@@ -22,34 +22,33 @@
                             <constraint firstAttribute="height" constant="20" id="qXE-se-YYN"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MJr-CK-Nx6">
-                        <rect key="frame" x="510" y="19" width="240" height="29"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="240" id="D5G-Lf-TlJ"/>
-                            <constraint firstAttribute="height" constant="29" id="kDT-kS-Tlw"/>
-                        </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="25"/>
-                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                     <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5zC-lU-YCZ">
-                        <rect key="frame" x="73" y="19" width="276" height="31"/>
+                        <rect key="frame" x="73" y="19" width="489" height="31"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="276" id="dHt-vc-S1Y"/>
+                            <constraint firstAttribute="width" constant="489" id="dHt-vc-S1Y"/>
                             <constraint firstAttribute="height" constant="31" id="qEg-fa-BHi"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="27"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
                         <state key="normal" title="Button">
                             <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
                         <connections>
                             <action selector="historyBtnClick:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="h98-4M-X6C"/>
-                            <action selector="searchBtnClick:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="4py-DA-c4t"/>
                         </connections>
                     </button>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MJr-CK-Nx6">
+                        <rect key="frame" x="602" y="19" width="148" height="29"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="148" id="D5G-Lf-TlJ"/>
+                            <constraint firstAttribute="height" constant="29" id="kDT-kS-Tlw"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="MJr-CK-Nx6" firstAttribute="leading" secondItem="5zC-lU-YCZ" secondAttribute="trailing" constant="161" id="13f-Sm-hE2"/>
+                    <constraint firstItem="MJr-CK-Nx6" firstAttribute="leading" secondItem="5zC-lU-YCZ" secondAttribute="trailing" constant="40" id="13f-Sm-hE2"/>
                     <constraint firstItem="cg7-FI-aHh" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="17" id="1fe-Vj-xnP"/>
                     <constraint firstItem="cg7-FI-aHh" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="13" id="2SP-ne-rK2"/>
                     <constraint firstItem="5zC-lU-YCZ" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="11" id="epY-cA-TCM"/>
@@ -73,7 +72,7 @@
                 <outlet property="widthImage" destination="ajj-uv-PnJ" id="hrD-8e-OtC"/>
                 <outlet property="widthLabel" destination="D5G-Lf-TlJ" id="03c-mS-Sye"/>
             </connections>
-            <point key="canvasLocation" x="297" y="327.5"/>
+            <point key="canvasLocation" x="178" y="304.5"/>
         </tableViewCell>
     </objects>
     <resources>

@@ -19,6 +19,9 @@
 -(IBAction)imageClickWithCoutse:(SCCourse *)Course;
 -(void)viewmove:(CGFloat) variety andUIView:(UIView *)scrollView;
 -(void)videoPlayClickWithCourse:(SCCourse *)SCcourse;
+-(void)poseDownloads;
+-(void)downloadingAlart;
+-(void)postDownloadName:(NSString *)name AndURL:(NSString *)url AndSize:(NSString *)size AndID:(NSString *)les_id;
 @end
 
 @interface SCAllCourseView : UIView

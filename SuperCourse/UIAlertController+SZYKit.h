@@ -30,5 +30,10 @@ typedef void (^cancle)(UIAlertAction *action);
                     confirmTitle:(NSString *)confirmButtonTitle
                    cancelHandler:(cancle)cancle
                   confirmHandler:(confirm)confirm;
++(void)showAlertAtViewController:(UIViewController *)viewController
+                           title:(NSString *)title
+                         message:(NSString *)message
+                    confirmTitle:(NSString *)confirmButtonTitle
+                  confirmHandler:(confirm)confirm;
 
 @end

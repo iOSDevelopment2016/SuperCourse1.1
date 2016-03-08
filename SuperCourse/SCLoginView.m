@@ -119,6 +119,7 @@
                 NSLog(@"注册成功");
                 self.sendPsw.selected=YES;
                 self.password.enabled=YES;
+                self.sendPsw.enabled = NO;
                 self.password.placeholder=@"请输入4位数字验证码";
             }else{
                 [self shakeAnimationForView:self];
@@ -179,7 +180,7 @@
             if(ApplicationDelegate.playLog){
                 [self.delegate changeImage];
             }
-
+            
             [[NSNotificationCenter defaultCenter]postNotificationName:@"ImageShouldChange" object:nil];
             [[NSNotificationCenter defaultCenter]postNotificationName:@"UserDidLogin" object:nil];
             
