@@ -53,8 +53,36 @@
             [self.maleImageView setImage:[UIImage imageNamed:@"选择灰色"]];
         }
     }
+    [self.reviewTextField addTarget:self action:@selector(textFieldChanged) forControlEvents:UIControlEventEditingChanged];
 }
 
+-(void)textFieldChanged{
+    NSString *a=self.reviewTextField.text;
+    NSLog(@"%@",a);
+    if([self.placeHoder isEqualToString:@"邮箱"]){
+        if( [self isValidateEmail:self.reviewTextField.text]){
+            [self.confirmBtn setTitleColor:UIThemeColor forState:UIControlStateNormal];
+        }else{
+            [self.confirmBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+        }
+    }else if(![self.reviewTextField.text isEqualToString:@""]){
+        [self.confirmBtn setTitleColor:UIThemeColor forState:UIControlStateNormal];
+    }else{
+        [self.confirmBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+    }
+    
+}
+-(BOOL)isValidateEmail:(NSString *)email
+
+{
+    
+    NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
+    
+    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES%@",emailRegex];
+    
+    return [emailTest evaluateWithObject:email];
+    
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

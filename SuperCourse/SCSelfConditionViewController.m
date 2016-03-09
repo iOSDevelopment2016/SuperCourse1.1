@@ -59,8 +59,16 @@
 @property (nonatomic, strong)UIButton *professionBtn;
 @property (nonatomic, strong)UIButton *gradeBtn;
 
-@property (nonatomic, strong)UIButton *getImage;
 
+
+@property (nonatomic, strong)UIButton *imageBtnHub;
+@property (nonatomic, strong)UIButton *nameBtnHub;
+@property (nonatomic, strong)UIButton *sexBtnHub;
+@property (nonatomic, strong)UIButton *emainBtnHub;
+@property (nonatomic, strong)UIButton *schoolBtnHub;
+@property (nonatomic, strong)UIButton *departmentBtnHub;
+@property (nonatomic, strong)UIButton *professionBtnHub;
+@property (nonatomic, strong)UIButton *gradeBtnHub;
 
 
 
@@ -121,6 +129,16 @@
     [self.departmentView addSubview:self.departmentBtn];
     [self.professionView addSubview:self.professionBtn];
     [self.gradeView addSubview:self.gradeBtn];
+    
+    [self.imageView addSubview:self.imageBtnHub];
+    [self.nameView addSubview:self.nameBtnHub];
+    [self.sexView addSubview:self.sexBtnHub];
+    [self.emailView addSubview:self.emainBtnHub];
+    [self.schoolView addSubview:self.schoolBtnHub];
+    [self.departmentView addSubview:self.departmentBtnHub];
+    [self.professionView addSubview:self.professionBtnHub];
+    [self.gradeView addSubview:self.gradeBtnHub];
+
     
     [self getData];
     
@@ -210,7 +228,17 @@
     self.professionBtn.frame=CGRectMake(1024-60, 10, 40, 40);
     self.gradeBtn.frame=CGRectMake(1024-60, 10, 40, 40);
     
-    self.getImage.frame=CGRectMake(1024/2-350*WidthScale, 1024-200*HeightScale, 700*WidthScale, 100*HeightScale);
+    
+    self.imageBtnHub.frame=CGRectMake(0, 20, 1024, 40);
+    self.nameBtnHub.frame=CGRectMake(0, 10, 1024, 40);
+    self.sexBtnHub.frame=CGRectMake(0, 10, 1024, 40);
+    self.emainBtnHub.frame=CGRectMake(0, 10, 1024, 40);
+    self.schoolBtnHub.frame=CGRectMake(0, 10, 1024, 40);
+    self.departmentBtnHub.frame=CGRectMake(0, 10, 1024, 40);
+    self.professionBtnHub.frame=CGRectMake(0, 10, 1024, 40);
+    self.gradeBtnHub.frame=CGRectMake(0, 10, 1024, 40);
+    
+//    self.getImage.frame=CGRectMake(1024/2-350*WidthScale, 1024-200*HeightScale, 700*WidthScale, 100*HeightScale);
 }
 
 /*
@@ -700,13 +728,25 @@
     }
     return _imageBtn;
 }
+-(UIButton *)imageBtnHub{
+    if(!_imageBtnHub){
+        _imageBtnHub=[[UIButton alloc]init];
+        //[_imageBtnHub setImage:[UIImage imageNamed:@"返回 灰色小"] forState:UIControlStateNormal];
+        //[_imageBtn setImage:[UIImage imageNamed:@"返回 灰色小"] forState:]
+        
+        _imageBtnHub.tag=0;
+        [_imageBtnHub addTarget:self action:@selector(imageBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _imageBtnHub;
+}
+
 -(void)imageBtnClick{
     
         UIActionSheet *sheet;
         if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]){
-            sheet=[[UIActionSheet alloc]initWithTitle:@"获取图片" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"取消" otherButtonTitles:@"拍照",@"从相册中选择", nil];
+            sheet=[[UIActionSheet alloc]initWithTitle:@"图片来源" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"取消" otherButtonTitles:@"相机拍照",@"相册选择", nil];
         }else{
-            sheet =[[UIActionSheet alloc]initWithTitle:@"获取图片" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"取消" otherButtonTitles:@"从相册中选择", nil];
+            sheet =[[UIActionSheet alloc]initWithTitle:@"图片来源" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"取消" otherButtonTitles:@"相册选择", nil];
         }
         [sheet showInView:self.view];
     
@@ -802,6 +842,17 @@
     }
     return _nameBtn;
 }
+-(UIButton *)nameBtnHub{
+    if(!_nameBtnHub){
+        _nameBtnHub=[[UIButton alloc]init];
+        //[_nameBtnHub setImage:[UIImage imageNamed:@"返回 灰色小"] forState:UIControlStateNormal];
+        _nameBtnHub.tag=0;
+        
+        [_nameBtnHub addTarget:self action:@selector(nameBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _nameBtnHub;
+}
+
 //-(void)nameBtnClick{
 //    if(self.nameBtn.tag==0){
 //        self.userName.enabled=YES;
@@ -865,6 +916,15 @@
     }
     return _sexBtn;
 }
+-(UIButton *)sexBtnHub{
+    if(!_sexBtnHub){
+        _sexBtnHub=[[UIButton alloc]init];
+        //[_sexBtnHub setImage:[UIImage imageNamed:@"返回 灰色小"] forState:UIControlStateNormal];
+        _sexBtnHub.tag=0;
+        [_sexBtnHub addTarget:self action:@selector(sexBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _sexBtnHub;
+}
 //-(void)sexBtnClick{
 //    if(self.sexBtn.tag==0){
 //        self.userSex.enabled=YES;
@@ -899,6 +959,15 @@
     }
     return _emainBtn;
 }
+-(UIButton *)emainBtnHub{
+    if(!_emainBtnHub){
+        _emainBtnHub=[[UIButton alloc]init];
+        //[_emainBtnHub setImage:[UIImage imageNamed:@"返回 灰色小"] forState:UIControlStateNormal];
+        _emainBtnHub.tag=0;
+        [_emainBtnHub addTarget:self action:@selector(emailBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _emainBtnHub;
+}
 //-(void)emailBtnClick{
 //    if(self.emainBtn.tag==0){
 //        self.userEmail.enabled=YES;
@@ -930,6 +999,15 @@
         [_schoolBtn addTarget:self action:@selector(schoolBtnClick) forControlEvents:UIControlEventTouchUpInside];
     }
     return _schoolBtn;
+}
+-(UIButton *)schoolBtnHub{
+    if(!_schoolBtnHub){
+        _schoolBtnHub=[[UIButton alloc]init];
+        //[_schoolBtnHub setImage:[UIImage imageNamed:@"返回 灰色小"] forState:UIControlStateNormal];
+        _schoolBtnHub.tag=0;
+        [_schoolBtnHub addTarget:self action:@selector(schoolBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _schoolBtnHub;
 }
 //-(void)schoolBtnClick{
 //    if(self.schoolBtn.tag==0){
@@ -965,6 +1043,15 @@
     }
     return _departmentBtn;
 }
+-(UIButton *)departmentBtnHub{
+    if(!_departmentBtnHub){
+        _departmentBtnHub=[[UIButton alloc]init];
+        //[_departmentBtnHub setImage:[UIImage imageNamed:@"返回 灰色小"] forState:UIControlStateNormal];
+        _departmentBtnHub.tag=0;
+        [_departmentBtnHub addTarget:self action:@selector(departmentBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _departmentBtnHub;
+}
 //-(void)departmentBtnClick{
 //    if(self.departmentBtn.tag==0){
 //        self.userDepartment.enabled=YES;
@@ -999,6 +1086,15 @@
     }
     return _professionBtn;
 }
+-(UIButton *)professionBtnHub{
+    if(!_professionBtnHub){
+        _professionBtnHub=[[UIButton alloc]init];
+        //[_professionBtnHub setImage:[UIImage imageNamed:@"返回 灰色小"] forState:UIControlStateNormal];
+        _professionBtnHub.tag=0;
+        [_professionBtnHub addTarget:self action:@selector(professionBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _professionBtnHub;
+}
 //-(void)professionBtnClick{
 //    if(self.professionBtn.tag==0){
 //        self.userProfession.enabled=YES;
@@ -1031,6 +1127,15 @@
         [_gradeBtn addTarget:self action:@selector(gradeBtnClick) forControlEvents:UIControlEventTouchUpInside];
     }
     return _gradeBtn;
+}
+-(UIButton *)gradeBtnHub{
+    if(!_gradeBtnHub){
+        _gradeBtnHub=[[UIButton alloc]init];
+        //[_gradeBtnHub setImage:[UIImage imageNamed:@"返回 灰色小"] forState:UIControlStateNormal];
+        _gradeBtnHub.tag=0;
+        [_gradeBtnHub addTarget:self action:@selector(gradeBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _gradeBtnHub;
 }
 //-(void)gradeBtnClick{
 //    if(self.gradeBtn.tag==0){
