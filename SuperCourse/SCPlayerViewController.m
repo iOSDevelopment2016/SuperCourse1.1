@@ -980,6 +980,8 @@
                     [self.writeNoteTimeArr addObject:@(writeNoteTime)];
                     
                 }
+                writeCodeTime = 0;
+                writeNoteTime = 0;
                 
             }else{
                 [self.videoManager resume];
