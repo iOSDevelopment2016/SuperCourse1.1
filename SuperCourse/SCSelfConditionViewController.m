@@ -1141,12 +1141,6 @@
 }
 
 
--(void)getImageClick{
-    NSString *fullPath=[[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"]stringByAppendingPathComponent:@"head.png"];
-    UIImage *savedImage =[[UIImage alloc]initWithContentsOfFile:fullPath];
-    //UIImage *image=[UIImage imageNamed:@"flower"];
-    [self uploadPersonImginitWithImage:savedImage];
-}
 
 //-(ImagePickerViewController *)pickImage{
 //    if(!_pickImage){

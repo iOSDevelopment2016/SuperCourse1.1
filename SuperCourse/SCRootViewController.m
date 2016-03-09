@@ -124,9 +124,9 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
     
     [self.mainView addSubview:self.myNotesView];//0
     [self.mainView addSubview:self.videoHistoryView];//1
-//    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-//    self.hud.delegate = self;
-//    self.hud.dimBackground = YES;
+    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.hud.delegate = self;
+    self.hud.dimBackground = YES;
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(webDataLoaddDone) name:@"WebDataHaveLoadDone" object:nil];
         [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(changeTitle) name:@"changeTitle" object:nil];
     [self.mainView addSubview:self.allCourseView];//2
@@ -304,9 +304,9 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
             
 
         }
-        self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        self.hud.delegate = self;
-        self.hud.dimBackground = YES;
+//        self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//        self.hud.delegate = self;
+//        self.hud.dimBackground = YES;
     } failure:^(NSError *error) {
         NSLog(@"%@",error);
     }];
