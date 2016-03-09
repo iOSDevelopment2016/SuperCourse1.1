@@ -703,11 +703,11 @@
 -(void)imageBtnClick{
     
         UIActionSheet *sheet;
-        if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]){
-            sheet=[[UIActionSheet alloc]initWithTitle:@"获取图片" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"取消" otherButtonTitles:@"拍照",@"从相册中选择", nil];
-        }else{
-            sheet =[[UIActionSheet alloc]initWithTitle:@"获取图片" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"取消" otherButtonTitles:@"从相册中选择", nil];
-        }
+//        if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]){
+//            sheet=[[UIActionSheet alloc]initWithTitle:@"获取图片" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"取消" otherButtonTitles:@"拍照",@"从相册中选择", nil];
+//        }else{
+        sheet =[[UIActionSheet alloc]initWithTitle:@"图片来源" delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:@"相机拍照" ,@"图库选择",@"取消",nil];
+//        }
         [sheet showInView:self.view];
     
 }
@@ -735,31 +735,64 @@
 //        
 //    }];
 //}
--(void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
-    NSUInteger sourceType=0;
-    if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]){
-        switch (buttonIndex) {
-            case 1:
-                sourceType=UIImagePickerControllerSourceTypeCamera;
-                break;
-            case 2:
-                sourceType=UIImagePickerControllerSourceTypePhotoLibrary;
-                break;
-        }
-    }else{
-        if(buttonIndex == 1){
-            sourceType=UIImagePickerControllerSourceTypeSavedPhotosAlbum;
-            UIImagePickerController *imagePickerController=[[UIImagePickerController alloc]init];
-            imagePickerController.delegate=self;
-            imagePickerController.allowsEditing=YES;
-            imagePickerController.sourceType=sourceType;
-            [self presentViewController:imagePickerController animated:YES completion:^{
-                
-            }];
 
+-(void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    switch (buttonIndex) {
+        case 0:
+            // “相机”
+        {
+            UIImagePickerController *imagePicker = [[UIImagePickerController alloc]init];
+            imagePicker.delegate = self;
+            imagePicker.allowsEditing = YES;
+            imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+            [self presentViewController:imagePicker animated:YES completion:nil];
+            break;
         }
+        case 1:
+            // “图库”
+        {
+            UIImagePickerController *imagePicker = [[UIImagePickerController alloc]init];
+            imagePicker.delegate = self;
+            imagePicker.allowsEditing = YES;
+            imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+            [self presentViewController:imagePicker animated:YES completion:nil];
+            break;
+        }
+        case 2:
+            // “取消”
+            break;
+        default:
+            break;
     }
 }
+
+
+//-(void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
+//    NSUInteger sourceType=0;
+//    if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]){
+//        switch (buttonIndex) {
+//            case 1:
+//                sourceType=UIImagePickerControllerSourceTypeCamera;
+//                break;
+//            case 2:
+//                sourceType=UIImagePickerControllerSourceTypePhotoLibrary;
+//                break;
+//        }
+//    }else{
+//        if(buttonIndex == 1){
+//            sourceType=UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+//            UIImagePickerController *imagePickerController=[[UIImagePickerController alloc]init];
+//            imagePickerController.delegate=self;
+//            imagePickerController.allowsEditing=YES;
+//            imagePickerController.sourceType=sourceType;
+//            [self presentViewController:imagePickerController animated:YES completion:^{
+//                
+//            }];
+//
+//        }
+//    }
+//}
 
 
 -(void)saveImage:(UIImage *)currentImage withName:(NSString *)imageName{

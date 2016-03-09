@@ -527,18 +527,8 @@
 		C9E4E6361C53BAF30052030E = {
 			isa = PBXGroup;
 			children = (
-				FE0FD3E31C8A8AD40045CBDB /* CoreGraphics.framework */,
-				FE0FD3E11C8A8AB40045CBDB /* libiconv.tbd */,
-				FE0FD3DF1C8A8A860045CBDB /* Security.framework */,
-				FE04FAF51C87D1DA00294519 /* CoreTelephony.framework */,
-				FEFDBFC51C8726D500CEA840 /* libc++.tbd */,
-				FEFDBFC31C8726C500CEA840 /* libz.tbd */,
-				FEFDBFC11C8726BB00CEA840 /* SystemConfiguration.framework */,
-				FEFDBFBF1C87259000CEA840 /* 108.png */,
-				FE76675B1C75419000017604 /* libsqlite3.0.tbd */,
-				FE0FD3DC1C8A89740045CBDB /* TencentOpenAPI.framework */,
-				FE0FD3DB1C8A89740045CBDB /* TencentOpenApi_IOS_Bundle.bundle */,
 				C9E4E6411C53BAF30052030E /* SuperCourse */,
+				C9FDBCF41C904A3800E9D74A /* Frameworks */,
 				C9E4E65B1C53BAF30052030E /* SuperCourseTests */,
 				C9E4E6661C53BAF30052030E /* SuperCourseUITests */,
 				C9E4E6401C53BAF30052030E /* Products */,
@@ -713,6 +703,24 @@
 				C9E4E69B1C53C4F40052030E /* UIView+SZY.m */,
 			);
 			name = SCKit;
+			sourceTree = "<group>";
+		};
+		C9FDBCF41C904A3800E9D74A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FE0FD3DB1C8A89740045CBDB /* TencentOpenApi_IOS_Bundle.bundle */,
+				FE0FD3DC1C8A89740045CBDB /* TencentOpenAPI.framework */,
+				FE0FD3DF1C8A8A860045CBDB /* Security.framework */,
+				FE04FAF51C87D1DA00294519 /* CoreTelephony.framework */,
+				FEFDBFC51C8726D500CEA840 /* libc++.tbd */,
+				FEFDBFC31C8726C500CEA840 /* libz.tbd */,
+				FEFDBFC11C8726BB00CEA840 /* SystemConfiguration.framework */,
+				FEFDBFBF1C87259000CEA840 /* 108.png */,
+				FE76675B1C75419000017604 /* libsqlite3.0.tbd */,
+				FE0FD3E11C8A8AB40045CBDB /* libiconv.tbd */,
+				FE0FD3E31C8A8AD40045CBDB /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		DAF87A751C59073E00079F69 /* WebService */ = {
