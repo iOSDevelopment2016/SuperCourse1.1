@@ -128,6 +128,7 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
 //    self.hud.delegate = self;
 //    self.hud.dimBackground = YES;
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(webDataLoaddDone) name:@"WebDataHaveLoadDone" object:nil];
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(changeTitle) name:@"changeTitle" object:nil];
     [self.mainView addSubview:self.allCourseView];//2
     
     //    SCIntroduction *intro= self.datasource.har_des[0];
@@ -187,7 +188,48 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
 }
 
 
+-(void)changeTitle{
+    [self.loginBtnImage removeFromSuperview];
+    [self.loginBtn removeFromSuperview];
+    UIView *leftTopView=[[UIView alloc]initWithFrame: CGRectMake(0, 0, 400*WidthScale, 200*HeightScale)];
+    leftTopView.backgroundColor=UIThemeColor;
+    
+    UIButton *btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 400*WidthScale, 200*HeightScale)];
+    [btn addTarget:self action:@selector(loginBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    
+    UILabel *userLabel=[[UILabel alloc]initWithFrame: CGRectMake(25, 0, 400*WidthScale-50, 200*HeightScale)];
+    userLabel.backgroundColor=UIThemeColor;
+    userLabel.numberOfLines=0;
+    userLabel.text=[NSString stringWithFormat:@"你好!\n%@",ApplicationDelegate.userPhone];
+    [userLabel setTextColor:[UIColor whiteColor]];
+    userLabel.font=[UIFont systemFontOfSize:45*WidthScale];
+    [self.view addSubview:leftTopView];
+    [leftTopView addSubview:userLabel];
+    [leftTopView addSubview:btn];
+    //    [self.view addSubview:leftTopView];
+    NSDictionary *para = @{@"method":@"SelectStudentBaseinfo",
+                           @"param":@{@"Data":@{@"stu_id":ApplicationDelegate.userSession}}};
+    [HttpTool postWithparams:para success:^(id responseObject) {
+        NSData *data = [[NSData alloc] initWithData:responseObject];
+        NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+        self.mode=[SCSelfConditionMode objectWithKeyValues:dic[@"data"]];
+        //暂时未解决上传头像系列问题
+        //[self.confirmBtn setTitle:@"修改信息" forState:UIControlStateNormal];
+        
+            userLabel.backgroundColor=UIThemeColor;
+            userLabel.numberOfLines=0;
+            userLabel.text=[NSString stringWithFormat:@"你好!\n%@",self.mode.stu_name];
+            [userLabel setTextColor:[UIColor whiteColor]];
+            userLabel.font=[UIFont systemFontOfSize:45*WidthScale];
+            
+            
+        
+        
+    } failure:^(NSError *error) {
+        NSLog(@"%@",error);
+    }];
 
+}
 
 
 

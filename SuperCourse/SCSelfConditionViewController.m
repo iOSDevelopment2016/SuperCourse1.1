@@ -272,7 +272,7 @@
             
             
             //[self postSuccessAlart];
-            
+            [[NSNotificationCenter defaultCenter]postNotificationName:@"changeTitle" object:nil];
             
         } failure:^(NSError *error) {
             NSLog(@"%@",error);
@@ -289,7 +289,8 @@
             
             //[self postSuccessAlart];
             
-            
+//            changeTitle
+            [[NSNotificationCenter defaultCenter]postNotificationName:@"changeTitle" object:nil];
         } failure:^(NSError *error) {
             NSLog(@"%@",error);
         }];
@@ -1143,8 +1144,8 @@
 -(void)getImageClick{
     NSString *fullPath=[[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"]stringByAppendingPathComponent:@"head.png"];
     UIImage *savedImage =[[UIImage alloc]initWithContentsOfFile:fullPath];
-    UIImage *image=[UIImage imageNamed:@"flower"];
-    [self uploadPersonImginitWithImage:image];
+    //UIImage *image=[UIImage imageNamed:@"flower"];
+    [self uploadPersonImginitWithImage:savedImage];
 }
 
 //-(ImagePickerViewController *)pickImage{
