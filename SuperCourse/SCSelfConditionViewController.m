@@ -1249,7 +1249,7 @@
 #pragma mark--------------    上传头像图片
 -(void)uploadPersonImginitWithImage:(UIImage *)image{
     
-    NSURL *baseUrl = [NSURL URLWithString:@"http://101.200.73.189/SuperCourseServer/upload.php"];
+    NSURL *baseUrl = [NSURL URLWithString:@"http://101.200.73.189/SuperCourseServer/"];
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
