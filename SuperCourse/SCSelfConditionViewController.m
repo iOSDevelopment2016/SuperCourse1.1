@@ -811,7 +811,6 @@
     }
 }
 
-
 //-(void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
 //    NSUInteger sourceType=0;
 //    if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]){
