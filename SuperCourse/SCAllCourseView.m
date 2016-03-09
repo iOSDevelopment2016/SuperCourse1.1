@@ -101,7 +101,11 @@
                                                  selector: @selector(BeDownloading:)
                                                      name: @"toBeDownload"
                                                    object: nil];
-
+        [[NSNotificationCenter defaultCenter] addObserver: self
+                                                 selector: @selector(changeImage)
+                                                     name: @"changeImage"
+                                                   object: nil];
+        
         
     }
     return self;
@@ -442,7 +446,7 @@
             if(self.playLog.oversty_time){
                 [self changeImage];
             }else{
-                [self changeImageBack];
+//                [self changeImageBack];
             }
             
         } failure:^(NSError *error) {
@@ -604,13 +608,13 @@
 -(SCCustomButton *)startBtn{
     if (!_startBtn){
         _startBtn = [SCCustomButton buttonWithType:UIButtonTypeCustom];
-        //        if(ApplicationDelegate.playLog){
-        //            [_startBtn setImage:[UIImage imageNamed:@"SC_continue"] forState:UIControlStateNormal];
-        //        }else{
-        [_startBtn setImage:[UIImage imageNamed:@"SC_start"] forState:UIControlStateNormal];
-        //        }
+//        //        if(ApplicationDelegate.playLog){
+//        //            [_startBtn setImage:[UIImage imageNamed:@"SC_continue"] forState:UIControlStateNormal];
+//        //        }else{
+//        [_startBtn setImage:[UIImage imageNamed:@"SC_start"] forState:UIControlStateNormal];
+//        //        }
         [_startBtn addTarget:self action:@selector(startBtnClick) forControlEvents:UIControlEventTouchUpInside];
-        
+        [self change];
     }
     return _startBtn;
 }
