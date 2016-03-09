@@ -30,5 +30,5 @@
 
 -(NSString *)getNextLessonID:(NSString *)currentLessonID;
 -(void)change;
-
+-(void)changeToLearn;
 @end

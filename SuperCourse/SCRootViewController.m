@@ -293,6 +293,7 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
 -(void)changeToLearn{
     [self.allCourseView.startBtn setImage:[UIImage imageNamed:@"SC_continue"] forState:UIControlStateNormal];
 //    [self.allCourseView change];
+
 }
 
 -(void)poseDownloads{
@@ -609,9 +610,7 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
 }
 
 #pragma mark - 响应事件
--(void)changeImage{
-    
-}
+
 -(void)allCourseBtnClickImage:(UIButton *)sender{
     if(_allCourseBtn.selected==NO){
         sender=self.allCourseBtn;
