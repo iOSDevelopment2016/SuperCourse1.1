@@ -752,12 +752,17 @@
         case 1:
             // “图库”
         {
-            UIImagePickerController *imagePicker = [[UIImagePickerController alloc]init];
-            imagePicker.delegate = self;
-            imagePicker.allowsEditing = YES;
-            imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-            [self presentViewController:imagePicker animated:YES completion:nil];
+            UIImagePickerController *imagePickerController=[[UIImagePickerController alloc]init];
+            imagePickerController.delegate=self;
+            imagePickerController.allowsEditing=YES;
+            imagePickerController.sourceType=UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+            [self presentViewController:imagePickerController animated:YES completion:^{
+                
+            }];
+
             break;
+            
+            
         }
         case 2:
             // “取消”
