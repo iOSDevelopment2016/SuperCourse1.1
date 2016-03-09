@@ -124,9 +124,9 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
     
     [self.mainView addSubview:self.myNotesView];//0
     [self.mainView addSubview:self.videoHistoryView];//1
-    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    self.hud.delegate = self;
-    self.hud.dimBackground = YES;
+//    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//    self.hud.delegate = self;
+//    self.hud.dimBackground = YES;
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(webDataLoaddDone) name:@"WebDataHaveLoadDone" object:nil];
     [self.mainView addSubview:self.allCourseView];//2
     
@@ -215,7 +215,7 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
 -(void)removeHub{
     [self.hubView removeFromSuperview];
     [self hideLoginView];
-
+    
     
 }
 -(void)getuser:(NSString *)userphone{
@@ -236,7 +236,7 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
     [self.view addSubview:leftTopView];
     [leftTopView addSubview:userLabel];
     [leftTopView addSubview:btn];
-    //[self.view addSubview:leftTopView];
+//    [self.view addSubview:leftTopView];
     NSDictionary *para = @{@"method":@"SelectStudentBaseinfo",
                            @"param":@{@"Data":@{@"stu_id":ApplicationDelegate.userSession}}};
     [HttpTool postWithparams:para success:^(id responseObject) {
@@ -246,16 +246,12 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
         //暂时未解决上传头像系列问题
         //[self.confirmBtn setTitle:@"修改信息" forState:UIControlStateNormal];
         if(self.mode.stu_name==nil){
-//            [leftTopView removeFromSuperview userLabel];
-//            [leftTopView removeFromSuperview btn];
             userLabel.backgroundColor=UIThemeColor;
             userLabel.numberOfLines=0;
             userLabel.text=[NSString stringWithFormat:@"你好!\n%@",userphone];
             [userLabel setTextColor:[UIColor whiteColor]];
             userLabel.font=[UIFont systemFontOfSize:45*WidthScale];
-            //[self.view addSubview:leftTopView];
-//            [leftTopView addSubview:userLabel];
-//            [leftTopView addSubview:btn];
+            
 
         }else{
             userLabel.backgroundColor=UIThemeColor;
@@ -263,12 +259,9 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
             userLabel.text=[NSString stringWithFormat:@"你好!\n%@",self.mode.stu_name];
             [userLabel setTextColor:[UIColor whiteColor]];
             userLabel.font=[UIFont systemFontOfSize:45*WidthScale];
-            //[self.view addSubview:leftTopView];
-//            [leftTopView addSubview:userLabel];
-//            [leftTopView addSubview:btn];
+            
 
         }
-        
         self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         self.hud.delegate = self;
         self.hud.dimBackground = YES;
