@@ -238,6 +238,9 @@
     self.professionBtnHub.frame=CGRectMake(0, 10, 1024, 40);
     self.gradeBtnHub.frame=CGRectMake(0, 10, 1024, 40);
     
+    self.userImage.layer.masksToBounds=YES;
+    self.userImage.layer.cornerRadius=30;
+    
 //    self.getImage.frame=CGRectMake(1024/2-350*WidthScale, 1024-200*HeightScale, 700*WidthScale, 100*HeightScale);
 }
 
@@ -852,17 +855,17 @@
     UIImage *image=[info objectForKey:UIImagePickerControllerOriginalImage];
     NSData * imageData = UIImageJPEGRepresentation(image,1);
     
-    float length = [imageData length]/1024;
-    if(length<1024){
+//    float length = [imageData length]/1024;
+//    if(length<1024){
         [self saveImage:image withName:str];
         NSString *fullPath=[[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"]stringByAppendingPathComponent:str];
         UIImage *savedImage =[[UIImage alloc]initWithContentsOfFile:fullPath];
         [self.userImage setImage:savedImage];
         [self uploadPersonImginitWithImage:image];
-    }else{
-        [UIAlertController showAlertAtViewController:self title:@"提示" message:@"图片大小不能超过1M" confirmTitle:@"我知道了" confirmHandler:^(UIAlertAction *action) {
-        }];
-    }
+//    }else{
+//        [UIAlertController showAlertAtViewController:self title:@"提示" message:@"图片大小不能超过1M" confirmTitle:@"我知道了" confirmHandler:^(UIAlertAction *action) {
+//        }];
+//    }
     
 }
 -(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
@@ -1152,7 +1155,7 @@
     revise.infomation=self.userProfession.text;
     revise.delegate=self;
     revise.tag=6;
-    revise.placeHoder=@"请输入专业";
+    revise.placeHoder=@"专业";
     [self.navigationController pushViewController:revise animated:YES];
 }
 -(UIButton *)gradeBtn{
