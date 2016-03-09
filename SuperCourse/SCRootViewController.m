@@ -124,9 +124,9 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
     
     [self.mainView addSubview:self.myNotesView];//0
     [self.mainView addSubview:self.videoHistoryView];//1
-//    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-//    self.hud.delegate = self;
-//    self.hud.dimBackground = YES;
+    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.hud.delegate = self;
+    self.hud.dimBackground = YES;
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(webDataLoaddDone) name:@"WebDataHaveLoadDone" object:nil];
     [self.mainView addSubview:self.allCourseView];//2
     
@@ -228,8 +228,15 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
     [btn addTarget:self action:@selector(loginBtnClick) forControlEvents:UIControlEventTouchUpInside];
     
     UILabel *userLabel=[[UILabel alloc]initWithFrame: CGRectMake(25, 0, 400*WidthScale-50, 200*HeightScale)];
-    
-
+    userLabel.backgroundColor=UIThemeColor;
+    userLabel.numberOfLines=0;
+    userLabel.text=[NSString stringWithFormat:@"你好!\n%@",userphone];
+    [userLabel setTextColor:[UIColor whiteColor]];
+    userLabel.font=[UIFont systemFontOfSize:45*WidthScale];
+    [self.view addSubview:leftTopView];
+    [leftTopView addSubview:userLabel];
+    [leftTopView addSubview:btn];
+//    [self.view addSubview:leftTopView];
     NSDictionary *para = @{@"method":@"SelectStudentBaseinfo",
                            @"param":@{@"Data":@{@"stu_id":ApplicationDelegate.userSession}}};
     [HttpTool postWithparams:para success:^(id responseObject) {
@@ -244,9 +251,7 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
             userLabel.text=[NSString stringWithFormat:@"你好!\n%@",userphone];
             [userLabel setTextColor:[UIColor whiteColor]];
             userLabel.font=[UIFont systemFontOfSize:45*WidthScale];
-            [self.view addSubview:leftTopView];
-            [leftTopView addSubview:userLabel];
-            [leftTopView addSubview:btn];
+            
 
         }else{
             userLabel.backgroundColor=UIThemeColor;
@@ -254,9 +259,7 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
             userLabel.text=[NSString stringWithFormat:@"你好!\n%@",self.mode.stu_name];
             [userLabel setTextColor:[UIColor whiteColor]];
             userLabel.font=[UIFont systemFontOfSize:45*WidthScale];
-            [self.view addSubview:leftTopView];
-            [leftTopView addSubview:userLabel];
-            [leftTopView addSubview:btn];
+            
 
         }
         self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -456,12 +459,14 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
         //SCIntroduction *introduction=self.datasource.har_des[0];
         //if(introduction.les_intrdoc){
         if(!self.datasource.knowledge){
-            [UIAlertController showAlertAtViewController:self withMessage:@"暂无详细介绍" cancelTitle:@"取消" confirmTitle:@"我知道了" cancelHandler:^(UIAlertAction *action) {
-            } confirmHandler:^(UIAlertAction *action) {
+//            [UIAlertController showAlertAtViewController:self withMessage:@"暂无详细介绍" cancelTitle:@"取消" confirmTitle:@"我知道了" cancelHandler:^(UIAlertAction *action) {
+//            } confirmHandler:^(UIAlertAction *action) {
+//            }];
+            [UIAlertController showAlertAtViewController:self title:@"提示" message:@"暂无详细介绍" confirmTitle:@"我知道了" confirmHandler:^(UIAlertAction *action) {
             }];
             
         }else{
-            
+            if(self.extendView==nil){
             self.extendView = [[SCExtendView alloc]initWithString:Course.les_name AndDataSource:self.datasource AndWidth:0.68*self.view.width AndHeight:0.6*self.view.height];
             
             self.extendView.frame = CGRectMake(0, 0, 0.68*self.view.width, 0.6*self.view.height);
@@ -473,6 +478,7 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
             
             [self.view addSubview:self.hubView];
             [self.view addSubview:self.extendView];
+            }
         }
         //        }else{
         //            [UIAlertController showAlertAtViewController:self withMessage:@"暂无介绍信息" cancelTitle:@"取消" confirmTitle:@"我知道了" cancelHandler:^(UIAlertAction *action) {

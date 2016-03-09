@@ -120,6 +120,8 @@
                 self.sendPsw.selected=YES;
                 self.password.enabled=YES;
                 self.sendPsw.enabled = NO;
+                [self.sendPsw setTitle:@"已发送" forState:UIControlStateNormal];
+                [self.sendPsw setTitle:@"已发送" forState:UIControlStateSelected];
                 self.password.placeholder=@"请输入4位数字验证码";
             }else{
                 [self shakeAnimationForView:self];
