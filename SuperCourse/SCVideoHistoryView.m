@@ -112,6 +112,7 @@
         h.oversty_time = [dict[@"oversty_time"] floatValue];
         h.les_id = dict[@"les_id"];
         h.les_name = dict[@"les_name"];
+        h.is_ready = dict[@"is_ready"];
         
         [historyArr addObject:h];
         _historyArr[i] = historyArr[i];

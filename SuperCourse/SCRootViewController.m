@@ -291,7 +291,8 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
 
 
 -(void)changeToLearn{
-    [self.allCourseView change];
+    [self.allCourseView.startBtn setImage:[UIImage imageNamed:@"SC_continue"] forState:UIControlStateNormal];
+//    [self.allCourseView change];
 }
 
 -(void)poseDownloads{

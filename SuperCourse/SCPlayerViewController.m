@@ -1756,10 +1756,13 @@
 
 -(void)backToRoot{
 
-    CGFloat time = 0;
+    CGFloat time = self.videoInfo.les_alltime;
     [_slider removeFromSuperview];
     [self getStopTimeWithCurrentTime:time];
     [self.navigationController popToRootViewControllerAnimated:YES];
+    
+    //添加is_ready ＝ 是；
+    
 }
 
 -(void)backToFinished:(UIButton *)sender{
@@ -1884,24 +1887,6 @@
     
     [WXApi sendReq:req];
 }
-// 分享其他类型内容，只是把WXImageObject 换成WXWebpageObject(链接)、WXMusicObject、WXVideoObject……等
-
-// 微信回复
-// 微信操作完，app收到的回复，SendMessageToWXResp对象
-//-(void) onResp:(BaseResp*)resp
-//{
-//    if([resp isKindOfClass:[SendMessageToWXResp class]])
-//    {
-//        NSString *strTitle = [NSString stringWithFormat:@"发送媒体消息结果"];
-//        NSString *strMsg = [NSString stringWithFormat:@"errcode:%d", resp.errCode];
-//
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:strTitle message:strMsg delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-//        [alert show];
-
-//    }
-//}
-//
-
 
 
 
@@ -1962,50 +1947,6 @@
 
 
 
-////腾讯qq
-//#pragma mark - TencentLoginDelegate
-//
-//- (void)tencentDidLogin
-//{
-//    id controller = [TQDQuickDialogController controllerForName:@"TQDLoginController"];
-//    if ([controller respondsToSelector:_cmd]) {
-//        [controller tencentDidLogin];
-//    }
-//}
-//
-//- (void)tencentDidNotLogin:(BOOL)cancelled
-//{
-//    id controller = [TQDQuickDialogController controllerForName:@"TQDLoginController"];
-//    if ([controller respondsToSelector:_cmd]) {
-//        [controller tencentDidNotLogin:cancelled];
-//    }
-//}
-//
-//- (void)tencentDidNotNetWork
-//{
-//    id controller = [TQDQuickDialogController controllerForName:@"TQDLoginController"];
-//    if ([controller respondsToSelector:_cmd]) {
-//        [controller tencentDidNotNetWork];
-//    }
-//}
-//
-//#pragma mark - TencentSessionDelegate
-//
-//- (void)tencentDidLogout
-//{
-//    id controller = [TQDQuickDialogController controllerForName:@"TQDLoginController"];
-//    if ([controller respondsToSelector:_cmd]) {
-//        [controller tencentDidLogout];
-//    }
-//}
-//
-//- (void)responseDidReceived:(APIResponse*)response forMessage:(NSString *)message
-//{
-//    id controller = [TQDQuickDialogController controllerForName:[NSString stringWithFormat:@"TQD%@Controller", message]];
-//    if ([controller respondsToSelector:_cmd]) {
-//        [controller performSelector:_cmd withObject:response withObject:message];
-//    }
-//}
 
 -(void)clickWithQQ{
     

@@ -68,7 +68,7 @@
         SCVideoLinkMode *m = linkArr[i];
         
         NSString *text = m.hot_title;
-        CGSize textSize =  [text boundingRectWithSize:boundSize options:NSStringDrawingUsesLineFragmentOrigin attributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:45],NSFontAttributeName, nil] context:nil].size;
+        CGSize textSize =  [text boundingRectWithSize:boundSize options:NSStringDrawingUsesLineFragmentOrigin attributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:30],NSFontAttributeName, nil] context:nil].size;
         
         textSize.width += HORIZONTAL_PADDING * 2;
         textSize.height += VERTICAL_PADDING * 2;
