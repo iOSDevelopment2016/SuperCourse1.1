@@ -130,7 +130,7 @@
             SCCourseTableViewCell *cell =  [self.firstTableView cellForRowAtIndexPath:index];
             NSLog(@"%@",cell.contentField.titleLabel.text);
             if([cell.contentField.titleLabel.text isEqualToString:name]){
-                
+                mark=YES;
                 dispatch_async(dispatch_get_main_queue(), ^{
                     SCCourseGroup *temp=self.currentSource.sec_arr[i];
                     SCCourse *temp_=temp.lesarr[j];
@@ -164,8 +164,8 @@
                     [self.firstTableView reloadData];
                     temp_.downloading=nil;
                 });
-                mark=YES;
-                break;
+
+                
             }
             if(mark==YES)
                 break;
