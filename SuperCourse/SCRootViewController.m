@@ -30,6 +30,7 @@
 //#import "LocalDatabase.h"
 #import "SZYNoteSolidater.h"
 #import "SCDownlodaMode.h"
+#import "SCSelfConditionMode.h"
 typedef NS_ENUM(NSInteger,SCShowViewType) {
     SCShowViewType_MyNotes = 0,
     SCShowViewType_VideoHistory,
@@ -69,6 +70,8 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
 @property (nonatomic ,strong) MBProgressHUD            *hud;
 @property (nonatomic ,strong) SCCoursePlayLog          *playLog;
 @property (nonatomic, strong) SZYNoteSolidater          *db;
+@property (nonatomic, strong)SCSelfConditionMode *mode;
+
 
 @property CGFloat Variety;
 
@@ -100,6 +103,7 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
         
         [self.view addSubview:self.loginBtn];
         [self.view addSubview:self.loginBtnImage];
+        
     }else{
         [self getuser:ApplicationDelegate.userPhone];
     }
@@ -224,15 +228,40 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
     [btn addTarget:self action:@selector(loginBtnClick) forControlEvents:UIControlEventTouchUpInside];
     
     UILabel *userLabel=[[UILabel alloc]initWithFrame: CGRectMake(25, 0, 400*WidthScale-50, 200*HeightScale)];
-    userLabel.backgroundColor=UIThemeColor;
-    userLabel.numberOfLines=0;
-    userLabel.text=[NSString stringWithFormat:@"你好!\n%@",userphone];
-    [userLabel setTextColor:[UIColor whiteColor]];
-    userLabel.font=[UIFont systemFontOfSize:45*WidthScale];
-    [self.view addSubview:leftTopView];
-    [leftTopView addSubview:userLabel];
-    [leftTopView addSubview:btn];
     
+
+    NSDictionary *para = @{@"method":@"SelectStudentBaseinfo",
+                           @"param":@{@"Data":@{@"stu_id":ApplicationDelegate.userSession}}};
+    [HttpTool postWithparams:para success:^(id responseObject) {
+        NSData *data = [[NSData alloc] initWithData:responseObject];
+        NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+        self.mode=[SCSelfConditionMode objectWithKeyValues:dic[@"data"]];
+        //暂时未解决上传头像系列问题
+        //[self.confirmBtn setTitle:@"修改信息" forState:UIControlStateNormal];
+        if([self.mode.stu_name isEqualToString:@""]){
+            userLabel.backgroundColor=UIThemeColor;
+            userLabel.numberOfLines=0;
+            userLabel.text=[NSString stringWithFormat:@"你好!\n%@",userphone];
+            [userLabel setTextColor:[UIColor whiteColor]];
+            userLabel.font=[UIFont systemFontOfSize:45*WidthScale];
+            [self.view addSubview:leftTopView];
+            [leftTopView addSubview:userLabel];
+            [leftTopView addSubview:btn];
+
+        }else{
+            userLabel.backgroundColor=UIThemeColor;
+            userLabel.numberOfLines=0;
+            userLabel.text=[NSString stringWithFormat:@"你好!\n%@",self.mode.stu_name];
+            [userLabel setTextColor:[UIColor whiteColor]];
+            userLabel.font=[UIFont systemFontOfSize:45*WidthScale];
+            [self.view addSubview:leftTopView];
+            [leftTopView addSubview:userLabel];
+            [leftTopView addSubview:btn];
+
+        }
+    } failure:^(NSError *error) {
+        NSLog(@"%@",error);
+    }];
 }
 
 
