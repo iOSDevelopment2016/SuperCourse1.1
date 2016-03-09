@@ -124,9 +124,9 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
     
     [self.mainView addSubview:self.myNotesView];//0
     [self.mainView addSubview:self.videoHistoryView];//1
-    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    self.hud.delegate = self;
-    self.hud.dimBackground = YES;
+//    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//    self.hud.delegate = self;
+//    self.hud.dimBackground = YES;
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(webDataLoaddDone) name:@"WebDataHaveLoadDone" object:nil];
     [self.mainView addSubview:self.allCourseView];//2
     
@@ -215,7 +215,7 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
 -(void)removeHub{
     [self.hubView removeFromSuperview];
     [self hideLoginView];
-    [self.allCourseView change];
+    
     
 }
 -(void)getuser:(NSString *)userphone{

@@ -77,7 +77,7 @@
     NSString *fullPath=[[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"]stringByAppendingPathComponent:str];
     UIImage *savedImage =[[UIImage alloc]initWithContentsOfFile:fullPath];
     if(savedImage==nil){
-        NSString *url=[NSString stringWithFormat:@"http://localhost/SuperCourseServer/uploadimg/%@",str];
+        NSString *url=[NSString stringWithFormat:@"http://101.200.73.189/SuperCourseServer/uploadimg/%@",str];
         savedImage=[self getImageFromURL:url];
     }
     
@@ -263,9 +263,22 @@
     [self.userDepartment resignFirstResponder];
     [self.userProfession resignFirstResponder];
     [self.userGrade resignFirstResponder];
+    if(self.userEmail.text){
+        NSDictionary *para = @{@"method":@"StudentBaseinfo",
+                               @"param":@{@"Data":@{@"stu_id":ApplicationDelegate.userSession,@"stu_name":self.userName.text,@"stu_sex":self.userSex.text,@"stu_school":self.userSchool.text,@"stu_department":self.userDepartment.text,@"stu_profession":self.userDepartment.text,@"stu_grade":self.userGrade.text,@"stu_email":self.userEmail.text,@"stu_image":@""}}};
+        [HttpTool postWithparams:para success:^(id responseObject) {
+            //            NSData *data = [[NSData alloc] initWithData:responseObject];
+            //            NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+            
+            
+            //[self postSuccessAlart];
+            
+            
+        } failure:^(NSError *error) {
+            NSLog(@"%@",error);
+        }];
+        
 
-    if(![self.userSex.text isEqualToString:@"男"]&&![self.userSex.text isEqualToString:@"女"]){
-        [self postAlart9];
     }else if([self isValidateEmail:self.userEmail.text]){
         NSDictionary *para = @{@"method":@"StudentBaseinfo",
                                @"param":@{@"Data":@{@"stu_id":ApplicationDelegate.userSession,@"stu_name":self.userName.text,@"stu_sex":self.userSex.text,@"stu_school":self.userSchool.text,@"stu_department":self.userDepartment.text,@"stu_profession":self.userDepartment.text,@"stu_grade":self.userGrade.text,@"stu_email":self.userEmail.text,@"stu_image":@""}}};
@@ -1094,7 +1107,7 @@
 #pragma mark--------------    上传头像图片
 -(void)uploadPersonImginitWithImage:(UIImage *)image{
     
-    NSURL *baseUrl = [NSURL URLWithString:@"http://127.0.0.1/SuperCourseServer/upload.php"];
+    NSURL *baseUrl = [NSURL URLWithString:@"http://101.200.73.189/SuperCourseServer/upload.php"];
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseUrl];
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
