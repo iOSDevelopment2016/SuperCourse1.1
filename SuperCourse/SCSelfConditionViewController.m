@@ -853,7 +853,7 @@
         
     }];
     UIImage *image=[info objectForKey:UIImagePickerControllerOriginalImage];
-    NSData * imageData = UIImageJPEGRepresentation(image,1);
+//    NSData * imageData = UIImageJPEGRepresentation(image,1);
     
 //    float length = [imageData length]/1024;
 //    if(length<1024){
@@ -1266,7 +1266,7 @@
 
         
         NSString *str = [formatter stringFromDate:[NSDate date]];
-        NSData *data = UIImageJPEGRepresentation(image, 1);
+        NSData *data = UIImageJPEGRepresentation(image, 0.8);
         NSString * uploadfile = [NSString stringWithFormat:@"%@.png", str];
         [formData appendPartWithFileData:data name:@"file" fileName:ApplicationDelegate.userSession mimeType:@"image/png"];
         
