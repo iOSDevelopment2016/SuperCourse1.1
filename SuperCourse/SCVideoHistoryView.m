@@ -118,7 +118,11 @@
         _historyArr[i] = historyArr[i];
     }
       self.num = historyInfoDict.count;
-    
+    if(self.num==0){
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"change" object:nil];
+    }else{
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"changeImage" object:nil];
+    }
 }
 
 -(void)updateHistoryInfo{

@@ -24,6 +24,7 @@
 #import "UIImageView+WebCache.h"
 #import "SZYNoteSolidater.h"
 #import "SCDownlodaMode.h"
+#import "SCHistory.h"
 @interface SCAllCourseView ()<UITableViewDataSource, UITableViewDelegate,SCCourseTableViewDelegate,MBProgressHUDDelegate,SCLoginViewDelegate>
 
 @property (weak, nonatomic  ) IBOutlet UITextField                *phone;
@@ -55,6 +56,8 @@
 
 @property (nonatomic, strong) SZYNoteSolidater          *db;
 
+
+//@property (nonatomic ,strong) NSMutableArray *historyArr;
 @end
 
 @implementation SCAllCourseView{
@@ -105,6 +108,11 @@
                                                  selector: @selector(changeImage)
                                                      name: @"changeImage"
                                                    object: nil];
+        [[NSNotificationCenter defaultCenter] addObserver: self
+                                                 selector: @selector(changeImageBack)
+                                                     name: @"change"
+                                                   object: nil];
+
         
         
     }
@@ -415,44 +423,90 @@
 }
 
 
--(void)change{
-    
-    NSString *stu_id = ApplicationDelegate.userSession;
-    NSString *stu_pwd = ApplicationDelegate.userPsw;
-    if([ApplicationDelegate.userSession isEqualToString:UnLoginUserSession])
-    {
-        [self changeImageBack];
-    }else{
-        //[self changeImage];
-        if (!stu_pwd) {
-            stu_pwd = @"";
-        }
-        stu_id = ApplicationDelegate.userSession;
-        NSDictionary *para = @{@"method":@"GetStudentPlayLog",
-                               @"param":@{@"Data":@{@"stu_id":stu_id,
-                                                    @"stu_pwd":stu_pwd}}};
-        
-        [HttpTool postWithparams:para success:^(id responseObject) {
-            
-            NSData *data = [[NSData alloc] initWithData:responseObject];
-            NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-            NSLog(@"%@",dic);
-            
-            //        [SCCourseCategory setupObjectClassInArray:^NSDictionary *{
-            //            return @{@"willknow":@"SCWillLearn"};
-            //        }];
-            
-            self.playLog = [SCCoursePlayLog objectWithKeyValues:dic[@"data"]];
-                [self changeImage];
-
-            
-        } failure:^(NSError *error) {
-            NSLog(@"%@",error);
-        }];
-    }
-    
-}
-
+//-(void)change{
+//    
+//   
+//    if([ApplicationDelegate.userSession isEqualToString:UnLoginUserSession])
+//    {
+//        [self changeImageBack];
+//    }else{
+////        //[self changeImage];
+////        if (!stu_pwd) {
+////            stu_pwd = @"";
+////        }
+////        stu_id = ApplicationDelegate.userSession;
+////        NSDictionary *para = @{@"method":@"GetStudentPlayLog",
+////                               @"param":@{@"Data":@{@"stu_id":stu_id,
+////                                                    @"stu_pwd":stu_pwd}}};
+////        
+////        [HttpTool postWithparams:para success:^(id responseObject) {
+////            
+////            NSData *data = [[NSData alloc] initWithData:responseObject];
+////            NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+////            NSLog(@"%@",dic);
+////            
+////            //        [SCCourseCategory setupObjectClassInArray:^NSDictionary *{
+////            //            return @{@"willknow":@"SCWillLearn"};
+////            //        }];
+////            
+////            self.playLog = [SCCoursePlayLog objectWithKeyValues:dic[@"data"]];
+////            
+////
+////                [self changeImage];
+////            
+////        } failure:^(NSError *error) {
+////            NSLog(@"%@",error);
+////        }];
+////        
+//        [self aa];
+//        
+//        
+//
+//    }
+//    
+//}
+//
+//-(void)aa{
+//    
+//    NSString *stu_id = ApplicationDelegate.userSession;
+//    //    NSString *stu_id = @"9720513e-6d0e-d0ef-0a7c-de862380c581";
+//    NSMutableDictionary *firstDic = [[NSMutableDictionary alloc]init];
+//    [firstDic setValue:stu_id forKey:@"stu_id"];
+//    NSMutableDictionary *secondDic = [[NSMutableDictionary alloc]init];
+//    [secondDic setValue:firstDic forKey:@"Data"];
+//    
+//    NSMutableDictionary *thirdDic = [[NSMutableDictionary alloc]init];
+//    [thirdDic setValue:secondDic forKey:@"param"];
+//    [thirdDic setValue:@"History" forKey:@"method"];
+//    [HttpTool postWithparams:thirdDic success:^(id responseObject) {
+//        
+//        NSData *data = [[NSData alloc] initWithData:responseObject];
+//        NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+//        NSMutableDictionary *dataDict = dic[@"data"];
+//        NSArray *historyInfoDict = dataDict[@"historyData"];
+//        NSMutableArray *historyArr = [[NSMutableArray alloc]init];
+//        for (int i=0; i<historyInfoDict.count; i++) {
+//            SCHistory *h = [[SCHistory alloc]init];
+//            NSDictionary *dict = historyInfoDict[i];
+//            //        NSDictionary *historyDict = dict[@"0"];
+//            h.oversty_time = [dict[@"oversty_time"] floatValue];
+//            h.les_id = dict[@"les_id"];
+//            h.les_name = dict[@"les_name"];
+//            h.is_ready = dict[@"is_ready"];
+//            
+//            [historyArr addObject:h];
+////            _historyArr[i] = historyArr[i];
+//        }
+//        if(historyArr==nil){
+//            [self changeImageBack];
+//        }else{
+//            [self changeImage];
+//        }
+//        
+//    } failure:^(NSError *error) {
+//        NSLog(@"%@",error);
+//    }];
+//}
 
 #pragma mark - delegate
 //-(CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath*)indexPath
@@ -611,7 +665,7 @@
 //        [_startBtn setImage:[UIImage imageNamed:@"SC_start"] forState:UIControlStateNormal];
 //        //        }
         [_startBtn addTarget:self action:@selector(startBtnClick) forControlEvents:UIControlEventTouchUpInside];
-        [self change];
+        [self changeImageBack];
     }
     return _startBtn;
 }

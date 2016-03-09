@@ -178,7 +178,7 @@
             [defaultes setObject:ApplicationDelegate.userPhone forKey:UserPhoneKey];
             [defaultes synchronize];
             if(ApplicationDelegate.playLog){
-                [self.delegate changeImage];
+            [[NSNotificationCenter defaultCenter]postNotificationName:@"change" object:nil];
             }
             
             [[NSNotificationCenter defaultCenter]postNotificationName:@"ImageShouldChange" object:nil];
