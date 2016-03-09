@@ -443,11 +443,8 @@
             //        }];
             
             self.playLog = [SCCoursePlayLog objectWithKeyValues:dic[@"data"]];
-            if(self.playLog.oversty_time){
                 [self changeImage];
-            }else{
-//                [self changeImageBack];
-            }
+
             
         } failure:^(NSError *error) {
             NSLog(@"%@",error);

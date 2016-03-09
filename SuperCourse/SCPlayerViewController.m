@@ -36,6 +36,7 @@
     CGFloat writeNoteTime;
     CGFloat writeCodeTime;
     CGFloat nowTimel;
+    BOOL isPlayFinished;
 }
 
 //@property (nonatomic ,strong) SCVIdeoInfo *currentVideoInfo;
@@ -489,7 +490,12 @@
         NSString *userID = ApplicationDelegate.userSession; // 学员内码
         NSString *userPassword = ApplicationDelegate.userPsw; // 登录密码
         NSString *lesson_id = self.lessonId;
+        NSString *is_ready = @"否";
         float oversty_time = self.oversty_time;
+        if (isPlayFinished) {
+            is_ready = @"是";
+        }
+        
         if (!userPassword) {
             userPassword = @"7213116e861ef185275fcfd6e5fab98b";
         }
@@ -497,7 +503,8 @@
         [methodParameter setValue:userPassword forKey:@"stu_pwd"];
         [methodParameter setValue:lesson_id forKey:@"lesson_id"];
         [methodParameter setValue:@(oversty_time) forKey:@"oversty_time"];
-        
+        [methodParameter setValue:is_ready forKey:@"is_ready"];
+
         
         NSMutableDictionary *dataParameter = [[NSMutableDictionary alloc]init];
         [dataParameter setValue:methodParameter forKey:@"Data"];
@@ -1755,8 +1762,8 @@
 }
 
 -(void)backToRoot{
-
-    CGFloat time = self.videoInfo.les_alltime;
+    isPlayFinished = YES;
+    CGFloat time = 0;
     [_slider removeFromSuperview];
     [self getStopTimeWithCurrentTime:time];
     [self.navigationController popToRootViewControllerAnimated:YES];

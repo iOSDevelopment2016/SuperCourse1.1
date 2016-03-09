@@ -117,7 +117,7 @@
         [historyArr addObject:h];
         _historyArr[i] = historyArr[i];
     }
-    
+      self.num = historyInfoDict.count;
     
 }
 
