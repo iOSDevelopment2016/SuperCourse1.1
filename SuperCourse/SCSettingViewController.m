@@ -117,8 +117,13 @@
 }
 
 -(void)selfConditidonBtnClick{
-    SCSelfConditionViewController *selfCondition=[[SCSelfConditionViewController alloc]init];
-    [self.navigationController pushViewController:selfCondition animated:YES];
+    if([ApplicationDelegate.userSession isEqualToString:UnLoginUserSession]){
+        [UIAlertController showAlertAtViewController:self title:@"提示" message:@"请先登录" confirmTitle:@"我知道了" confirmHandler:^(UIAlertAction *action) {
+        }];
+    }else{
+        SCSelfConditionViewController *selfCondition=[[SCSelfConditionViewController alloc]init];
+        [self.navigationController pushViewController:selfCondition animated:YES];
+    }
 }
 -(void)downloadConditionBtnClick{
 //    SCSettingViewController *setVC = [[SCSettingViewController alloc]init];

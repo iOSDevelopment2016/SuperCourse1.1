@@ -121,6 +121,7 @@
 
 
 -(void)beDownload:(NSNotification *)message{
+    BOOL mark=NO;
     NSDictionary *userInfo = [message userInfo];
     NSString *name = userInfo[@"name"];
     for(int i=0;i<20;i++){
@@ -163,10 +164,14 @@
                     [self.firstTableView reloadData];
                     temp_.downloading=nil;
                 });
+                mark=YES;
                 break;
             }
-           
+            if(mark==YES)
+                break;
         }
+        if(mark==YES)
+            break;
     }
     
 }
@@ -583,6 +588,7 @@
 }
 
 -(IBAction)imageBtnDidClickWithSectionIndex:(NSInteger)secIndex AndRowIndex:(NSInteger)rowIndex{
+    
     if(!self.rightBtn.selected){
         SCCourseGroup *courseGroup=self.firstCategory.sec_arr[secIndex];
         SCCourse *selectedCourse = courseGroup.lesarr[rowIndex];
@@ -747,33 +753,43 @@
     
     customView.backgroundColor=UIColorFromRGB(0xeeeeee);
     
-    UILabel *headerLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    UIButton *headerLabel = [[UIButton alloc] initWithFrame:CGRectZero];
     
     headerLabel.backgroundColor = [UIColor clearColor];
     
     headerLabel.opaque = NO;
     
-    headerLabel.textColor = [UIColor blackColor];
-    
-    headerLabel.highlightedTextColor = [UIColor whiteColor];
+    [headerLabel setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [headerLabel setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+    //headerLabel.highlightedTextColor = [UIColor whiteColor];
     
     headerLabel.font = [UIFont italicSystemFontOfSize:45*HeightScale];
     
-    headerLabel.frame = CGRectMake(40.0, 10.0, self.width, 44.0);
+    headerLabel.frame = CGRectMake(0, 10.0, self.width/2, 44.0);
     
     SCCourseGroup *temp = self.currentSource.sec_arr[section];
     
-    headerLabel.text = temp.lessections_name;
-    
-    
+    NSString *str=temp.lessections_name;
+    [headerLabel setTitle:str forState:UIControlStateNormal];
+//    headerLabel.text = temp.lessections_name;
+    [headerLabel addTarget:self action:@selector(topClick) forControlEvents:UIControlEventTouchUpInside];
+//    UIButton *button=[[UIButton alloc]init];
+//    [button setTitle:@"返回顶部" forState:UIControlStateNormal];
+//    [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+//    button.titleLabel.font = [UIFont italicSystemFontOfSize:45*HeightScale];
+//    [button addTarget:self action:@selector(topClick) forControlEvents:UIControlEventTouchUpInside];
+//    button.frame=CGRectMake(self.width/2, 10.0, 100, 44.0);
     [customView addSubview:headerLabel];
-    
+//    [customView addSubview:button];
     
     return customView;
     
+//    [self.firstTableView setContentOffset:CGPointMake(0, 0) animated:YES];
 }
 
-
+-(void)topClick{
+    [self.firstTableView setContentOffset:CGPointMake(0, 0) animated:NO];
+}
 
 
 
