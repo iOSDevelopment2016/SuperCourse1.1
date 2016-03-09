@@ -37,6 +37,7 @@
     CGFloat writeCodeTime;
     CGFloat nowTimel;
     BOOL isPlayFinished;
+    CGFloat studyTime;
 }
 
 //@property (nonatomic ,strong) SCVIdeoInfo *currentVideoInfo;
@@ -99,6 +100,8 @@
 
 @property (nonatomic, strong) NSMutableArray *writeNoteTimeArr;
 @property (nonatomic, strong) NSMutableArray *writeCodeTimeArr;
+
+@property (nonatomic, strong) NSString *shareString;
 
 @end
 
@@ -425,9 +428,40 @@
     }
 }
 
+-(NSString *)changeTimeToString:(CGFloat )time{
+
+    int hour = (int)(time/3600);
+    int minute = (int)(time - hour*3600)/60;
+    int second = (int)time - hour*3600 - minute*60;
+    NSString *string = [NSString stringWithFormat:@"%02d:%02d:%02d",hour,minute,second];
+    return string;
+}
 
 
 -(void)playerPlayFinished{
+    
+    CGFloat finishedTime = [self getSystemTime];
+    studyTime = finishedTime - studyTime;
+    CGFloat allCodeTime = 0;
+    CGFloat allNoteTime = 0;
+    for (int i=0 ; i<self.writeCodeTimeArr.count; i++) {
+        allCodeTime = allCodeTime + [self.writeCodeTimeArr[i] floatValue];
+    }
+    for (int i=0 ; i<self.writeNoteTimeArr.count; i++) {
+        allNoteTime = allNoteTime + [self.writeNoteTimeArr[i] floatValue];
+    }
+    
+    
+    NSString *lesname = self.videoInfo.les_name;
+    int writeNoteTimes = self.writeNoteTimeArr.count;
+    int writeCodeTimes = self.writeCodeTimeArr.count;
+    NSString *allCodeTimeString = [self changeTimeToString:allCodeTime];
+    NSString *allNoteTimeString = [self changeTimeToString:allNoteTime];
+    NSString *allStudyTimeString = [self changeTimeToString:studyTime];
+    
+    
+    NSString *playFinishedString = [NSString stringWithFormat:@"我学习的课程为:%@。\n在本次学习中共敲代码:%d次，用时%@。 \n共记笔记%d次，用时%@。 \n本次学习总时长为:%@。",lesname,writeCodeTimes,allCodeTimeString,writeNoteTimes,allNoteTimeString,allStudyTimeString];
+    _shareString = playFinishedString;
     
     //    _alert = [[UIAlertView alloc]initWithTitle:@"提示"message:@"当前视频已播放完成,请添加您的备注"
     //
@@ -549,6 +583,7 @@
     
     //    [self.indicatorShowView removeFromSuperview];
     [self.videoManager moveToSecond:self.beginTime];
+    studyTime = [self getSystemTime];
     self.slider.value = self.beginTime;
     [self.videoManager startWithHandler:^(NSTimeInterval elapsedTime, NSTimeInterval timeRemaining, NSTimeInterval playableDuration, BOOL finished) {
         [self showCurrentTime:elapsedTime];
@@ -1770,6 +1805,8 @@
 
 -(void)backToRoot{
     isPlayFinished = YES;
+
+    
     CGFloat time = 0;
     [_slider removeFromSuperview];
     [self getStopTimeWithCurrentTime:time];
@@ -1837,7 +1874,7 @@
     if ([WXApi isWXAppInstalled] && [WXApi isWXAppSupportApi]) {
         SendMessageToWXReq* req = [[SendMessageToWXReq alloc] init];
         req.bText = YES;
-        req.text = @"超课";
+        req.text = _shareString;
         req.scene = WXSceneTimeline;
         
         [WXApi sendReq:req];
@@ -1851,7 +1888,7 @@
     if ([WXApi isWXAppInstalled] && [WXApi isWXAppSupportApi]) {
         SendMessageToWXReq* req = [[SendMessageToWXReq alloc] init];
         req.bText = YES;
-        req.text = @"超课";
+        req.text = _shareString;
         req.scene = WXSceneSession;
         
         [WXApi sendReq:req];
