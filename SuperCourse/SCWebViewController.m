@@ -29,7 +29,7 @@
     [self.view addSubview:self.hubView];
     [self.view addSubview:self.mainView];
     [self.view addSubview:self.topView];
-    [self.topView addSubview:self.closeBtn];
+//    [self.topView addSubview:self.closeBtn];
     [self.topView addSubview:self.backBtn];
     self.topView.backgroundColor = [UIColor whiteColor];
     [self.webView addGestureRecognizer:self.pan];
@@ -132,7 +132,7 @@
 -(UIView *)topView{
 
     if (!_topView) {
-        _topView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, UIScreenWidth, 100*HeightScale)];
+        _topView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, UIScreenWidth, 120*HeightScale)];
         [_topView setBackgroundColor:[UIColor whiteColor]];
     }
     return _topView;
@@ -142,7 +142,7 @@
     if (!_backBtn) {
         _backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [_backBtn setImage:[UIImage imageNamed:@"返回"] forState:UIControlStateNormal];
-        [_backBtn setFrame:CGRectMake(22*WidthScale, 38*HeightScale, 44*WidthScale, 44*HeightScale)];
+        [_backBtn setFrame:CGRectMake(32*WidthScale, 45*HeightScale, 32*WidthScale, 50*HeightScale)];
         [_backBtn addTarget:self action:@selector(backBtnClick) forControlEvents:UIControlEventTouchUpInside];
     }
     return _backBtn;
