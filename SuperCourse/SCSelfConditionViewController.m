@@ -861,7 +861,9 @@
         NSString *fullPath=[[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"]stringByAppendingPathComponent:str];
         UIImage *savedImage =[[UIImage alloc]initWithContentsOfFile:fullPath];
         [self.userImage setImage:savedImage];
-        [self uploadPersonImginitWithImage:image];
+    
+    //UIImage *img=[UIImage imageNamed:@"播放小"];
+        [self uploadPersonImginitWithImage:savedImage];
 //    }else{
 //        [UIAlertController showAlertAtViewController:self title:@"提示" message:@"图片大小不能超过1M" confirmTitle:@"我知道了" confirmHandler:^(UIAlertAction *action) {
 //        }];
@@ -1249,6 +1251,7 @@
     
 }
 
+
 #pragma mark--------------    上传头像图片
 -(void)uploadPersonImginitWithImage:(UIImage *)image{
     
@@ -1261,16 +1264,16 @@
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         formatter.dateFormat = @"yyyyMMddHHmmss";
         
-//        NSString *fullPath=[[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"]stringByAppendingPathComponent:@"head.png"];
-//        UIImage *savedImage =[[UIImage alloc]initWithContentsOfFile:fullPath];
-
+        //        NSString *fullPath=[[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"]stringByAppendingPathComponent:@"head.png"];
+        //        UIImage *savedImage =[[UIImage alloc]initWithContentsOfFile:fullPath];
+        
         
         NSString *str = [formatter stringFromDate:[NSDate date]];
-        NSData *data = UIImageJPEGRepresentation(image, 0.8);
-        NSString * uploadfile = [NSString stringWithFormat:@"%@.png", str];
+        NSData *data = UIImageJPEGRepresentation(image, 0.1);
+        
         [formData appendPartWithFileData:data name:@"file" fileName:ApplicationDelegate.userSession mimeType:@"image/png"];
         
-//        Error Domain=NSCocoaErrorDomain Code=3840 "JSON text did not start with array or object and option to allow fragments not set." UserInfo={NSDebugDescription=JSON text did not start with array or object and option to allow fragments not set.}
+        //        Error Domain=NSCocoaErrorDomain Code=3840 "JSON text did not start with array or object and option to allow fragments not set." UserInfo={NSDebugDescription=JSON text did not start with array or object and option to allow fragments not set.}
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         if (responseObject != nil) {
@@ -1283,6 +1286,7 @@
     }];
     
 }
+
 
 
 

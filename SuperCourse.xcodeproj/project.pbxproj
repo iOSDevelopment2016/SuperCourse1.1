@@ -35,6 +35,7 @@
 		C9E4E68F1C53C2AC0052030E /* SCSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9E4E68E1C53C2AC0052030E /* SCSettingViewController.m */; };
 		C9E4E6971C53C3460052030E /* SCRegViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9E4E6961C53C3460052030E /* SCRegViewController.m */; };
 		C9E4E69C1C53C4F40052030E /* UIView+SZY.m in Sources */ = {isa = PBXBuildFile; fileRef = C9E4E69B1C53C4F40052030E /* UIView+SZY.m */; };
+		C9FDBCF71C90784100E9D74A /* SCSelfConditionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9FDBCF61C90784100E9D74A /* SCSelfConditionViewController.m */; };
 		DA9CF7731C599D3100F6CEA6 /* APIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9CF7701C599D3100F6CEA6 /* APIClient.m */; };
 		DA9CF7741C599D3100F6CEA6 /* HttpTool.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9CF7721C599D3100F6CEA6 /* HttpTool.m */; };
 		DAE2880D1C59EA3A00426DDD /* SCLoginView.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE2880B1C59EA3A00426DDD /* SCLoginView.m */; };
@@ -123,7 +124,6 @@
 		FE92DAB71C635BC200737B17 /* UIImageView+HighlightedWebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = FE92DAA51C635BC200737B17 /* UIImageView+HighlightedWebCache.m */; };
 		FE92DAB81C635BC200737B17 /* UIImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = FE92DAA71C635BC200737B17 /* UIImageView+WebCache.m */; };
 		FE92DAB91C635BC200737B17 /* UIView+WebCacheOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = FE92DAA91C635BC200737B17 /* UIView+WebCacheOperation.m */; };
-		FEB9BA9C1C82D0FD0048CC96 /* SCSelfConditionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEB9BA9B1C82D0FD0048CC96 /* SCSelfConditionViewController.m */; };
 		FEB9BAA11C82E8E10048CC96 /* SCSelfConditionMode.m in Sources */ = {isa = PBXBuildFile; fileRef = FEB9BAA01C82E8E10048CC96 /* SCSelfConditionMode.m */; };
 		FEF4018B1C8E82AB00D5BFC8 /* WQPlaySound.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF401891C8E82AB00D5BFC8 /* WQPlaySound.m */; };
 		FEF4018E1C8E86CF00D5BFC8 /* SCReviseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF4018D1C8E86CF00D5BFC8 /* SCReviseViewController.m */; };
@@ -218,6 +218,7 @@
 		C9E4E6981C53C3D80052030E /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		C9E4E69A1C53C4F40052030E /* UIView+SZY.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+SZY.h"; sourceTree = "<group>"; };
 		C9E4E69B1C53C4F40052030E /* UIView+SZY.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+SZY.m"; sourceTree = "<group>"; };
+		C9FDBCF61C90784100E9D74A /* SCSelfConditionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCSelfConditionViewController.m; sourceTree = "<group>"; };
 		DA9CF76F1C599D3100F6CEA6 /* APIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APIClient.h; sourceTree = "<group>"; };
 		DA9CF7701C599D3100F6CEA6 /* APIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIClient.m; sourceTree = "<group>"; };
 		DA9CF7711C599D3100F6CEA6 /* HttpTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpTool.h; sourceTree = "<group>"; };
@@ -388,7 +389,6 @@
 		FE92DAA81C635BC200737B17 /* UIView+WebCacheOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+WebCacheOperation.h"; sourceTree = "<group>"; };
 		FE92DAA91C635BC200737B17 /* UIView+WebCacheOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+WebCacheOperation.m"; sourceTree = "<group>"; };
 		FEB9BA9A1C82D0FD0048CC96 /* SCSelfConditionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCSelfConditionViewController.h; sourceTree = "<group>"; };
-		FEB9BA9B1C82D0FD0048CC96 /* SCSelfConditionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCSelfConditionViewController.m; sourceTree = "<group>"; };
 		FEB9BA9F1C82E8E10048CC96 /* SCSelfConditionMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCSelfConditionMode.h; sourceTree = "<group>"; };
 		FEB9BAA01C82E8E10048CC96 /* SCSelfConditionMode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCSelfConditionMode.m; sourceTree = "<group>"; };
 		FEF401891C8E82AB00D5BFC8 /* WQPlaySound.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WQPlaySound.m; sourceTree = "<group>"; };
@@ -1001,7 +1001,7 @@
 			isa = PBXGroup;
 			children = (
 				FEB9BA9A1C82D0FD0048CC96 /* SCSelfConditionViewController.h */,
-				FEB9BA9B1C82D0FD0048CC96 /* SCSelfConditionViewController.m */,
+				C9FDBCF61C90784100E9D74A /* SCSelfConditionViewController.m */,
 				FEF4018C1C8E86CF00D5BFC8 /* SCReviseViewController.h */,
 				FEF4018D1C8E86CF00D5BFC8 /* SCReviseViewController.m */,
 			);
@@ -1239,8 +1239,8 @@
 				FE677E1B1C5F52DB006A441D /* SCKnowledge.m in Sources */,
 				FE5835681C58FC01004DFA97 /* AFURLResponseSerialization.m in Sources */,
 				7D3629561C5DAF1D00A52AFA /* ZQTagList.m in Sources */,
+				C9FDBCF71C90784100E9D74A /* SCSelfConditionViewController.m in Sources */,
 				FE4DDAA71C7FFA5F00DEA597 /* SZYNoteSolidater.m in Sources */,
-				FEB9BA9C1C82D0FD0048CC96 /* SCSelfConditionViewController.m in Sources */,
 				C940FEC31C71D82A0049282A /* SCExtendView.m in Sources */,
 				FE92DAB51C635BC200737B17 /* UIImage+MultiFormat.m in Sources */,
 				FE44D5691C60471200354DF6 /* SCCoursePlayLog.m in Sources */,
