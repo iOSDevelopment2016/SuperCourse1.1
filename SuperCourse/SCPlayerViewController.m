@@ -1073,14 +1073,14 @@
     if (beginPoint.y < 1) {
         beginPoint = point;
     }
-    CGFloat halfScreenWidth =[UIScreen mainScreen].bounds.size.width/2;
+    CGFloat halfScreenWidth =[UIScreen mainScreen].bounds.size.width/3;
     CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height*10;
     CGPoint panPoint = [recognizer translationInView:self.container];
     CGFloat panDistance = panPoint.y;
     if (beginPoint.x<halfScreenWidth) {
         CGFloat voiceVolume = -panDistance/screenHeight;
         [self.videoManager setVoice:voiceVolume];
-    }else {
+    }else if (beginPoint.x>halfScreenWidth*2){
         CGFloat light = -panDistance/screenHeight;
         [self setLight:light];
     }
@@ -1094,9 +1094,9 @@
 -(void)panToTime:(UIPanGestureRecognizer*) recognizer{
     
     CGPoint statePoint = [recognizer translationInView:self.container];
-    if (fabs(statePoint.x)  > fabs(statePoint.y)*2 ) {
+    if (fabs(statePoint.x)  > fabs(statePoint.y)*9 ) {
         [self setTime:recognizer];
-    }else if ((fabs(statePoint.y)  > fabs(statePoint.x)*2 )){
+    }else if ((fabs(statePoint.y)  > fabs(statePoint.x)*9 )){
         [self setVoiceAndLight:recognizer];
     }
 }
