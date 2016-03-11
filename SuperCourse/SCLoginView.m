@@ -185,7 +185,7 @@
             
             [[NSNotificationCenter defaultCenter]postNotificationName:@"ImageShouldChange" object:nil];
             [[NSNotificationCenter defaultCenter]postNotificationName:@"UserDidLogin" object:nil];
-            
+            [[NSNotificationCenter defaultCenter]postNotificationName:@"changeTitle" object:nil];
             [self removeFromSuperview];
             [self.delegate removeHub];
             
