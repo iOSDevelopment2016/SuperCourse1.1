@@ -191,6 +191,7 @@
             
             [[NSNotificationCenter defaultCenter]postNotificationName:@"updateHistoryInfo" object:nil];
             [[NSNotificationCenter defaultCenter]postNotificationName:@"changeImage" object:nil];
+            
         }else{
             [self shakeAnimationForView:self];
         }
