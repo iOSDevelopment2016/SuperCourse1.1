@@ -218,10 +218,19 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
         
             userLabel.backgroundColor=UIThemeColor;
             userLabel.numberOfLines=0;
+            NSString *aa=self.mode.stu_name;
+        if(aa){
+           
+            
             userLabel.text=[NSString stringWithFormat:@"你好!\n%@",self.mode.stu_name];
             [userLabel setTextColor:[UIColor whiteColor]];
             userLabel.font=[UIFont systemFontOfSize:45*WidthScale];
-            
+        }else{
+                       
+            userLabel.text=[NSString stringWithFormat:@"你好!\n%@",ApplicationDelegate.userPhone];
+            [userLabel setTextColor:[UIColor whiteColor]];
+            userLabel.font=[UIFont systemFontOfSize:45*WidthScale];
+        }
             
         
         
@@ -1295,7 +1304,7 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
 
 -(UIButton *)allCourseBtn{
     if (!_allCourseBtn){
-        _allCourseBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        _allCourseBtn = [[UIButton alloc]init];
         _allCourseBtn.tag = SCShowViewType_AllCourse;
         [_allCourseBtn setTitle:@"      所有课程" forState:UIControlStateNormal];
         _allCourseBtn.titleLabel.font = [UIFont systemFontOfSize:45*WidthScale];
