@@ -56,6 +56,7 @@
 
 @property (nonatomic, strong) SZYNoteSolidater          *db;
 
+@property (nonatomic, strong) UILabel *label;
 
 //@property (nonatomic ,strong) NSMutableArray *historyArr;
 @end
@@ -65,6 +66,8 @@
     CGRect  initFrame;
     CGFloat defaultViewHeight;
     CGPoint headImageCenter;
+    
+    float lastContentOffset;
 }
 
 - (instancetype)initWithFrame:(CGRect)frame
@@ -117,6 +120,71 @@
         
     }
     return self;
+}
+
+
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+    lastContentOffset = scrollView.contentOffset.y;
+}
+
+- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView{
+    if (lastContentOffset < scrollView.contentOffset.y) {
+        NSLog(@"向上滚动");
+        [UIView animateWithDuration:0 animations:^{
+            //        WQPlaySound *sound = [[WQPlaySound alloc]initForPlayingSystemSoundEffectWith:@"Tock" ofType:@"aif"];
+            //        [sound play];
+            self.label.alpha = 1;
+            //[self addSubview:whiteView];
+            [self addSubview:self.label];
+            //whiteView.alpha = 1;
+        } completion:^(BOOL finished) {
+//            [UIView animateWithDuration:1 animations:^{
+//                
+//                whiteView.alpha = 0;
+//            } completion:^(BOOL finished) {
+//                
+//                [whiteView removeFromSuperview];
+//            }];
+            [UIView animateWithDuration:4 animations:^{
+                self.label.alpha = 0;
+                
+            } completion:^(BOOL finished) {
+                [self.label removeFromSuperview];
+                
+            }];
+        }];
+        
+        
+        
+        
+    }else{
+        NSLog(@"向下滚动");
+        [UIView animateWithDuration:0 animations:^{
+            //        WQPlaySound *sound = [[WQPlaySound alloc]initForPlayingSystemSoundEffectWith:@"Tock" ofType:@"aif"];
+            //        [sound play];
+            self.label.alpha = 1;
+            //[self addSubview:whiteView];
+            [self addSubview:self.label];
+            //whiteView.alpha = 1;
+        } completion:^(BOOL finished) {
+            //            [UIView animateWithDuration:1 animations:^{
+            //
+            //                whiteView.alpha = 0;
+            //            } completion:^(BOOL finished) {
+            //
+            //                [whiteView removeFromSuperview];
+            //            }];
+            [UIView animateWithDuration:4 animations:^{
+                self.label.alpha = 0;
+                
+            } completion:^(BOOL finished) {
+                [self.label removeFromSuperview];
+                
+            }];
+        }];
+
+    }
 }
 
 
@@ -366,7 +434,7 @@
     self.firstTableView.frame = CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height);
 //    self.firstTableView.frame = CGRectMake(0, 800*HeightScale, self.width, 500*HeightScale);
     //self.secondTableView.frame = CGRectMake(0, 800*HeightScale, self.width, 500*HeightScale);
-    
+    self.label.frame=CGRectMake(0.7*self.width, 0*HeightScale, 0.5*self.width, 130*HeightScale);
     [self setUPAnimation];
 }
 
@@ -1140,6 +1208,15 @@
     return nextLessonID;
 }
 
+-(UILabel *)label{
+    if(!_label){
+        _label=[[UILabel alloc]init];
+        _label.text=@"点击标题返回顶部";
+        [_label setFont:[UIFont systemFontOfSize:20]];
+        _label.textColor=UIThemeColor;
+    }
+    return _label;
+}
 
 @end
 

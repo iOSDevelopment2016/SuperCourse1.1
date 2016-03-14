@@ -504,7 +504,7 @@
                 
             }];
         }];
-
+        
         
         [[NSNotificationCenter defaultCenter]postNotificationName:@"beingDelete" object:self userInfo:@{@"name":mode.les_name}];
         [[NSNotificationCenter defaultCenter]postNotificationName:@"deleteLesson" object:self userInfo:@{@"id":temp.les_id}];
@@ -521,7 +521,9 @@
         
         
         [self getChange];
-        NSString *name=[NSString stringWithFormat :@"%@.mp4",temp.les_name];
+        NSArray *array = [temp.les_url componentsSeparatedByString:@"/"];
+        NSString *name = array[4];
+        //NSString *name=[NSString stringWithFormat :@"%@.mp4",temp.les_name];
         NSFileManager* fileManager=[NSFileManager defaultManager];
         //    NSString *filePath = [NSHomeDirectory() stringByAppendingPathComponent:@"/tmp/Incomplete/"]; 用哪个？
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
