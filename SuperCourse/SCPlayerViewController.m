@@ -1074,13 +1074,14 @@
         beginPoint = point;
     }
     CGFloat halfScreenWidth =[UIScreen mainScreen].bounds.size.width/3;
+    CGFloat thirdScreenWidth =2*[UIScreen mainScreen].bounds.size.width/3;
     CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height*10;
     CGPoint panPoint = [recognizer translationInView:self.container];
     CGFloat panDistance = panPoint.y;
     if (beginPoint.x<halfScreenWidth) {
         CGFloat voiceVolume = -panDistance/screenHeight;
         [self.videoManager setVoice:voiceVolume];
-    }else if (beginPoint.x>halfScreenWidth*2){
+    }else if (beginPoint.x>thirdScreenWidth){
         CGFloat light = -panDistance/screenHeight;
         [self setLight:light];
     }

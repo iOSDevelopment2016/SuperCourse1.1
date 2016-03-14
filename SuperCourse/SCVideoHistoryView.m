@@ -40,7 +40,7 @@
         self.backgroundColor = [UIColor whiteColor];
         _historyArr = [[NSMutableArray alloc]init];
         
-        
+//        [self setBackgroundColor:UIThemeColor];
         [self addSubview:self.historyTableView];
         [self observer];
 //        [self loadCourseListFromNetwork];
@@ -65,7 +65,7 @@
 }
 
 -(void)clearHistoryInfo{
-    _historyArr=nil;
+    _historyArr = [[NSMutableArray alloc]init];
     [self.historyTableView reloadData];
 }
 
