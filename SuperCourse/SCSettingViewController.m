@@ -179,6 +179,8 @@
     }
     
     [self.navigationController popViewControllerAnimated:YES];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"UserDidLogout" object:nil];
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"clearHistoryInfo" object:nil];
     [self.delegate unlogin];
     
     
