@@ -1447,7 +1447,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Zhong Jin (NJY6ASRL83)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Zhong Jin (2SPA2FSXHP)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Zhong Jin (2SPA2FSXHP)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
