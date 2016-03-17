@@ -206,6 +206,8 @@
 }
 
 - (IBAction)usertextClick:(id)sender {
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"getProtocol" object:nil];
+    
 }
 
 //观察者模式
