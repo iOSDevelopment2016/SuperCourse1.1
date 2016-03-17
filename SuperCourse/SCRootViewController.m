@@ -31,6 +31,7 @@
 #import "SZYNoteSolidater.h"
 #import "SCDownlodaMode.h"
 #import "SCSelfConditionMode.h"
+#import "SCProtocolView.h"
 typedef NS_ENUM(NSInteger,SCShowViewType) {
     SCShowViewType_MyNotes = 0,
     SCShowViewType_VideoHistory,
@@ -70,8 +71,8 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
 @property (nonatomic ,strong) MBProgressHUD            *hud;
 @property (nonatomic ,strong) SCCoursePlayLog          *playLog;
 @property (nonatomic, strong) SZYNoteSolidater          *db;
-@property (nonatomic, strong)SCSelfConditionMode *mode;
-
+@property (nonatomic, strong)SCSelfConditionMode       *mode;
+@property (nonatomic, strong)SCProtocolView            *protocolView;
 
 @property CGFloat Variety;
 
@@ -83,6 +84,7 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
     NSArray *allCourseArr;
     NSString *testStr;
     //这里是我的git测试
+    int mark;
 }
 
 - (void)viewDidLoad {
@@ -128,7 +130,9 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
     self.hud.delegate = self;
     self.hud.dimBackground = YES;
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(webDataLoaddDone) name:@"WebDataHaveLoadDone" object:nil];
-        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(changeTitle) name:@"changeTitle" object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(changeTitle) name:@"changeTitle" object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(getProtocol) name:@"getProtocol" object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(clearProtocol) name:@"clearProtocol" object:nil];
     [self.mainView addSubview:self.allCourseView];//2
     
     //    SCIntroduction *intro= self.datasource.har_des[0];
@@ -186,7 +190,17 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
         [alView show];
     }
 }
+-(void)getProtocol{
+    //[self.view addSubview:self.hubView];
+    [self.view addSubview:self.protocolView];
+    mark=1;
+}
+-(void)clearProtocol{
+    [self.protocolView removeFromSuperview];
+    self.protocolView=nil;
+    mark=0;
 
+}
 
 -(void)changeTitle{
     [self.loginBtnImage removeFromSuperview];
@@ -1063,6 +1077,11 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
 }
 
 -(void)hideLoginView{
+    if(mark==1){
+        [self.protocolView removeFromSuperview];
+        self.protocolView=nil;
+        mark=0;
+    }else{
     [self.loginView removeFromSuperview];
     self.loginView = nil;
     [self.hubView removeFromSuperview];
@@ -1072,7 +1091,7 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
     [self.extendView removeFromSuperview];
     self.extendView=nil;
     [[NSNotificationCenter defaultCenter]postNotificationName:@"releaseClick" object:self userInfo:@{}];
-    
+    }
 }
 
 //-(void)leftBtnClick:(UIButton *)sender{
@@ -1425,6 +1444,14 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
         _loginView.delegate = self;
     }
     return _loginView;
+}
+-(SCProtocolView *)protocolView{
+    if (!_protocolView) {
+        _protocolView = [[SCProtocolView alloc]initWithFrame:CGRectMake(0, 0, 0.88*self.view.width, 0.8*self.view.height)];
+        //        _aboutView.frame = CGRectMake(0, 0, 0.68*self.view.width, 0.6*self.view.height);
+        _protocolView.center = self.view.center;
+    }
+    return _protocolView;
 }
 //-(SCExtendView *)extendView{
 //    if (!_extendView){
