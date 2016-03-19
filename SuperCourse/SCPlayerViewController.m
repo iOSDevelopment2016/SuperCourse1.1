@@ -1760,6 +1760,8 @@
     return chooseView;
 }
 
+
+
 -(void)shareToQFriend{
     [self clickWithQQ];
     NSLog(@"shareToQFriend");
