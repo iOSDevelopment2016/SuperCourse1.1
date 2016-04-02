@@ -145,7 +145,7 @@
 
 - (void)backBtnClick {
     [self.delegate returnToMainView];
-    [[NSNotificationCenter defaultCenter]postNotificationName:@"releaseClick" object:self userInfo:@{}];
+//    [[NSNotificationCenter defaultCenter]postNotificationName:@"releaseClick" object:self userInfo:@{}];
 }
 
 
