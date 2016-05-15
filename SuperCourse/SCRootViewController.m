@@ -1093,7 +1093,8 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"UserDidLogout" object:nil];
     [[NSNotificationCenter defaultCenter]postNotificationName:@"clearHistoryInfo" object:nil];
     
-    [self unlogin];
+     [self.allCourseView.startBtn setImage:[UIImage imageNamed:@"SC_start"] forState:UIControlStateNormal];
+    [self loginBtnClick];
 }
 
 -(void)hideLoginView{
