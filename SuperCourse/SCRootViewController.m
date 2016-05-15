@@ -132,7 +132,8 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(webDataLoaddDone) name:@"WebDataHaveLoadDone" object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(changeTitle) name:@"changeTitle" object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(getProtocol) name:@"getProtocol" object:nil];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(clearProtocol) name:@"clearProtocol" object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(didLogOut) name:@"didLogOut" object:nil];
+    
     [self.mainView addSubview:self.allCourseView];//2
     
     //    SCIntroduction *intro= self.datasource.har_des[0];
@@ -1074,6 +1075,25 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
     //    self.favouriteSettingBtn.selected=NO;
     //    self.favouriteSettingBtnImage.selected=NO;
     //    [self.scroll setHidden:YES];
+}
+
+-(void)didLogOut{
+    ApplicationDelegate.userSession=UnLoginUserSession;
+    
+    //ApplicationDelegate.userSession = ApplicationDelegat;
+    ApplicationDelegate.userPsw = nil;
+    ApplicationDelegate.userPhone =nil;
+    ApplicationDelegate.playLog=@"";
+    NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
+    [defaultes removeObjectForKey:UserSessionKey];
+    [defaultes removeObjectForKey:UserPswKey];
+    [defaultes removeObjectForKey:UserPhoneKey];
+    [defaultes removeObjectForKey:PlayLogKey];
+    [defaultes synchronize];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"UserDidLogout" object:nil];
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"clearHistoryInfo" object:nil];
+    
+    [self unlogin];
 }
 
 -(void)hideLoginView{

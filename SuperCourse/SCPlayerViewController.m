@@ -229,14 +229,23 @@
         
         NSData *data = [[NSData alloc] initWithData:responseObject];
         NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+        NSString *dicStatus = dic[@"status"];
+        if ([dicStatus isEqualToString:@"FAIL"]) {
+            [self.navigationController popViewControllerAnimated:YES];
+            [UIAlertController showAlertAtViewController:self title:@"提示" message:@"您的登录信息已过期，无法继续观看视频，请重新登录" cancelTitle:@"取消" confirmTitle:@"确认" cancelHandler:nil  confirmHandler:^(UIAlertAction *action) {
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"didLogOut" object:self userInfo:nil];
+
+            }];
+        }else{
+            _videoInfo = [self getVideoInfo:dic];
+            // 开始播放
+            shouldPlaying = YES;
+            self.videoManager = [[SZYVideoManager alloc]init];
+            [self initVideoManager];
+            [self.view addSubview:self.rightView];
+            [self.rightView deleteDate:userID And:userPassword And:self.lessonId];
+        }
         
-        _videoInfo = [self getVideoInfo:dic];
-        // 开始播放
-        shouldPlaying = YES;
-        self.videoManager = [[SZYVideoManager alloc]init];
-        [self initVideoManager];
-        [self.view addSubview:self.rightView];
-        [self.rightView deleteDate:userID And:userPassword And:self.lessonId];
     } failure:^(NSError *error) {
         NSLog(@"%@",error);
     }];
