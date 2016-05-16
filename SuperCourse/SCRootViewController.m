@@ -234,7 +234,7 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
             userLabel.backgroundColor=UIThemeColor;
             userLabel.numberOfLines=0;
             NSString *aa=self.mode.stu_name;
-        if(aa){
+        if(aa!=NULL&&![aa isEqual:@""]){
            
             
             userLabel.text=[NSString stringWithFormat:@"你好!\n%@",self.mode.stu_name];
@@ -311,7 +311,7 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
         self.mode=[SCSelfConditionMode objectWithKeyValues:dic[@"data"]];
         //暂时未解决上传头像系列问题
         //[self.confirmBtn setTitle:@"修改信息" forState:UIControlStateNormal];
-        if(self.mode.stu_name==nil){
+        if(self.mode.stu_name==nil||[self.mode.stu_name isEqual:@""]){
             userLabel.backgroundColor=UIThemeColor;
             userLabel.numberOfLines=0;
             userLabel.text=[NSString stringWithFormat:@"你好!\n%@",userphone];
@@ -1093,7 +1093,7 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"UserDidLogout" object:nil];
     [[NSNotificationCenter defaultCenter]postNotificationName:@"clearHistoryInfo" object:nil];
     
-     [self.allCourseView.startBtn setImage:[UIImage imageNamed:@"SC_start"] forState:UIControlStateNormal];
+    [self unlogin];
     [self loginBtnClick];
 }
 

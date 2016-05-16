@@ -120,7 +120,8 @@
     self.isNeedBack = NO;
     
     self.tencentOAuth = [[TencentOAuth alloc] initWithAppId:@"1105153909" andDelegate:self];
-    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"didReedVideo" object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"contentDidClick" object:nil];
     
 }
 
