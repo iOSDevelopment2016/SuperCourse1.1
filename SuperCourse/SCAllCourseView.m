@@ -115,6 +115,10 @@
                                                  selector: @selector(changeImageBack)
                                                      name: @"change"
                                                    object: nil];
+        [[NSNotificationCenter defaultCenter] addObserver: self
+                                                 selector: @selector(didReed)
+                                                     name: @"didReedVideo"
+                                                   object: nil];
 
         
         
@@ -690,8 +694,10 @@
 
 #pragma mark - 响应事件
 -(void)startBtnClick{
-    
-    [self.delegate startBtnDidClick];
+    if(self.startBtn.selected==NO){
+        [self.delegate startBtnDidClick];
+        self.startBtn.selected=YES;
+    }
 }
 
 
@@ -789,6 +795,7 @@
 
 -(UITableView *)firstTableView{
     if(!_firstTableView){
+        _firstTableView.translatesAutoresizingMaskIntoConstraints=NO;
         _firstTableView = [[UITableView alloc]init];
         _firstTableView.delegate = self;
         _firstTableView.dataSource = self;
@@ -1216,6 +1223,9 @@
         _label.textColor=UIThemeColor;
     }
     return _label;
+}
+-(void)didReed{
+    self.startBtn.selected=NO;
 }
 
 @end

@@ -132,7 +132,8 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(webDataLoaddDone) name:@"WebDataHaveLoadDone" object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(changeTitle) name:@"changeTitle" object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(getProtocol) name:@"getProtocol" object:nil];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(clearProtocol) name:@"clearProtocol" object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(didLogOut) name:@"didLogOut" object:nil];
+    
     [self.mainView addSubview:self.allCourseView];//2
     
     //    SCIntroduction *intro= self.datasource.har_des[0];
@@ -233,7 +234,7 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
             userLabel.backgroundColor=UIThemeColor;
             userLabel.numberOfLines=0;
             NSString *aa=self.mode.stu_name;
-        if(aa){
+        if(aa!=NULL&&![aa isEqual:@""]){
            
             
             userLabel.text=[NSString stringWithFormat:@"你好!\n%@",self.mode.stu_name];
@@ -310,7 +311,7 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
         self.mode=[SCSelfConditionMode objectWithKeyValues:dic[@"data"]];
         //暂时未解决上传头像系列问题
         //[self.confirmBtn setTitle:@"修改信息" forState:UIControlStateNormal];
-        if(self.mode.stu_name==nil){
+        if(self.mode.stu_name==nil||[self.mode.stu_name isEqual:@""]){
             userLabel.backgroundColor=UIThemeColor;
             userLabel.numberOfLines=0;
             userLabel.text=[NSString stringWithFormat:@"你好!\n%@",userphone];
@@ -1074,6 +1075,26 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
     //    self.favouriteSettingBtn.selected=NO;
     //    self.favouriteSettingBtnImage.selected=NO;
     //    [self.scroll setHidden:YES];
+}
+
+-(void)didLogOut{
+    ApplicationDelegate.userSession=UnLoginUserSession;
+    
+    //ApplicationDelegate.userSession = ApplicationDelegat;
+    ApplicationDelegate.userPsw = nil;
+    ApplicationDelegate.userPhone =nil;
+    ApplicationDelegate.playLog=@"";
+    NSUserDefaults *defaultes = [NSUserDefaults standardUserDefaults];
+    [defaultes removeObjectForKey:UserSessionKey];
+    [defaultes removeObjectForKey:UserPswKey];
+    [defaultes removeObjectForKey:UserPhoneKey];
+    [defaultes removeObjectForKey:PlayLogKey];
+    [defaultes synchronize];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"UserDidLogout" object:nil];
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"clearHistoryInfo" object:nil];
+    
+    [self unlogin];
+    [self loginBtnClick];
 }
 
 -(void)hideLoginView{
