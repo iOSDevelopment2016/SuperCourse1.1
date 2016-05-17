@@ -21,6 +21,24 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    
+    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc]initWithBaseURL:[NSURL URLWithString:@"http://127.0.0.1/MedicalKitServer/index.php/Home/"]];
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
+    [manager.requestSerializer setValue:@"2" forHTTPHeaderField:@"Accept"];
+    NSDictionary *dict = @{@"user_phone":[[NSUserDefaults standardUserDefaults] objectForKey:@"LoginUserPhoneKey"]};
+    [manager POST:@"Prepare/returnPrepareForBasic/" parameters:dict success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSData *data = [[NSData alloc] initWithData:responseObject];
+        NSDictionary *retDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"返回网络端准备信息失败--->%@",error);
+    }];
+    
+    
+    
+    
+    
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *path = [documentsDirectory stringByAppendingPathComponent:@"myDatabase.sqlite3"];
