@@ -139,7 +139,29 @@
 //}
 -(void)layoutSubviews{
     [super layoutSubviews];
-    
+    if (IS_IPHONE) {
+        self.videoName.frame = CGRectMake(0.0306*UIScreenWidth, 0.021*UIScreenHeight, 0.43*UIScreenWidth, 0.02*UIScreenWidth);
+        self.videoName.font = FONT_21;
+        self.videoSize.frame = CGRectMake(0.7*UIScreenWidth, 0.021*UIScreenHeight, 0.1*UIScreenWidth, 0.02*UIScreenWidth);
+        self.videoSize.font = FONT_21;
+        self.completeLabel.frame = CGRectMake(UIScreenWidth/2-100*HeightScale, 0.021*UIScreenHeight, 0.1*UIScreenWidth, 0.02*UIScreenWidth);
+        self.completeLabel.font = FONT_21;
+        self.circle1.frame = CGRectMake(UIScreenWidth/2-250*HeightScale, 0.0246*UIScreenHeight, 0.0228*UIScreenWidth, 0.0228*UIScreenWidth);
+        self.pauseBtn.frame = CGRectMake(UIScreenWidth/2+170*HeightScale, 0.021*UIScreenHeight, 0.1*UIScreenWidth, 0.02*UIScreenWidth);
+        self.pauseBtn.titleLabel.font = FONT_21;
+        self.videoSize.textAlignment = NSTextAlignmentLeft;
+        self.playImageBtn.frame = CGRectMake(UIScreenWidth-520*HeightScale, 0.0296*UIScreenHeight, 0.0128*UIScreenWidth, 0.0128*UIScreenWidth);
+        self.deleteImageBtn.frame =CGRectMake(UIScreenWidth-280*HeightScale, 0.0296*UIScreenHeight, 0.0128*UIScreenWidth, 0.0128*UIScreenWidth);
+        self.playBtn.frame = CGRectMake(UIScreenWidth-470*HeightScale, 0.0296*UIScreenHeight, 150*HeightScale, 0.0128*UIScreenWidth);
+        self.playBtn.titleLabel.font = FONT_21;
+        self.deleteBtn.frame = CGRectMake(UIScreenWidth-230*HeightScale, 0.0296*UIScreenHeight, 150*HeightScale, 0.0128*UIScreenWidth);
+        self.deleteBtn.titleLabel.font = FONT_21;
+        self.program.frame = CGRectMake(UIScreenWidth/2-250*HeightScale, 0.021*UIScreenHeight, 0.1*UIScreenWidth, 0.02*UIScreenWidth);
+        self.program.font = FONT_21;
+        self.example2.frame = CGRectMake(UIScreenWidth/2+50*HeightScale,  0.021*UIScreenHeight, 60*HeightScale, 60*HeightScale);
+        
+
+    }
 }
 
 //-(UIImageView *)circle2{

@@ -89,16 +89,10 @@
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    self.backImageBtn.frame=CGRectMake(40, 42, 20, 35);
-    self.backBtn.frame=CGRectMake(30, 40, 160, 40);
-    self.bottomView.frame=CGRectMake(0, 100, self.view.width, 50);
-    self.reviewTextField.frame=CGRectMake(30, 0, 900, 50);
-    self.confirmBtn.frame=CGRectMake(1024-120,40, 100, 40);
-    self.maleBtn.frame=CGRectMake(0, 100, self.view.width, 50);
-    self.femaleBtn.frame=CGRectMake(0, 153, self.view.width, 50);
-    self.maleImageView.frame=CGRectMake(self.view.width-60, 110, 30, 30);
-    self.femaleImageView.frame=CGRectMake(self.view.width-60, 163, 30, 30);
-}
+    [self measureTheFrameOfScreen];
+    
+    
+    }
 /*
  #pragma mark - Navigation
  
@@ -193,7 +187,7 @@
         [_maleBtn setTitle:@"            男" forState:UIControlStateNormal];
         [_maleBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [_maleBtn setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
-        [_maleBtn setFont:[UIFont systemFontOfSize:23.5]];
+        [_maleBtn setFont:FONT_23];
         [_maleBtn addTarget:self action:@selector(maleBtnClick) forControlEvents:UIControlEventTouchUpInside];
     }
     return _maleBtn;
@@ -205,7 +199,7 @@
         [_femaleBtn setTitle:@"            女" forState:UIControlStateNormal];
         [_femaleBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [_femaleBtn setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
-        [_femaleBtn setFont:[UIFont systemFontOfSize:23.5]];
+        [_femaleBtn setFont:FONT_23];
         [_femaleBtn addTarget:self action:@selector(femaleBtnClick) forControlEvents:UIControlEventTouchUpInside];
     }
     return _femaleBtn;
@@ -234,5 +228,59 @@
     }
     return _femaleImageView;
 }
+
+
+-(void)measureTheFrameOfScreen{
+    
+    if (IS_IPHONE) {
+        //getIphoneFrame
+        NSLog(@"iphone");
+        [self getIphoneFrame];
+    }else{
+        //getIpadFrame
+        NSLog(@"ipad");
+        [self getIpadFrame];
+    }
+}
+
+
+-(void)getIphoneFrame{
+    
+    self.backImageBtn.frame=CGRectMake(80*HeightScale, 85*HeightScale, 40*HeightScale, 70*HeightScale);
+    self.backBtn.frame=CGRectMake(60*HeightScale, 80*HeightScale, 320*HeightScale, 80*HeightScale);
+    self.bottomView.frame=CGRectMake(0, 200*HeightScale, self.view.width, 100*HeightScale);
+    self.reviewTextField.frame=CGRectMake(120*HeightScale, 0, UIScreenWidth-300*HeightScale, 100*HeightScale);
+    self.confirmBtn.frame=CGRectMake(UIScreenWidth-240*HeightScale,80*HeightScale, 200*HeightScale, 80*HeightScale);
+    self.maleBtn.frame=CGRectMake(0, 200*HeightScale, self.view.width, 100*HeightScale);
+    self.femaleBtn.frame=CGRectMake(0, 305*HeightScale, self.view.width, 100*HeightScale);
+    self.maleImageView.frame=CGRectMake(self.view.width-120*HeightScale, 220*HeightScale,  60*HeightScale,  60*HeightScale);
+    self.femaleImageView.frame=CGRectMake(self.view.width-120*HeightScale, 325*HeightScale, 60*HeightScale, 60*HeightScale);
+
+    
+    
+}
+
+
+-(void)getIpadFrame{
+    
+    self.backImageBtn.frame=CGRectMake(40, 42, 20, 35);
+    self.backBtn.frame=CGRectMake(30, 40, 160, 40);
+    self.bottomView.frame=CGRectMake(0, 100, self.view.width, 50);
+    self.reviewTextField.frame=CGRectMake(30, 0, 900, 50);
+    self.confirmBtn.frame=CGRectMake(1024-120,40, 100, 40);
+    self.maleBtn.frame=CGRectMake(0, 100, self.view.width, 50);
+    self.femaleBtn.frame=CGRectMake(0, 153, self.view.width, 50);
+    self.maleImageView.frame=CGRectMake(self.view.width-60, 110, 30, 30);
+    self.femaleImageView.frame=CGRectMake(self.view.width-60, 163, 30, 30);
+
+    
+    
+}
+
+
+
+
+
+
 
 @end

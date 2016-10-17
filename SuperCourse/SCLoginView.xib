@@ -1,8 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="14F1605" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -12,54 +13,48 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tel" translatesAutoresizingMaskIntoConstraints="NO" id="B4e-vE-fdK">
-                    <rect key="frame" x="64" y="66" width="437" height="67"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="67" id="0uC-HK-V5C"/>
                         <constraint firstAttribute="width" constant="437" id="SiV-2u-QwF"/>
                     </constraints>
                 </imageView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="key" translatesAutoresizingMaskIntoConstraints="NO" id="n2y-IM-nU6">
-                    <rect key="frame" x="64" y="170" width="437" height="67"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="67" id="47g-6O-II0"/>
                         <constraint firstAttribute="width" constant="437" id="YEE-X4-Wy3"/>
                     </constraints>
                 </imageView>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="手机号码" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Lcl-UH-iW3">
-                    <rect key="frame" x="149" y="66" width="231" height="67"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="231" id="GBM-jW-yJH"/>
                         <constraint firstAttribute="height" constant="67" id="kM9-WK-zMp"/>
                     </constraints>
-                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <fontDescription key="fontDescription" type="system" pointSize="20"/>
                     <textInputTraits key="textInputTraits" keyboardType="phonePad" returnKeyType="next"/>
                 </textField>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gax-1o-tCJ" customClass="SCCustomButton">
-                    <rect key="frame" x="64" y="290" width="437" height="67"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="437" id="Y8A-lU-dOE"/>
                         <constraint firstAttribute="height" constant="67" id="dcp-PU-SEN"/>
                     </constraints>
                     <state key="normal" title="登  录" backgroundImage="btnn">
-                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
                         <action selector="loginClick:" destination="iN0-l3-epB" eventType="touchUpInside" id="Oj8-bm-nIl"/>
                     </connections>
                 </button>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请发送验证码" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1Fv-1c-3vv">
-                    <rect key="frame" x="149" y="170" width="352" height="67"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="67" id="kNx-ii-cZp"/>
                         <constraint firstAttribute="width" constant="352" id="oFT-wO-3et"/>
                     </constraints>
-                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <fontDescription key="fontDescription" type="system" pointSize="20"/>
                     <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                 </textField>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xDD-RK-m6G">
-                    <rect key="frame" x="294" y="375" width="169" height="21"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="21" id="AMi-x2-WlK"/>
                         <constraint firstAttribute="width" constant="169" id="wsF-on-C8n"/>
@@ -71,37 +66,35 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dUb-fO-ltL">
-                    <rect key="frame" x="358" y="66" width="125" height="67"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="125" id="F1z-ea-0iw"/>
                         <constraint firstAttribute="height" constant="67" id="aEm-4N-yXO"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="20"/>
                     <state key="normal" title="发送验证码">
-                        <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="titleColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <state key="selected" title="已发送">
-                        <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="titleColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <state key="highlighted" title="可以发送">
-                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
                         <action selector="sendPswClick:" destination="iN0-l3-epB" eventType="touchUpInside" id="mgc-Ac-tHj"/>
                     </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="*登录即表示你同意" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y9Q-od-Dbe">
-                    <rect key="frame" x="162" y="375" width="158" height="21"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="158" id="L8S-c2-wQr"/>
                         <constraint firstAttribute="height" constant="21" id="v2x-ex-fmI"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="dUb-fO-ltL" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="66" id="25k-nO-cjm"/>
                 <constraint firstItem="B4e-vE-fdK" firstAttribute="bottom" secondItem="dUb-fO-ltL" secondAttribute="bottom" id="5nd-Zp-faY"/>
@@ -133,6 +126,8 @@
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
+                <outlet property="PhoneNumberView" destination="B4e-vE-fdK" id="185-7w-O2i"/>
+                <outlet property="PswView" destination="n2y-IM-nU6" id="eAW-RF-iXa"/>
                 <outlet property="keyHeight" destination="47g-6O-II0" id="DHp-8i-QPM"/>
                 <outlet property="keyWidth" destination="YEE-X4-Wy3" id="XBL-qB-FOP"/>
                 <outlet property="keyteldic" destination="lf3-9L-ILE" id="YxH-mj-2Va"/>

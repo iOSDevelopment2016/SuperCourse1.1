@@ -31,8 +31,16 @@
     if(self){
         self.backgroundColor=[UIColor whiteColor];
         self.frame = frame;
-        self.backImageBtn.frame=CGRectMake(self.width/2-350*WidthScale, self.height*0.88, 700*WidthScale, 100*HeightScale);
-        self.protocolTextView.frame=CGRectMake(40, self.height*0.13, self.width-80, 325+HeightScale*500-self.height*0.12-80);
+        if (IS_IPHONE) {
+            self.backImageBtn.frame=CGRectMake(self.width/2-350*WidthScale, self.height*0.88, 700*WidthScale, 100*HeightScale);
+            self.backImageBtn.layer.cornerRadius = 50*HeightScale;
+
+            self.protocolTextView.frame=CGRectMake(40, self.height*0.13, self.width-80, 0.54*UIScreenHeight);
+        }else{
+            self.backImageBtn.frame=CGRectMake(self.width/2-350*WidthScale, self.height*0.88, 700*WidthScale, 100*HeightScale);
+            self.protocolTextView.frame=CGRectMake(40, self.height*0.13, self.width-80, 325+HeightScale*500-self.height*0.12-80);
+        }
+    
         [self addSubview:self.topView];
         [self addSubview:self.topLabel];
         
@@ -82,7 +90,7 @@
         [_backImageBtn setFont:[UIFont systemFontOfSize:45*WidthScale]];
         [_backImageBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         _backImageBtn.layer.masksToBounds = YES;
-        _backImageBtn.layer.cornerRadius = 26;
+        _backImageBtn.layer.cornerRadius = 100*HeightScale;
         //_exitBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
         
     }

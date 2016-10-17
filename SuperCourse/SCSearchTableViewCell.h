@@ -21,6 +21,7 @@
 
 @interface SCSearchTableViewCell : UITableViewCell
 @property (strong, nonatomic) IBOutlet UIButton *searchBtn;
+@property (weak, nonatomic) IBOutlet UIImageView *roundImg;
 @property (strong, nonatomic) IBOutlet UILabel *status;
 @property (nonatomic ,weak) id<SCSearchTableViewDelegate> delegate;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *topImage;

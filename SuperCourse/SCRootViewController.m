@@ -89,12 +89,19 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+//    [self measureTheFrameOfScreen];
+    
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *docDir = [paths objectAtIndex:0];
     self.db=[[SZYNoteSolidater alloc]init];
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(echo)
                                                  name: @"echo"
+                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(clearProtocol)
+                                                 name: @"clearProtocol"
                                                object: nil];
     self.allCourseBtn.selected=YES;
     self.allCourseBtnImage.selected=YES;
@@ -143,6 +150,7 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
     
 }
 
+
 -(void)webDataLoaddDone{
     
     [self.hud hide:YES];
@@ -151,27 +159,7 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     
-    self.loginBtn.frame = CGRectMake(0, 0, 400*WidthScale, 200*HeightScale);
-    self.loginBtnImage.frame=CGRectMake(51*WidthScale, 48*HeightScale, 94*WidthScale, 94*WidthScale);
-    self.leftView.frame = CGRectMake(0, self.loginBtn.bottom, self.loginBtn.width, self.view.height-self.loginBtn.height);
-    self.allCourseBtn.frame=CGRectMake(0, 50*HeightScale, 400*WidthScale, 150*HeightScale);
-    self.allCourseBtnImage.frame=CGRectMake(51*WidthScale, 50*HeightScale+44*HeightScale, 64*WidthScale, 50*HeightScale);
-    self.videoHistoryBtn.frame=CGRectMake(0, 200*HeightScale, 400*WidthScale, 150*HeightScale);
-    self.videoHistoryBtnImage.frame=CGRectMake(51*WidthScale, 200*HeightScale+35*HeightScale, 64*WidthScale, 64*HeightScale);
-    self.myNotesBtn.frame=CGRectMake(0, 350*HeightScale, 400*WidthScale, 150*HeightScale);
-    self.myNotesBtnImage.frame=CGRectMake(51*WidthScale, 350*HeightScale+35*HeightScale, 64*WidthScale, 64*HeightScale);
-    self.favouriteSettingBtn.frame = CGRectMake(0, self.leftView.height-150*HeightScale,400*WidthScale, 150*HeightScale);
-    self.favouriteSettingBtnImage.frame = CGRectMake(51*WidthScale, self.leftView.height-150*HeightScale+35*HeightScale,64*WidthScale, 64*HeightScale);
-    self.searchTextField.frame= CGRectMake(25, 0, self.view.width/3-15, 100*HeightScale);
-    self.backView.frame= CGRectMake(1234*WidthScale, 56*HeightScale, self.view.width/3, 100*HeightScale);
-    //中央视图尺寸
-    mainFrame = CGRectMake(self.leftView.right, self.leftView.top, self.view.width-self.leftView.width, self.leftView.height);
-    self.mainView.frame = mainFrame;
-    
-    self.allCourseView.frame = CGRectMake(0, 0, mainFrame.size.width, mainFrame.size.height);
-    self.myNotesView.frame = self.allCourseView.frame;
-    self.videoHistoryView.frame = self.allCourseView.frame;
-    //    self.searchView.frame = self.allCourseView.frame;
+    [self  measureTheFrameOfScreen];
 }
 
 
@@ -534,8 +522,13 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
         }else{
             if(self.extendView==nil){
             self.extendView = [[SCExtendView alloc]initWithString:Course.les_name AndDataSource:self.datasource AndWidth:0.68*self.view.width AndHeight:0.6*self.view.height];
-            
-            self.extendView.frame = CGRectMake(0, 0, 0.68*self.view.width, 0.6*self.view.height);
+                if (IS_IPHONE) {
+                    self.extendView.frame = CGRectMake(0, 0, 0.68*self.view.width, 0.7*self.view.height);
+
+                }else{
+                    self.extendView.frame = CGRectMake(0, 0, 0.68*self.view.width, 0.6*self.view.height);
+
+                }
             
             self.extendView.center = self.view.center;
             self.extendView.delegate = self;
@@ -1306,7 +1299,7 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
     if(!_backView){
         _backView=[[UIView alloc]init];
         _backView.layer.masksToBounds = YES;
-        _backView.layer.cornerRadius = 50*WidthScale;
+        _backView.layer.cornerRadius = 40*WidthScale;
         _backView.backgroundColor=[UIColor whiteColor];
     }
     return _backView;
@@ -1327,12 +1320,12 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
 //        _searchTextField.layer.masksToBounds = YES;
 //        _searchTextField.layer.cornerRadius = 50*WidthScale;
         _searchTextField.textAlignment = UITextAlignmentLeft;
-        _searchTextField.rightView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, 170*WidthScale, 150*HeightScale)];
+        _searchTextField.rightView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, 150*WidthScale, 150*HeightScale)];
         _searchTextField.rightView.backgroundColor=UIColorFromRGB(0x6fccdb);
         _searchTextField.rightViewMode=UITextFieldViewModeAlways;
         UIButton *searchBtn=[[UIButton alloc]init];
         [searchBtn setImage:[UIImage imageNamed:@"搜索白色"] forState:UIControlStateNormal];
-        searchBtn.frame=CGRectMake(45*WidthScale, 45*HeightScale, 64*WidthScale, 64*HeightScale);
+        searchBtn.frame=CGRectMake(35*WidthScale, 45*HeightScale, 64*HeightScale, 64*HeightScale);
         [searchBtn addTarget:self action:@selector(searchBtnClick) forControlEvents:UIControlEventTouchUpInside];
         [_searchTextField.rightView addSubview:searchBtn];
         _searchTextField.delegate=self;
@@ -1537,5 +1530,84 @@ typedef NS_ENUM(NSInteger,SCShowViewType) {
     }
     return _setVC;
 }
+
+
+
+
+#pragma mark -----getPhoneFrame-----
+-(void)measureTheFrameOfScreen{
+
+    if (IS_IPHONE) {
+        //getIphoneFrame
+        NSLog(@"iphone");
+        [self getIphoneFrame];
+    }else{
+        //getIpadFrame
+        NSLog(@"ipad");
+        [self getIpadFrame];
+    }
+}
+
+
+-(void)getIphoneFrame{
+
+    self.loginBtn.frame = CGRectMake(0, 0, 400*WidthScale, 200*HeightScale);
+    self.loginBtnImage.frame=CGRectMake(51*WidthScale, 48*HeightScale, 94*WidthScale, 94*WidthScale);
+    self.leftView.frame = CGRectMake(0, self.loginBtn.bottom, self.loginBtn.width, self.view.height-self.loginBtn.height);
+    self.allCourseBtn.frame=CGRectMake(0, 50*HeightScale, 400*WidthScale, 150*HeightScale);
+    self.allCourseBtnImage.frame=CGRectMake(51*WidthScale, 50*HeightScale+49*HeightScale, 56*WidthScale, 50*HeightScale);
+    self.videoHistoryBtn.frame=CGRectMake(0, 200*HeightScale, 400*WidthScale, 150*HeightScale);
+    self.videoHistoryBtnImage.frame=CGRectMake(51*WidthScale, 200*HeightScale+40*HeightScale, 64*HeightScale, 64*HeightScale);
+    self.myNotesBtn.frame=CGRectMake(0, 350*HeightScale, 400*WidthScale, 150*HeightScale);
+    self.myNotesBtnImage.frame=CGRectMake(51*WidthScale, 350*HeightScale+40*HeightScale, 64*HeightScale, 64*HeightScale);
+    self.favouriteSettingBtn.frame = CGRectMake(0, self.leftView.height-150*HeightScale,400*WidthScale, 150*HeightScale);
+    self.favouriteSettingBtnImage.frame = CGRectMake(51*WidthScale, self.leftView.height-150*HeightScale+35*HeightScale,64*WidthScale, 64*WidthScale);
+    self.searchTextField.frame= CGRectMake(25, 0, self.view.width/3-15, 100*HeightScale);
+    self.backView.frame= CGRectMake(1234*WidthScale, 56*HeightScale, self.view.width/3, 100*HeightScale);
+    mainFrame = CGRectMake(self.leftView.right, self.leftView.top, self.view.width-self.leftView.width, self.leftView.height);
+    self.mainView.frame = mainFrame;
+    self.allCourseView.frame = CGRectMake(0, 0, mainFrame.size.width, mainFrame.size.height);
+    self.myNotesView.frame = self.allCourseView.frame;
+    self.videoHistoryView.frame = self.allCourseView.frame;
+    self.loginView.frame = CGRectMake(0, 0, 889*WidthScale, 780*HeightScale);
+    self.loginView.center = self.view.center;
+
+//    self.searchView.frame = CGRectMake(0, 0, 0, 0);
+
+}
+
+-(void)getIpadFrame{
+    
+    self.loginBtn.frame = CGRectMake(0, 0, 400*WidthScale, 200*HeightScale);
+    self.loginBtnImage.frame=CGRectMake(51*WidthScale, 48*HeightScale, 94*WidthScale, 94*WidthScale);
+    self.leftView.frame = CGRectMake(0, self.loginBtn.bottom, self.loginBtn.width, self.view.height-self.loginBtn.height);
+    self.allCourseBtn.frame=CGRectMake(0, 50*HeightScale, 400*WidthScale, 150*HeightScale);
+    self.allCourseBtnImage.frame=CGRectMake(51*WidthScale, 50*HeightScale+44*HeightScale, 64*WidthScale, 50*HeightScale);
+    self.videoHistoryBtn.frame=CGRectMake(0, 200*HeightScale, 400*WidthScale, 150*HeightScale);
+    self.videoHistoryBtnImage.frame=CGRectMake(51*WidthScale, 200*HeightScale+35*HeightScale, 64*WidthScale, 64*HeightScale);
+    self.myNotesBtn.frame=CGRectMake(0, 350*HeightScale, 400*WidthScale, 150*HeightScale);
+    self.myNotesBtnImage.frame=CGRectMake(51*WidthScale, 350*HeightScale+35*HeightScale, 64*WidthScale, 64*HeightScale);
+    self.favouriteSettingBtn.frame = CGRectMake(0, self.leftView.height-150*HeightScale,400*WidthScale, 150*HeightScale);
+    self.favouriteSettingBtnImage.frame = CGRectMake(51*WidthScale, self.leftView.height-150*HeightScale+35*HeightScale,64*WidthScale, 64*HeightScale);
+    self.searchTextField.frame= CGRectMake(25, 0, self.view.width/3-15, 100*HeightScale);
+    self.backView.frame= CGRectMake(1234*WidthScale, 56*HeightScale, self.view.width/3, 100*HeightScale);
+    //中央视图尺寸
+    mainFrame = CGRectMake(self.leftView.right, self.leftView.top, self.view.width-self.leftView.width, self.leftView.height);
+    self.mainView.frame = mainFrame;
+    
+    self.allCourseView.frame = CGRectMake(0, 0, mainFrame.size.width, mainFrame.size.height);
+    self.myNotesView.frame = self.allCourseView.frame;
+    self.videoHistoryView.frame = self.allCourseView.frame;
+//        self.searchView.frame = self.allCourseView.frame;
+
+}
+
+
+
+
+
+
+
+
 
 @end

@@ -205,6 +205,18 @@
     
 }
 
+-(UIImageView *)PhoneNumberView{
+
+    return _PhoneNumberView;
+}
+
+-(UIImageView *)PswView{
+    
+    return _PswView;
+}
+
+
+
 - (IBAction)usertextClick:(id)sender {
     [[NSNotificationCenter defaultCenter]postNotificationName:@"getProtocol" object:nil];
     

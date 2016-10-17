@@ -16,24 +16,8 @@
 @implementation SCSearchTableViewCell
 -(void)layoutSubviews{
     //11
-    CGFloat topImage=self.bounds.size.height*0.362;
-    CGFloat leftImage=self.bounds.size.width*0.027;
-    CGFloat widthImage=self.bounds.size.width*0.0232;
-    CGFloat heighthImage=self.bounds.size.height*0.232;
-    CGFloat topBtn=self.bounds.size.height*0.275;
-    CGFloat leftBtn=self.bounds.size.width*0.047;
-    CGFloat widthBtn=self.bounds.size.width*0.427;
-    CGFloat heighthBtn=self.bounds.size.height*0.450;
-    self.topImage.constant=topImage;
-    self.leftImage.constant=leftImage;
-//    self.widthImage.constant=widthImage;
-//    self.heighthImage.constant=heighthImage;
-    self.topBtn.constant=topBtn;
-    self.leftBtn.constant=leftBtn;
-    self.widthBtn.constant=widthBtn;
-    self.heighthBtn.constant=heighthBtn;
-    
-    
+    [self measureTheFrameOfScreen];
+
 }
 - (void)awakeFromNib {
     // Initialization code
@@ -49,6 +33,12 @@
     return _searchBtn;
     
 }
+
+-(UIImageView *)roundImg{
+
+    return _roundImg;
+}
+
 -(UILabel *)status{
     return _status;
 }
@@ -60,7 +50,52 @@
 ////    [self.delegate searchBtnDidClickWithSectionIndex:secIndex AndRowIndex:rowIndex ];
 //}
 
+-(void)measureTheFrameOfScreen{
+    
+    if (IS_IPHONE) {
+        //getIphoneFrame
+        NSLog(@"iphone");
+        [self getIphoneFrame];
+    }else{
+        //getIpadFrame
+        NSLog(@"ipad");
+        [self getIpadFrame];
+    }
+}
 
+
+-(void)getIphoneFrame{
+    
+    self.roundImg.frame = CGRectMake(0.0195*UIScreenWidth, 0.027*UIScreenHeight, 0.0228*UIScreenWidth, 0.0228*UIScreenWidth);
+    self.searchBtn.frame = CGRectMake(0.0706*UIScreenWidth, 0.021*UIScreenHeight, 0.43*UIScreenWidth, 0.03*UIScreenWidth);
+    self.searchBtn.titleLabel.font = FONT_23;
+    
+}
+
+
+-(void)getIpadFrame{
+    
+    CGFloat topImage=self.bounds.size.height*0.362;
+    CGFloat leftImage=self.bounds.size.width*0.027;
+//    CGFloat widthImage=self.bounds.size.width*0.0232;
+//    CGFloat heighthImage=self.bounds.size.height*0.232;
+    CGFloat topBtn=self.bounds.size.height*0.275;
+    CGFloat leftBtn=self.bounds.size.width*0.047;
+    CGFloat widthBtn=self.bounds.size.width*0.427;
+    CGFloat heighthBtn=self.bounds.size.height*0.450;
+    self.topImage.constant=topImage;
+    self.leftImage.constant=leftImage;
+    //    self.widthImage.constant=widthImage;
+    //    self.heighthImage.constant=heighthImage;
+    self.topBtn.constant=topBtn;
+    self.leftBtn.constant=leftBtn;
+    self.widthBtn.constant=widthBtn;
+    self.heighthBtn.constant=heighthBtn;
+    
+    self.searchBtn.titleLabel.font = FONT_25;
+    
+    
+}
 
 
 

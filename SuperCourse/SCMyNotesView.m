@@ -117,14 +117,7 @@
 
 -(void)layoutSubviews{
     [super layoutSubviews];
-    self.bottomView.frame = CGRectMake(0, 100, self.width, 1217*HeightScale);
-    
-    self.borderView.frame = CGRectMake(20, 120, self.width-40, 1217*HeightScale-70);
-    self.notesTextView.frame = CGRectMake(10, 10, self.borderView.width-20, self.borderView.height-20);
-    self.backgroundColor = UIBackgroundColor;
-    self.scrollView.frame = CGRectMake(0, 0, self.width, 100*HeightScale);
-    self.operationBtn.frame = CGRectMake(0.873*self.width-45, 0, 0.127*self.width, 100*HeightScale);
-    
+    [self measureTheFrameOfScreen];
 //    self.saveBtn.frame = CGRectMake(850-0.127*self.width, 0, 0.127*self.width, 100*HeightScale);
     
 //    //注册通知,监听键盘弹出事件
@@ -323,4 +316,50 @@
 //    }];
 //}
 //
+
+
+-(void)measureTheFrameOfScreen{
+    
+    if (IS_IPHONE) {
+        //getIphoneFrame
+        NSLog(@"iphone");
+        [self getIphoneFrame];
+    }else{
+        //getIpadFrame
+        NSLog(@"ipad");
+        [self getIpadFrame];
+    }
+}
+
+-(void)getIphoneFrame{
+    self.bottomView.frame = CGRectMake(0, 200*HeightScale, self.width, 1217*HeightScale);
+    self.borderView.frame = CGRectMake(40*HeightScale, 240*HeightScale, self.width-80*HeightScale, 1217*HeightScale-200*HeightScale);
+    self.notesTextView.frame = CGRectMake(20*HeightScale, 20*HeightScale, self.borderView.width-40*HeightScale, self.borderView.height-40*HeightScale);
+    self.notesTextView.font = [UIFont systemFontOfSize:60*HeightScale];
+    self.backgroundColor = UIBackgroundColor;
+    self.scrollView.frame = CGRectMake(0, 0, self.width, 100*HeightScale);
+    self.operationBtn.frame = CGRectMake(0.873*self.width-90*HeightScale, 0, 0.127*self.width, 100*HeightScale);
+    self.operationBtn.titleLabel.font = [UIFont systemFontOfSize:60*HeightScale];
+}
+
+-(void)getIpadFrame{
+ 
+    self.bottomView.frame = CGRectMake(0, 100, self.width, 1217*HeightScale);
+    
+    self.borderView.frame = CGRectMake(20, 120, self.width-40, 1217*HeightScale-70);
+    self.notesTextView.frame = CGRectMake(10, 10, self.borderView.width-20, self.borderView.height-20);
+    self.backgroundColor = UIBackgroundColor;
+    self.scrollView.frame = CGRectMake(0, 0, self.width, 100*HeightScale);
+    self.operationBtn.frame = CGRectMake(0.873*self.width-45, 0, 0.127*self.width, 100*HeightScale);
+
+}
+
+
+
+
+
+
+
+
+
 @end

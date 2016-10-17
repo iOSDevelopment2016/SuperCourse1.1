@@ -27,6 +27,8 @@
 - (IBAction)loginClick:(id)sender;
 - (IBAction)usertextClick:(id)sender;
 
+@property (weak, nonatomic) IBOutlet UIImageView *PhoneNumberView;
+@property (weak, nonatomic) IBOutlet UIImageView *PswView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *telWidth;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *telHeight;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *telTop;

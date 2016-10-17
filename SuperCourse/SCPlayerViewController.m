@@ -110,6 +110,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.db=[[SZYNoteSolidater alloc]init];
+    self.view.backgroundColor = [UIColor blackColor];
     isAnimating = NO; //防止重复的动画
     [self addAllControl]; //加载界面上的所有控件
     isFirstView = YES;
@@ -122,7 +123,7 @@
     self.tencentOAuth = [[TencentOAuth alloc] initWithAppId:@"1105153909" andDelegate:self];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"didReedVideo" object:nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"contentDidClick" object:nil];
-    
+    [self measureTheFrameOfScreen];
 }
 
 -(void)observe{
@@ -238,7 +239,8 @@
 
             }];
         }else{
-            _videoInfo = [self getVideoInfo:dic];
+            self.videoInfo = [[SCVideoInfoModel alloc]init];
+            self.videoInfo = [self getVideoInfo:dic];
             // 开始播放
             shouldPlaying = YES;
             self.videoManager = [[SZYVideoManager alloc]init];
@@ -381,7 +383,7 @@
 }
 
 -(void)initVideoManager{
-    NSURL *murl = nil;
+    NSURL *murl;
     if ([self isDownLoad]) {
         murl=[NSURL fileURLWithPath:self.videoInfo.les_url];
     }else{
@@ -391,7 +393,7 @@
     [self.videoManager setUpRemoteVideoPlayerWithContentURL:murl view:self.container];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(videoLoadDone:) name:VideoLoadDoneNotification object:nil];
     
-    [self.container addSubview:self.startBtnView];
+    [self.view addSubview:self.startBtnView];
     [self.view addSubview:self.writeNoteView];
     [self.videoManager moveToSecond:self.oversty_time];
     [self setIsDownloadLabelText];
@@ -402,7 +404,10 @@
 
 
 -(void)addAllControl{
-    [self.view setBackgroundColor:UIBackgroundColor];
+//    [self.view setBackgroundColor:UIBackgroundColor];
+    UIView *topView = [[UIView alloc]initWithFrame:CGRectMake(0, 0,UIScreenWidth, 100*HeightScale)];
+    topView.backgroundColor = UIBackgroundColor;
+    [self.view addSubview:topView];
     [self.view addSubview:self.nowCourse];
     [self.view addSubview:self.nowPoint];
     [self.view addSubview:self.isDownloadLabel];
@@ -616,7 +621,10 @@
         [self.videoManager resume];
     }
     if (!_slider) {
-        _slider = [[UISlider alloc]initWithFrame:CGRectMake(0 , self.startBtnView.height-60, self.startBtnView.width, 50)];
+        _slider = [[UISlider alloc]initWithFrame:CGRectMake(self.container.bounds.origin.x, self.startBtnView.height-120*HeightScale, self.container.bounds.size.width, 100*HeightScale)];
+        if (IS_IPHONE) {
+             _slider = [[UISlider alloc]initWithFrame:CGRectMake((UIScreenWidth-(UIScreenHeight-254*HeightScale)*1.6573)/2, self.startBtnView.height-120*HeightScale, self.container.bounds.size.width, 100*HeightScale)];
+        }
     }
     [_slider addTarget:self action:@selector(sliderValueChanged:) forControlEvents:UIControlEventValueChanged];
     _slider.minimumValue = 0;
@@ -725,7 +733,12 @@
     sender.selected = !sender.selected;
     
     [UIView animateWithDuration:0.3 animations:^{
-        self.rightView.transform = sender.selected ? CGAffineTransformMakeTranslation(-659*WidthScale, 0) : CGAffineTransformIdentity;
+        if (IS_IPHONE) {
+            self.rightView.transform = sender.selected ? CGAffineTransformMakeTranslation(-800*HeightScale, 0) : CGAffineTransformIdentity;
+        }else{
+            self.rightView.transform = sender.selected ? CGAffineTransformMakeTranslation(-659*WidthScale, 0) : CGAffineTransformIdentity;
+
+        }
     }completion:^(BOOL finished) {
         [self.rightViewBtn setImage:[UIImage imageNamed:@"边栏"] forState:UIControlStateSelected];
     }];
@@ -863,8 +876,8 @@
             
             for (UIView *view in self.rightView.pointView.subviews) {
                 if (view.tag>subTitle.bg_time) {
-                    view.y = view.y+110*HeightScale;
-                    subTitleView.y = subTitleView.y-110*HeightScale;
+                    view.y = view.y+114 *HeightScale;
+                    subTitleView.y = subTitleView.y-114*HeightScale;
                     
                     
                 }
@@ -1021,14 +1034,21 @@
         
         self.addPointBtn.frame = CGRectMake(932*WidthScale*2048/1614, 438*HeightScale/1212*1563, 234*WidthScale*2048/1614, 75*HeightScale/1212*1563);
         
-        
+        if (IS_IPHONE) {
+            self.addPointBtn.frame = CGRectMake(932*WidthScale*2048/1614, 438*HeightScale/1212*1563, 234*HeightScale*2048/1614, 75*HeightScale/1212*1563);
+            
+        }
     }completion:^(BOOL finished) {
         [UIView animateWithDuration:0.2 animations:^{
             self.writeCodeBtn.alpha = 1;
             self.writeNoteBtn.alpha = 1;
-            
+
             self.writeNoteBtn.frame = CGRectMake(901*WidthScale*2048/1614, 568*HeightScale/1212*1563, 234*WidthScale*2048/1614, 75*HeightScale/1212*1563);
             self.writeCodeBtn.frame = CGRectMake(901*WidthScale*2048/1614, 308*HeightScale/1212*1563, 234*WidthScale*2048/1614, 75*HeightScale/1212*1563);
+            if (IS_IPHONE) {
+                self.writeNoteBtn.frame = CGRectMake(901*WidthScale*2048/1614, 568*HeightScale/1212*1563, 234*HeightScale*2048/1614, 75*HeightScale/1212*1563);
+                self.writeCodeBtn.frame = CGRectMake(901*WidthScale*2048/1614, 308*HeightScale/1212*1563, 234*HeightScale*2048/1614, 75*HeightScale/1212*1563);
+            }
             self.writeCodeBtn.transform = CGAffineTransformMakeRotation(-0.5);
             self.writeNoteBtn.transform = CGAffineTransformMakeRotation(0.5);
         }completion:^(BOOL finished) {
@@ -1043,10 +1063,15 @@
     self.addPointBtn.alpha = 0;
     self.writeCodeBtn.alpha = 0;
     self.writeNoteBtn.alpha = 0;
+
     self.addPointBtn.frame=CGRectMake(668*WidthScale*2048/1614, 438*HeightScale/1212*1563, 234*WidthScale*2048/1614, 75*HeightScale/1212*1563);
     self.writeCodeBtn.frame=CGRectMake(932*WidthScale*2048/1614, 438*HeightScale/1212*1563, 234*WidthScale*2048/1614, 75*HeightScale/1212*1563);
     self.writeNoteBtn.frame=CGRectMake(932*WidthScale*2048/1614, 438*HeightScale/1212*1563, 234*WidthScale*2048/1614, 75*HeightScale/1212*1563);
-    
+    if (IS_IPHONE) {
+        self.addPointBtn.frame=CGRectMake(668*WidthScale*2048/1614, 438*HeightScale/1212*1563, 234*HeightScale*2048/1614, 75*HeightScale/1212*1563);
+        self.writeCodeBtn.frame=CGRectMake(932*WidthScale*2048/1614, 438*HeightScale/1212*1563, 234*HeightScale*2048/1614, 75*HeightScale/1212*1563);
+        self.writeNoteBtn.frame=CGRectMake(932*WidthScale*2048/1614, 438*HeightScale/1212*1563, 234*HeightScale*2048/1614, 75*HeightScale/1212*1563);
+    }
     
     self.writeCodeBtn.transform = CGAffineTransformMakeRotation(0);
     self.writeNoteBtn.transform = CGAffineTransformMakeRotation(0);
@@ -1183,6 +1208,9 @@
     
     if (!_rightView) {
         _rightView = [[SCRightView alloc]initWithFrame:CGRectMake(UIScreenWidth, 0, 659*WidthScale, 1382*HeightScale)];
+        if (IS_IPHONE) {
+            _rightView.frame = CGRectMake(UIScreenWidth, 0, 800*HeightScale, 1382*HeightScale);
+        }
         _rightView.pointViewDelegate = self;
         _rightView.subTitleArr = _videoInfo.videoSubTitles;
         _rightView.stuSubTitleArr = _videoInfo.studentSubTitle;
@@ -1197,7 +1225,7 @@
     if (!_container) {
         _container = [[UIView alloc]init];
         [_container setBackgroundColor:UIThemeColor];
-        _container.frame = CGRectMake(0, 100*HeightScale, 2048*WidthScale, 1280*HeightScale);
+        _container.frame = CGRectMake(0, 100*HeightScale,UIScreenWidth, UIScreenHeight-254*HeightScale);
         [self.container addGestureRecognizer:self.tap];
         [self.container addGestureRecognizer:self.pan];
     }
@@ -1221,6 +1249,7 @@
         _returnBtn.frame = CGRectMake(22*WidthScale, 38*HeightScale, 44*WidthScale, 44*HeightScale);
         [_returnBtn setImage:[UIImage imageNamed:@"fanhui"] forState:UIControlStateNormal];
         [_returnBtn addTarget:self action:@selector(backBtnClick) forControlEvents:UIControlEventTouchUpInside];
+
     }
     return _returnBtn;
 }
@@ -1297,7 +1326,7 @@
 -(UILabel *)nowCourse{
     
     if (!_nowCourse) {
-        _nowCourse = [[UILabel alloc]initWithFrame:CGRectMake(160*WidthScale, 10, 440*WidthScale, 90*HeightScale)];
+        _nowCourse = [[UILabel alloc]initWithFrame:CGRectMake(160*WidthScale, 20*HeightScale, 440*WidthScale, 90*HeightScale)];
         _nowCourse.font = [UIFont systemFontOfSize:35*HeightScale];
         [_nowCourse setTextColor:[UIColor grayColor]];
         _nowCourse.alpha = 0.7;
@@ -1311,7 +1340,7 @@
         _nowPoint = [UIButton buttonWithType:UIButtonTypeCustom];
         _nowPoint.frame = CGRectMake(630*WidthScale, 10, 440*WidthScale, 90*HeightScale);
         //        [_nowPoint setTitle:self.nowPointString forState:UIControlStateNormal];
-        _nowPoint.titleLabel.font = [UIFont systemFontOfSize:35*WidthScale];
+        _nowPoint.titleLabel.font =[UIFont systemFontOfSize:35*HeightScale];
         [_nowPoint setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
         [_nowPoint setTitleColor:UIThemeColor forState:UIControlStateHighlighted];
         _nowPoint.alpha = 0.7;
@@ -1352,7 +1381,7 @@
 -(UIView *)startBtnView{
     
     if (!_startBtnView) {
-        _startBtnView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 2048*WidthScale, 1280*HeightScale)];
+        _startBtnView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, UIScreenWidth, UIScreenHeight)];
         _startBtnView.backgroundColor = [UIColor clearColor];
         [_startBtnView addSubview:self.startBtn];
         [_startBtnView addSubview:self.writeCodeBtn];
@@ -1460,6 +1489,9 @@
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
         [btn setImage:[UIImage imageNamed:@"添加备注带阴影"] forState:UIControlStateNormal];
         btn.frame = CGRectMake(1613*WidthScale , 526*HeightScale, 160*WidthScale, 160*HeightScale);
+        if (IS_IPHONE) {
+            btn.frame = CGRectMake(1613*WidthScale , 526*HeightScale, 160*HeightScale, 160*HeightScale);
+        }
         [btn addTarget:self action:@selector(addPoint) forControlEvents:UIControlEventTouchUpInside];
         
         [_writeNoteView addSubview:btn];
@@ -2119,5 +2151,71 @@
     }
     return _writeCodeTimeArr;
 }
+
+
+-(void)measureTheFrameOfScreen{
+    
+    if (IS_IPHONE) {
+        //getIphoneFrame
+        NSLog(@"iphone");
+        [self getIphoneFrame];
+    }else{
+        //getIpadFrame
+        NSLog(@"ipad");
+        [self getIpadFrame];
+    }
+}
+
+
+-(void)getIphoneFrame{
+    
+    self.pauseBtn.frame = CGRectMake(50*WidthScale, 45*HeightScale, 64*HeightScale, 64*HeightScale);
+    self.playBtn.frame = CGRectMake(50*WidthScale, 45*HeightScale, 64*HeightScale, 64*HeightScale);
+    self.startBtn.frame = CGRectMake(668*WidthScale*2048/1614, 361*HeightScale/1212*1563, 234*HeightScale*2048/1614, 234*HeightScale/1212*1563);
+    self.rightViewBtn.frame = CGRectMake(1760*WidthScale, 45*HeightScale, 64*HeightScale, 64*HeightScale);
+    self.lockBtn.frame = CGRectMake(1904*WidthScale, 45*HeightScale, 64*HeightScale, 64*HeightScale);
+    self.speedBtn.frame =  CGRectMake(1581*WidthScale, 45*HeightScale, 99*HeightScale, 64*HeightScale);
+    self.cutBtn.frame = CGRectMake(1451*WidthScale, 45*HeightScale, 64*HeightScale, 64*HeightScale);
+    self.writeCodeBtn.frame = CGRectMake(932*WidthScale*2048/1614, 438*HeightScale/1212*1563, 234*HeightScale*2048/1614, 75*HeightScale/1212*1563);
+    self.writeNoteBtn.frame = CGRectMake(932*WidthScale*2048/1614, 438*HeightScale/1212*1563, 234*HeightScale*2048/1614, 75*HeightScale/1212*1563);
+    self.addPointBtn.frame = CGRectMake(668*WidthScale*2048/1614, 438*HeightScale/1212*1563, 234*HeightScale*2048/1614, 75*HeightScale/1212*1563);
+    self.returnBtn.frame = CGRectMake(22*WidthScale, 38*HeightScale, 44*HeightScale, 44*HeightScale);
+    UIButton  *returnHubBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    returnHubBtn.frame = CGRectMake(0*WidthScale, 0*HeightScale, 150*HeightScale, 64*HeightScale);
+    [returnHubBtn setBackgroundColor:[UIColor clearColor]];
+    [returnHubBtn addTarget:self action:@selector(backBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:returnHubBtn];
+    
+    self.nowCourse.frame = CGRectMake(160*WidthScale, 10*HeightScale, 440*HeightScale, 90*HeightScale);
+//    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+//    NSString *docDir = [paths objectAtIndex:0];
+    self.downloadBtn.frame = CGRectMake(1643*WidthScale, 38*HeightScale, 54*HeightScale, 44*HeightScale);
+    self.isDownloadLabel.frame = CGRectMake(1743*WidthScale, 10*HeightScale, 305*HeightScale, 90*HeightScale);
+    self.nowPoint.frame = CGRectMake(630*WidthScale, 10*HeightScale, 440*HeightScale, 90*HeightScale);
+    self.nowPoint.titleLabel.font = [UIFont systemFontOfSize:35*HeightScale];
+     self.container.frame = CGRectMake((UIScreenWidth-(UIScreenHeight-254*HeightScale)*1.6573)/2, 100*HeightScale, (UIScreenHeight-254*HeightScale)*1.6573, UIScreenHeight-256*HeightScale);
+    self.startBtnView.frame = CGRectMake(0, 100*HeightScale, UIScreenWidth, UIScreenHeight-256*HeightScale);
+}
+
+
+-(void)getIpadFrame{
+    
+    UIButton  *returnHubBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    returnHubBtn.frame = CGRectMake(0*WidthScale, 0*HeightScale, 100*WidthScale, 64*HeightScale);
+    [returnHubBtn setBackgroundColor:[UIColor clearColor]];
+    [returnHubBtn addTarget:self action:@selector(backBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:returnHubBtn];
+    
+    
+}
+
+
+
+
+
+
+
+
+
 
 @end

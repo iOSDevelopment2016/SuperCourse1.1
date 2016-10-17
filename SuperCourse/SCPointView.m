@@ -34,7 +34,7 @@
     [self setSubTitlesLetter:subTitleArr];
     for (int i=0; i<subTitleArr.count; i++) {
         SCVideoSubTitleMode *m = subTitleArr[i];
-        UIView *noteView = [[UIView alloc]initWithFrame:CGRectMake(12*WidthScale, viewY, self.width-12*WidthScale, height)];
+        UIView *noteView = [[UIView alloc]initWithFrame:CGRectMake(12*WidthScale, i*height+i*14*HeightScale, 800*HeightScale-12*WidthScale, height)];
         [noteView setBackgroundColor:[UIColor whiteColor]];
         UIButton *hudBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         hudBtn.frame = CGRectMake(0, 0, noteView.bounds.size.width, noteView.bounds.size.height);
@@ -45,7 +45,7 @@
         UIImage *image = [UIImage imageNamed:@"B"];
         UIImageView *imageView = [[UIImageView alloc]initWithImage:image];
         UILabel *letterLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, letterView.width, letterView.height)];
-        UILabel *noteLabel = [[UILabel alloc]initWithFrame:CGRectMake(90*WidthScale, 0, 467*WidthScale, 100*HeightScale)];
+        UILabel *noteLabel = [[UILabel alloc]initWithFrame:CGRectMake(90*WidthScale, 0, 800*HeightScale-12*WidthScale, 100*HeightScale)];
         [noteView addSubview:imageView];
         [noteView addSubview:[self getLetterViewWithLabel:letterLabel AndView:letterView AndimageView:imageView Andimage:image AndLetter:m.letter]];
         [noteView addSubview:[self getNoteLabel:noteLabel WithText:m.subtitle]];
@@ -59,8 +59,6 @@
         noteLabel.tag = 2;
         
         viewY = viewY + height+10*HeightScale;
-        
-        
         
     }
     
@@ -92,8 +90,8 @@
     
     int i = (int)self.subviews.count;
     float height = 100*HeightScale;
-
-    UIView *noteView = [[UIView alloc]initWithFrame:CGRectMake(12*WidthScale, i*height+i*10*HeightScale, self.width-12*WidthScale, height)];
+    
+    UIView *noteView = [[UIView alloc]initWithFrame:CGRectMake(12*WidthScale, i*height+(i)*14*HeightScale, 800*HeightScale-12*WidthScale, height)];
     [noteView setBackgroundColor:[UIColor whiteColor]];
     UIButton *hudBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     hudBtn.frame = CGRectMake(0, 0, noteView.bounds.size.width, noteView.bounds.size.height);
@@ -104,20 +102,27 @@
     UIImage *image = [UIImage imageNamed:@"B"];
     UIImageView *imageView = [[UIImageView alloc]initWithImage:image];
     UILabel *letterLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, letterView.width, letterView.height)];
-    UILabel *noteLabel = [[UILabel alloc]initWithFrame:CGRectMake(90*WidthScale, 0, 467*WidthScale, 100*HeightScale)];
+    UILabel *noteLabel = [[UILabel alloc]initWithFrame:CGRectMake(90*WidthScale, 0, 800*HeightScale-12*WidthScale, 100*HeightScale)];
     [noteView addSubview:imageView];
 
     [noteView addSubview:[self getLetterViewWithLabel:letterLabel AndView:letterView AndimageView:imageView Andimage:image AndLetter:@"i"]];
     [noteView addSubview:[self getNoteLabel:noteLabel WithText:subTitle.subtitle]];
     UIButton *deleteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [deleteBtn setImage:[UIImage imageNamed:@"delete"] forState:UIControlStateNormal];
-    [deleteBtn setFrame:CGRectMake(self.width-12*WidthScale -46 , 32*HeightScale, 36*WidthScale, 36*HeightScale)];
+        if (IS_IPHONE) {
+        [deleteBtn setFrame:CGRectMake(self.width-12*WidthScale -140*HeightScale , 32*HeightScale, 36*HeightScale, 36*HeightScale)];
+    }else{
+        [deleteBtn setFrame:CGRectMake(self.width-12*WidthScale -56 , 32*HeightScale, 36*WidthScale, 36*HeightScale)];
+    }
     [deleteBtn addTarget:self action:@selector(deleteView:) forControlEvents:UIControlEventTouchUpInside];
     noteView.tag = subTitle.bg_time;
     imageView.tag = 1;
     noteLabel.tag = 2;
     [noteView addSubview:deleteBtn];
     [self addSubview:noteView];
+    
+
+    
     
     return noteView;
 }
@@ -167,7 +172,7 @@
         [sender.superview removeFromSuperview];
         for (UIView *view in self.subviews) {
             if (view.tag>=sender.superview.tag) {
-                view.y = view.y-110*HeightScale;
+                view.y = view.y-114*HeightScale;
             }
         }
 
@@ -213,6 +218,9 @@
 -(UIView *)getLetterViewWithLabel:(UILabel *)letterLabel AndView:(UIView *)letterView AndimageView:(UIImageView *)imageView Andimage:(UIImage *)image AndLetter:(NSString *)letter{
     
     imageView.frame = CGRectMake(32*WidthScale , 32*HeightScale, 36*WidthScale, 36*HeightScale);
+    if (IS_IPHONE) {
+        imageView.frame = CGRectMake(36*WidthScale , 32*HeightScale, 36*HeightScale, 36*HeightScale);
+    }
     letterLabel.text = letter;
     letterLabel.textAlignment = NSTextAlignmentCenter;
     letterLabel.font = [UIFont systemFontOfSize:20*WidthScale];
@@ -226,6 +234,9 @@
 -(UILabel *)getNoteLabel:(UILabel *)noteLabel WithText:(NSString *)text{
     noteLabel.tag = 6;
     noteLabel.font = [UIFont systemFontOfSize:35*WidthScale];
+    if (IS_IPHONE) {
+        noteLabel.font = [UIFont systemFontOfSize:35*HeightScale];
+    }
     noteLabel.text = text;
     [noteLabel setTextColor:[UIColor blackColor]];
     [noteLabel setBackgroundColor:[UIColor clearColor]];
@@ -260,9 +271,9 @@
         UIView *changeView = subTitleArr[m];
         UIView *nowView = subTitleArr[i];
         if (changeView.tag<=nowView.tag) {
-            changeView.y = nowView.y-j*110*HeightScale;
+            changeView.y = nowView.y-j*114*HeightScale;
             j = j+1;
-            nowView.y = nowView.y+110*HeightScale;
+            nowView.y = nowView.y+114*HeightScale;
         }
     }
 }
@@ -294,7 +305,7 @@
         self.currentImageView.image = [UIImage imageNamed:@"A"];
         self.currentLabel.textColor = UIThemeColor;
         subTitleView.layer.borderColor = UIThemeColor.CGColor;
-        subTitleView.layer.borderWidth = 2;
+        subTitleView.layer.borderWidth = 4*HeightScale;
         [UIView animateWithDuration:0.4 animations:^{
             subTitleView.transform = CGAffineTransformMakeTranslation(-12*WidthScale, 10*HeightScale);
         }];

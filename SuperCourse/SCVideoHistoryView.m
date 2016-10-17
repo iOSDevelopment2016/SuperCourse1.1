@@ -193,8 +193,14 @@
 }
 //数据桩（调试程序用的假数据）
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    UITableViewCell*cell =[self tableView:tableView cellForRowAtIndexPath:indexPath];
-    return cell.frame.size.height;
+
+    if (IS_IPHONE) {
+        return 170*HeightScale;
+    }else{
+        UITableViewCell*cell =[self tableView:tableView cellForRowAtIndexPath:indexPath];
+        return cell.frame.size.height;
+    }
+
 }
 
 

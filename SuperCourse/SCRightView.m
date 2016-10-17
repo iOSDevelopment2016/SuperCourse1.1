@@ -29,10 +29,15 @@
         [self.topView addSubview:self.blueBottom];
         self.extendBtn.selected = YES;
         [self addSubview:self.tagList];
+//        self.backgroundColor = [UIColor blackColor];
     }
     return self;
 }
 
+-(void)layoutSubviews{
+
+    [self measureTheFrameOfScreen];
+}
 
 #pragma mark - 响应事件
 
@@ -53,11 +58,20 @@
     
     self.extendBtn.selected = NO;
     self.pointBtn.selected = YES;
-    if (self.blueBottom.bounds.origin.x != 338*WidthScale) {
-        [UIView animateWithDuration:0.3 animations:^{
-            self.blueBottom.transform = CGAffineTransformMakeTranslation(230*WidthScale, 0);
-        }];
+    if (IS_IPHONE) {
+        if (self.blueBottom.bounds.origin.x != 338*WidthScale) {
+            [UIView animateWithDuration:0.3 animations:^{
+                self.blueBottom.transform = CGAffineTransformMakeTranslation(230*WidthScale, 0);
+            }];
+        }
+    }else{
+        if (self.blueBottom.bounds.origin.x != 338*WidthScale) {
+            [UIView animateWithDuration:0.3 animations:^{
+                self.blueBottom.transform = CGAffineTransformMakeTranslation(230*WidthScale, 0);
+            }];
+        }
     }
+   
     [self.tagList removeFromSuperview];
     [self addSubview:self.pointView];
 
@@ -109,7 +123,7 @@
     
     if (!_extendBtn) {
         _extendBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_extendBtn setTitle:@"拓展" forState:UIControlStateNormal];
+        [_extendBtn setTitle:@"拓  展" forState:UIControlStateNormal];
         _extendBtn.titleLabel.font = [UIFont systemFontOfSize:40*WidthScale];
         [_extendBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [_extendBtn setTitleColor:UIThemeColor forState:UIControlStateSelected];
@@ -124,7 +138,7 @@
     
     if (!_pointBtn) {
         _pointBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_pointBtn setTitle:@"节点" forState:UIControlStateNormal];
+        [_pointBtn setTitle:@"节  点" forState:UIControlStateNormal];
         _pointBtn.titleLabel.font = [UIFont systemFontOfSize:40*WidthScale];
         [_pointBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [_pointBtn setTitleColor:UIThemeColor forState:UIControlStateSelected];
@@ -137,7 +151,12 @@
 -(UIView *)blueBottom{
 
     if (!_blueBottom) {
-        _blueBottom = [[UIView alloc]initWithFrame:CGRectMake(108*WidthScale, 90*HeightScale, 200*WidthScale, 10*HeightScale)];
+        if (IS_IPHONE) {
+                _blueBottom = [[UIView alloc]initWithFrame:CGRectMake(108*WidthScale, 90*HeightScale, 200*HeightScale, 10*HeightScale)];
+        }else{
+            _blueBottom = [[UIView alloc]initWithFrame:CGRectMake(108*WidthScale, 90*HeightScale, 200*WidthScale, 10*HeightScale)];
+
+        }
         _blueBottom.backgroundColor = UIThemeColor;
     }
     return _blueBottom;
@@ -176,6 +195,7 @@
     if (!_pointView) {
         _pointView = [[SCPointView alloc]initWithFrame:CGRectMake(0, 100*HeightScale, 659*WidthScale, 1282*HeightScale) AndObject:self.subTitleArr AndStudentSubTitle:self.stuSubTitleArr];
         _pointView.delegate = self.pointViewDelegate;
+//        _pointView.backgroundColor = [UIColor yellowColor];
     }
     return _pointView;
 }
@@ -190,6 +210,41 @@
     }
     return _tagList;
 }
+
+
+-(void)measureTheFrameOfScreen{
+    
+    if (IS_IPHONE) {
+        //getIphoneFrame
+        NSLog(@"iphone");
+        [self getIphoneFrame];
+    }else{
+        //getIpadFrame
+        NSLog(@"ipad");
+        [self getIpadFrame];
+    }
+}
+
+
+-(void)getIphoneFrame{
+    self.extendBtn.frame = CGRectMake(108*WidthScale, 10*HeightScale, 200*HeightScale, 90*HeightScale);
+    self.extendBtn.titleLabel.font = [UIFont systemFontOfSize:40*HeightScale];
+    self.pointBtn.frame = CGRectMake(338*WidthScale, 10*HeightScale, 200*HeightScale, 90*HeightScale);
+    self.pointBtn.titleLabel.font = [UIFont systemFontOfSize:40*HeightScale];
+    self.pointView.frame = CGRectMake(0, 100*HeightScale, 800*HeightScale-12*WidthScale, 1282*HeightScale);
+    self.extendView.frame = CGRectMake(22*WidthScale, 110*HeightScale, 790*HeightScale , 1282*HeightScale);
+    _tagList.frame = CGRectMake(22*WidthScale, 110*HeightScale, 800*HeightScale-12*WidthScale , 1282*HeightScale);
+
+}
+
+
+-(void)getIpadFrame{
+    
+    
+}
+
+
+
 
 
 

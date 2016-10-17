@@ -20,6 +20,17 @@
 	<string>1.2</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+    <key>NSCameraUsageDescription</key>
+    <string>cameraDesciption</string>
+    
+    <key>NSContactsUsageDescription</key>
+    <string>contactsDesciption</string>
+    
+    <key>NSMicrophoneUsageDescription</key>
+    <string>microphoneDesciption</string>
+    
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>photoLibraryDesciption</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>

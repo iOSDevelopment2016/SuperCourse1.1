@@ -31,7 +31,7 @@
     // Initialization code
     
     //    self.fileSizeLabel.backgroundColor = [UIColor orangeColor];
-    
+    [self measureTheFrameOfScreen];
     
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(showTime:) name:@"sendTime" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver: self
@@ -48,8 +48,8 @@
     //    self.examples = [[NSMutableArray alloc] init];
     
     
-    self.courseLabel.font = FONT_25;
-    self.contentField.titleLabel.font = FONT_27;
+    
+    
     
     self.example2 = [[THCircularProgressView alloc] initWithFrame:CGRectMake(1000*WidthScale, 20*HeightScale, 50*HeightScale, 50*HeightScale)];
     self.example2.lineWidth = 8.0f;
@@ -137,6 +137,12 @@
 -(UILabel *)beDownloadingLabel{
     return _beDownloadingLabel;
 }
+
+-(UIImageView *)roundImage{
+
+    return _roundImage;
+}
+
 #pragma - mark click
 
 // 点击课程名称
@@ -186,4 +192,57 @@
 -(void)contentDidClick{
     self.contentField.selected=NO;
 }
+
+-(void)measureTheFrameOfScreen{
+    
+    if (IS_IPHONE) {
+        //getIphoneFrame
+        NSLog(@"iphone");
+        [self getIphoneFrame];
+    }else{
+        //getIpadFrame
+        NSLog(@"ipad");
+        [self getIpadFrame];
+    }
+}
+
+
+-(void)getIphoneFrame{
+    
+    self.roundImage.frame = CGRectMake(0.0195*UIScreenWidth, 0.02*UIScreenWidth, 0.0228*UIScreenWidth, 0.0228*UIScreenWidth);
+    self.contentField.frame = CGRectMake(0.0706*UIScreenWidth, 0.016*UIScreenWidth, 0.43*UIScreenWidth, 0.03*UIScreenWidth);
+    self.contentField.titleLabel.font = [UIFont systemFontOfSize:0.0228*UIScreenWidth];
+    self.downloadBtn.frame = CGRectMake(0.51*UIScreenWidth, 0.013*UIScreenWidth, 0.038*UIScreenWidth, 0.0358*UIScreenWidth);
+    self.courseLabel.frame = CGRectMake(0.599*UIScreenWidth, 0.016*UIScreenWidth, 0.104*UIScreenWidth, 0.03*UIScreenWidth);
+    self.courseLabel.font = [UIFont systemFontOfSize:0.0228*UIScreenWidth];
+    self.beDownloadingLabel.frame = CGRectMake(0.46*UIScreenWidth, 0.013*UIScreenWidth, 0.2*UIScreenWidth, 0.0358*UIScreenWidth);
+    self.beDownloadingLabel.font = FONT_23;
+    self.imageBtn.frame = CGRectMake(0.7326*UIScreenWidth, 0.013*UIScreenWidth, 0.038*UIScreenWidth, 0.0358*UIScreenWidth);
+
+}
+
+
+-(void)getIpadFrame{
+    
+    self.roundImage.frame = CGRectMake(0.0195*UIScreenWidth, 0.023*UIScreenWidth, 0.0228*UIScreenWidth, 0.0228*UIScreenWidth);
+    self.contentField.frame = CGRectMake(0.0706*UIScreenWidth, 0.019*UIScreenWidth, 0.43*UIScreenWidth, 0.03*UIScreenWidth);
+    self.contentField.titleLabel.font = [UIFont systemFontOfSize:0.0228*UIScreenWidth];
+    self.downloadBtn.frame = CGRectMake(0.51*UIScreenWidth, 0.016*UIScreenWidth, 0.038*UIScreenWidth, 0.0358*UIScreenWidth);
+    self.courseLabel.frame = CGRectMake(0.599*UIScreenWidth, 0.019*UIScreenWidth, 0.104*UIScreenWidth, 0.03*UIScreenWidth);
+    self.courseLabel.font = [UIFont systemFontOfSize:0.0228*UIScreenWidth];
+    self.beDownloadingLabel.frame = CGRectMake(0.46*UIScreenWidth, 0.016*UIScreenWidth, 0.1*UIScreenWidth, 0.0358*UIScreenWidth);
+    self.beDownloadingLabel.font = FONT_25;
+    self.imageBtn.frame = CGRectMake(0.7326*UIScreenWidth, 0.016*UIScreenWidth, 0.038*UIScreenWidth, 0.0358*UIScreenWidth);
+
+}
+
+
+
+
+
+
+
+
+
+
 @end

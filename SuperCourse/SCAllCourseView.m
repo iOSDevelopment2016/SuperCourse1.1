@@ -428,17 +428,7 @@
     [super layoutSubviews];
 
     self.leftBtn.selected = YES;
-    self.headView.frame= CGRectMake(0, 0, self.width, 800*HeightScale);
-    self.topImageView.frame = CGRectMake(0, 0, self.width, 670*HeightScale);
-    self.startBtn.frame = CGRectMake((self.topImageView.width-225)/2, self.topImageView.height-100, 225, 60);
-    self.headImageView.frame=CGRectMake(744*WidthScale,65*HeightScale, 158*WidthScale, 158*HeightScale);
-    self.characterImageView.frame=CGRectMake(270*WidthScale,280*HeightScale, 1087*WidthScale, 138*HeightScale);
-    self.leftBtn.frame=CGRectMake(0.312*self.width, 670*HeightScale, 0.127*self.width, 130*HeightScale);
-    self.rightBtn.frame=CGRectMake(0.562*self.width, 670*HeightScale, 0.127*self.width, 130*HeightScale);
-    self.firstTableView.frame = CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height);
-//    self.firstTableView.frame = CGRectMake(0, 800*HeightScale, self.width, 500*HeightScale);
-    //self.secondTableView.frame = CGRectMake(0, 800*HeightScale, self.width, 500*HeightScale);
-    self.label.frame=CGRectMake(0.7*self.width, 0*HeightScale, 0.5*self.width, 130*HeightScale);
+    [self measureTheFrameOfScreen];
     [self setUPAnimation];
 }
 
@@ -447,9 +437,16 @@
 -(void)setUPAnimation{
     initFrame = _topImageView.frame;
     defaultViewHeight = initFrame.size.height;
-    headImageCenter = CGPointMake(_headImageView.centerX, _headImageView.centerY);
+    headImageCenter = CGPointMake(_headImageView.center.x, _headImageView.center.y);
     
-    UIView *headerView = [[UIView alloc]initWithFrame:self.headView.frame];
+    UIView *headerView;
+    if (IS_IPHONE) {
+            headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.bounds.size.width, 730*HeightScale)];
+    }else{
+            headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.bounds.size.width, 800*HeightScale)];
+
+    }
+    
     _firstTableView.tableHeaderView = headerView;
     
     [_firstTableView addSubview:self.headView];
@@ -474,7 +471,7 @@
         initFrame.size.height = defaultViewHeight+offset;
         _topImageView.frame = initFrame;
 
-        _headImageView.frame = CGRectMake(0, 0, 158*HeightScale+offset/5, 158*HeightScale+offset/5);
+        _headImageView.frame = CGRectMake(0, 0, 158*WidthScale+offset/5, 158*WidthScale+offset/5);
         _headImageView.center = CGPointMake(headImageCenter.x, headImageCenter.y);
         
     }
@@ -824,7 +821,7 @@
     
     // create the parent view that will hold header Label
     
-    UIView* customView = [[UIView alloc] initWithFrame:CGRectMake(0, 0 , self.width, 670*HeightScale)];
+    UIView* customView = [[UIView alloc] initWithFrame:CGRectMake(0, 0 , self.width, 600*HeightScale)];
     
     customView.backgroundColor=UIColorFromRGB(0xeeeeee);
     
@@ -838,9 +835,12 @@
     [headerLabel setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
     //headerLabel.highlightedTextColor = [UIColor whiteColor];
     
-    headerLabel.font = [UIFont italicSystemFontOfSize:45*HeightScale];
-    
-    headerLabel.frame = CGRectMake(0, 10.0, self.width/2, 44.0);
+    headerLabel.font = [UIFont italicSystemFontOfSize:55*HeightScale];
+    if (IS_IPHONE) {
+        headerLabel.frame = CGRectMake(0, 10.0, self.width/2, 55*HeightScale);
+    }else{
+        headerLabel.frame = CGRectMake(0, 18.0, self.width/2, 55*HeightScale);
+    }
     
     SCCourseGroup *temp = self.currentSource.sec_arr[section];
     
@@ -894,7 +894,7 @@
 
 //调整标题宽度
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 59;
+    return 120*HeightScale;
 }
 
 
@@ -942,20 +942,20 @@
                 if([temp_.downloaded isEqualToString:@"YES"]){
             cell.downloadBtn.enabled=NO;
             cell.beDownloadingLabel.text=@"下载完成";
-            cell.beDownloadingLabel.font=FONT_25;
+            cell.beDownloadingLabel.font=FONT_23;
             [cell.downloadBtn setHidden:YES];
             [cell.beDownloadingLabel setHidden:NO];
             
         }else if([temp_.downloading isEqualToString:@"YES"]){
             cell.downloadBtn.enabled=NO;
             cell.beDownloadingLabel.text=@"当前下载";
-            cell.beDownloadingLabel.font=FONT_25;
+            cell.beDownloadingLabel.font=FONT_23;
             [cell.downloadBtn setHidden:YES];
             [cell.beDownloadingLabel setHidden:NO];
         }else if([temp_.downloading isEqualToString:@"NO"]){
             cell.downloadBtn.enabled=NO;
             cell.beDownloadingLabel.text=@"等待下载";
-            cell.beDownloadingLabel.font=FONT_25;
+            cell.beDownloadingLabel.font=FONT_23;
             [cell.downloadBtn setHidden:YES];
             [cell.beDownloadingLabel setHidden:NO];
         }else{
@@ -978,7 +978,6 @@
             if(isDodownloading){
                 cell.downloadBtn.enabled=NO;
                 cell.beDownloadingLabel.text=@"当前下载";
-                cell.beDownloadingLabel.font=FONT_25;
                 [cell.downloadBtn setHidden:YES];
                 [cell.beDownloadingLabel setHidden:NO];
             }else{
@@ -1001,7 +1000,6 @@
                 if(isDodownloaded){
                     cell.downloadBtn.enabled=NO;
                     cell.beDownloadingLabel.text=@"下载完成";
-                    cell.beDownloadingLabel.font=FONT_25;
                     [cell.downloadBtn setHidden:YES];
                     [cell.beDownloadingLabel setHidden:NO];
                     
@@ -1027,7 +1025,6 @@
                     {
                         cell.downloadBtn.enabled=NO;
                         cell.beDownloadingLabel.text=@"等待下载";
-                        cell.beDownloadingLabel.font=FONT_25;
                         [cell.downloadBtn setHidden:YES];
                         [cell.beDownloadingLabel setHidden:NO];
                     }
@@ -1046,8 +1043,12 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    UITableViewCell*cell =[self tableView:tableView cellForRowAtIndexPath:indexPath];
-    return cell.frame.size.height;
+    if (IS_IPHONE) {
+        return 170*HeightScale;
+    }else{
+        UITableViewCell*cell =[self tableView:tableView cellForRowAtIndexPath:indexPath];
+        return cell.frame.size.height;
+    }
 }
 
 
@@ -1121,7 +1122,7 @@
         //[_leftBtn setBackgroundColor:[UIColor greenColor]];
         [_leftBtn setTitle:@"大纲" forState:UIControlStateNormal];
         
-        _leftBtn.titleLabel.font = FONT_35;
+        _leftBtn.titleLabel.font = FONT_23;
         
         [_leftBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [_leftBtn setTitleColor:UIColorFromRGB(0x6fccdb) forState:UIControlStateSelected];
@@ -1136,10 +1137,9 @@
         _rightBtn=[UIButton buttonWithType:UIButtonTypeCustom];
         [_rightBtn setTitle:@"拓展" forState:UIControlStateNormal];
         [_rightBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        _rightBtn.titleLabel.font = FONT_35;
-        //[_rightBtn setFont:[UIFont systemFontOfSize:35]];
+        _rightBtn.titleLabel.font = FONT_23;
+//        [_rightBtn setFont:[UIFont systemFontOfSize:35*HeightScale]];
         [_rightBtn setTitleColor:UIColorFromRGB(0x6fccdb) forState:UIControlStateSelected];
-        //[_rightBtn setFont:[UIFont systemFontOfSize:<#(CGFloat)#>]];
         [_rightBtn addTarget:self action:@selector(rightBtnClick) forControlEvents:UIControlEventTouchUpInside];
     }
     
@@ -1148,7 +1148,11 @@
 
 -(UIView *)scrollView{
     if(!_scrollView){
-        _scrollView=[[UIView alloc]initWithFrame:CGRectMake(520*WidthScale, 780*HeightScale, 200*HeightScale, 9*HeightScale)];
+        if (IS_IPHONE) {
+            _scrollView=[[UIView alloc]initWithFrame:CGRectMake(520*WidthScale, 710*HeightScale, 255*HeightScale, 9*HeightScale)];
+        }else{
+            _scrollView=[[UIView alloc]initWithFrame:CGRectMake(520*WidthScale, 780*HeightScale, 200*HeightScale, 9*HeightScale)];
+        }
         [_scrollView setBackgroundColor:UIColorFromRGB(0x6fccdb)];
     }
     return _scrollView;
@@ -1227,6 +1231,54 @@
 -(void)didReed{
     self.startBtn.selected=NO;
 }
+
+-(void)measureTheFrameOfScreen{
+    
+    if (IS_IPHONE) {
+        //getIphoneFrame
+        NSLog(@"iphone");
+        [self getIphoneFrame];
+    }else{
+        //getIpadFrame
+        NSLog(@"ipad");
+        [self getIpadFrame];
+    }
+}
+
+
+-(void)getIphoneFrame{
+    
+    self.headView.frame= CGRectMake(0, 0, self.width, 800*HeightScale);
+    self.topImageView.frame = CGRectMake(0, 0, self.width, 600*HeightScale);
+    self.startBtn.frame = CGRectMake((self.topImageView.width-640*HeightScale)/2, self.topImageView.height-260*HeightScale, 640*HeightScale, 160*HeightScale);
+    self.headImageView.frame=CGRectMake(744*WidthScale, 85*HeightScale, 158*WidthScale, 158*WidthScale);
+//    self.characterImageView.frame=CGRectMake(270*WidthScale,280*HeightScale, 1087*WidthScale, 138*HeightScale);
+    self.leftBtn.frame=CGRectMake(0.312*self.width, 600*HeightScale, 0.127*self.width, 130*HeightScale);
+    self.rightBtn.frame=CGRectMake(0.562*self.width, 600*HeightScale, 0.127*self.width, 130*HeightScale);
+    self.firstTableView.frame = CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height);
+    //    self.firstTableView.frame = CGRectMake(0, 800*HeightScale, self.width, 500*HeightScale);
+    //self.secondTableView.frame = CGRectMake(0, 800*HeightScale, self.width, 500*HeightScale);
+    self.label.frame=CGRectMake(0.7*self.width, 0*HeightScale, 0.5*self.width, 130*HeightScale);
+    self.label.font = [UIFont systemFontOfSize:55*HeightScale];
+}
+
+
+-(void)getIpadFrame{
+    
+    self.headView.frame= CGRectMake(0, 0, self.width, 800*HeightScale);
+    self.topImageView.frame = CGRectMake(0, 0, self.width, 670*HeightScale);
+    self.startBtn.frame = CGRectMake((self.topImageView.width-225)/2, self.topImageView.height-100, 225, 60);
+    self.headImageView.frame=CGRectMake(744*WidthScale,65*HeightScale, 158*WidthScale, 158*HeightScale);
+    self.characterImageView.frame=CGRectMake(270*WidthScale,280*HeightScale, 1087*WidthScale, 138*HeightScale);
+    self.leftBtn.frame=CGRectMake(0.312*self.width, 670*HeightScale, 0.127*self.width, 130*HeightScale);
+    self.rightBtn.frame=CGRectMake(0.562*self.width, 670*HeightScale, 0.127*self.width, 130*HeightScale);
+    self.firstTableView.frame = CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height);
+    //    self.firstTableView.frame = CGRectMake(0, 800*HeightScale, self.width, 500*HeightScale);
+    //self.secondTableView.frame = CGRectMake(0, 800*HeightScale, self.width, 500*HeightScale);
+    self.label.frame=CGRectMake(0.7*self.width, 0*HeightScale, 0.5*self.width, 130*HeightScale);
+    
+}
+
 
 @end
 

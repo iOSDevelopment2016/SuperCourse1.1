@@ -78,15 +78,15 @@
        
 -(void)layoutSubviews{
     [super layoutSubviews];
-    self.firstSearchTableView.frame = CGRectMake(0, 200*HeightScale+7, self.width,810*HeightScale );
-    self.secondSearchTableView.frame = CGRectMake(0, 200*HeightScale+7, self.width,810*HeightScale );
-    self.scrollSearchView.frame = CGRectMake(0,100*HeightScale+7 , self.width, 100*HeightScale);
+    self.firstSearchTableView.frame = CGRectMake(0, 215*HeightScale, self.width,810*HeightScale );
+    self.secondSearchTableView.frame = CGRectMake(0, 215*HeightScale, self.width,810*HeightScale );
+    self.scrollSearchView.frame = CGRectMake(0,115*HeightScale , self.width, 100*HeightScale);
     self.scrollSearchView.backgroundColor= [UIColor whiteColor];
     self.firstSearchTableView.backgroundColor=[UIColor whiteColor];
     self.stateView.backgroundColor=[UIColor whiteColor];
     self.backgroundColor=UIBackgroundColor;
-    self.leftBtn.frame=CGRectMake(0.312*self.width, 100*HeightScale+7 , 0.127*self.width, 100*HeightScale);
-    self.rightBtn.frame=CGRectMake(0.562*self.width, 100*HeightScale+7 , 0.127*self.width, 100*HeightScale);
+    self.leftBtn.frame=CGRectMake(0.312*self.width, 115*HeightScale , 0.127*self.width, 100*HeightScale);
+    self.rightBtn.frame=CGRectMake(0.562*self.width, 115*HeightScale , 0.127*self.width, 100*HeightScale);
     self.stateView.frame = CGRectMake(0, 0, self.width, 100*HeightScale);
     self.state.frame= CGRectMake(0.631*self.width, 0, 0.351*self.width, 100*HeightScale);
     self.label.frame= CGRectMake(0.027*self.width, 0, 0.103*self.width, 100*HeightScale);
@@ -139,7 +139,7 @@
 
 -(UIView *)scrollSearchView{
     if(!_scrollSearchView){
-        _scrollSearchView=[[UIView alloc]initWithFrame:CGRectMake(0, 100*HeightScale+7, self.width, 100*HeightScale)];
+        _scrollSearchView=[[UIView alloc]initWithFrame:CGRectMake(0, 115*HeightScale, self.width, 100*HeightScale)];
         _scrollSearchView.backgroundColor = [UIColor whiteColor];
     }
     return _scrollSearchView;
@@ -154,7 +154,7 @@
 -(UILabel *)state{
     if(! _state){
         _state=[[UILabel alloc]init];
-        _state.font=[UIFont systemFontOfSize:25];
+        _state.font=FONT_25;
         _state.textColor=[UIColor grayColor];
 //        SClesson_list *l =[[SClesson_list alloc]init];
           _state.adjustsFontSizeToFitWidth = YES;
@@ -169,7 +169,7 @@
 -(UILabel *)label{
     if(! _label){
         _label=[[UILabel alloc]init];
-        _label.font=[UIFont systemFontOfSize:25];
+        _label.font=FONT_25;
         _label.textColor=[UIColor grayColor];
         _label.text=@"搜索结果";
         _label.adjustsFontSizeToFitWidth = YES;
@@ -227,15 +227,25 @@
     return cell;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    UITableViewCell*cell =[self tableView:tableView cellForRowAtIndexPath:indexPath];
-    return cell.frame.size.height;
-}
+  
+    if (IS_IPHONE) {
+        
+        return 150*HeightScale;
+        
+    }else{
+    
+        UITableViewCell*cell =[self tableView:tableView cellForRowAtIndexPath:indexPath];
+        return cell.frame.size.height;
+
+    }
+    
+  }
 -(UIButton *)leftBtn{
     if(!_leftBtn){
         _leftBtn=[UIButton buttonWithType:UIButtonTypeCustom];
         //[_leftBtn setBackgroundColor:[UIColor greenColor]];
         [_leftBtn setTitle:@"大纲" forState:UIControlStateNormal];
-        [_leftBtn setFont:[UIFont systemFontOfSize:30]];
+        [_leftBtn setFont:FONT_30];
         [_leftBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [_leftBtn setTitleColor:UIColorFromRGB(0x6fccdb) forState:UIControlStateSelected];
         [_leftBtn addTarget:self action:@selector(leftBtnClick) forControlEvents:UIControlEventTouchUpInside];
@@ -250,7 +260,7 @@
         _rightBtn=[UIButton buttonWithType:UIButtonTypeCustom];
         [_rightBtn setTitle:@"拓展" forState:UIControlStateNormal];
         [_rightBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [_rightBtn setFont:[UIFont systemFontOfSize:30]];
+        [_rightBtn setFont:FONT_30];
         [_rightBtn setTitleColor:UIColorFromRGB(0x6fccdb) forState:UIControlStateSelected];
         //[_rightBtn setFont:[UIFont systemFontOfSize:<#(CGFloat)#>]];
         [_rightBtn addTarget:self action:@selector(rightBtnClick) forControlEvents:UIControlEventTouchUpInside];

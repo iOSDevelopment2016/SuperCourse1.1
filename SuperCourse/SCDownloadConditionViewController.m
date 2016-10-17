@@ -128,13 +128,7 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    
-    self.backImageBtn.frame=CGRectMake(40, 42, 20, 35);
-    self.backBtn.frame=CGRectMake(40, 40, 190, 40);
-    self.downloadTableView.frame = CGRectMake(0, 180*HeightScale, 2048*WidthScale, 1000*HeightScale);
-    self.downloadTableView.backgroundColor=UIColorFromRGB(0xeeeeee);
-    self.label.frame=CGRectMake(0, 0, 0.3*self.view.width, 0.2*self.view.height);
-    self.label.center=self.view.center;
+    [self measureTheFrameOfScreen];
 }
 #pragma mark - click
 -(void)backBtnClick{
@@ -220,7 +214,7 @@
     
     headerLabel1.font = [UIFont italicSystemFontOfSize:35*HeightScale];
     
-    headerLabel1.frame = CGRectMake(160, 10.0, 300.0, 44.0);
+    headerLabel1.frame = CGRectMake(320*HeightScale, 20*HeightScale, 600*HeightScale, 88*HeightScale);
     
     // SCCourseGroup *temp = self.currentSource.sec_arr[section];
     
@@ -240,7 +234,7 @@
     
     headerLabel2.font = [UIFont italicSystemFontOfSize:35*HeightScale];
     
-    headerLabel2.frame = CGRectMake(self.view.width-540, 10.0, 300.0, 44.0);
+    headerLabel2.frame = CGRectMake(self.view.width/2-200*HeightScale, 20*HeightScale, 600*HeightScale, 88*HeightScale);
     
     // SCCourseGroup *temp = self.currentSource.sec_arr[section];
     
@@ -260,7 +254,7 @@
     
     headerLabel3.font = [UIFont italicSystemFontOfSize:35*HeightScale];
     
-    headerLabel3.frame = CGRectMake(self.view.width-270, 10.0, 300.0, 44.0);
+    headerLabel3.frame = CGRectMake(self.view.width-540*HeightScale, 20*HeightScale, 600*HeightScale, 88*HeightScale);
     
     // SCCourseGroup *temp = self.currentSource.sec_arr[section];
     
@@ -280,7 +274,7 @@
     
     headerLabel4.font = [UIFont italicSystemFontOfSize:35*HeightScale];
     
-    headerLabel4.frame = CGRectMake(self.view.width-100, 10.0, 300.0, 44.0);
+    headerLabel4.frame = CGRectMake(self.view.width-200*HeightScale, 20*HeightScale, 600*HeightScale, 88*HeightScale);
     
     // SCCourseGroup *temp = self.currentSource.sec_arr[section];
     
@@ -289,6 +283,21 @@
     
     [customView addSubview:headerLabel4];
     
+    
+    if (IS_IPHONE) {
+        headerLabel1.font = [UIFont italicSystemFontOfSize:50*HeightScale];
+        headerLabel2.font = [UIFont italicSystemFontOfSize:50*HeightScale];
+        headerLabel3.font = [UIFont italicSystemFontOfSize:50*HeightScale];
+        headerLabel4.font = [UIFont italicSystemFontOfSize:50*HeightScale];
+        
+        headerLabel1.frame = CGRectMake(320*HeightScale, 20*HeightScale, 600*HeightScale, 88*HeightScale);
+
+        headerLabel2.frame = CGRectMake(self.view.width/2-200*HeightScale, 20*HeightScale, 600*HeightScale, 88*HeightScale);
+
+        headerLabel3.frame = CGRectMake(self.view.width-800*HeightScale, 20*HeightScale, 600*HeightScale, 88*HeightScale);
+        headerLabel4.frame = CGRectMake(self.view.width-350*HeightScale, 20*HeightScale, 600*HeightScale, 88*HeightScale);
+
+    }
     
     return customView;
     
@@ -331,7 +340,7 @@
 
 //调整标题宽度
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 59;
+    return 150*HeightScale;
 }
 
 
@@ -423,8 +432,14 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    UITableViewCell*cell =[self tableView:tableView cellForRowAtIndexPath:indexPath];
-    return cell.frame.size.height;
+   
+    if (IS_IPHONE) {
+        return 120*HeightScale;
+    }else{
+        UITableViewCell*cell =[self tableView:tableView cellForRowAtIndexPath:indexPath];
+        return cell.frame.size.height;
+
+    }
 }
 
 
@@ -630,7 +645,10 @@
                 //        }
                 //        else{
                 [UIAlertController showAlertAtViewController:self withMessage:@"未登陆下受限" cancelTitle:@"取消" confirmTitle:@"我知道了" cancelHandler:^(UIAlertAction *action) {
+                    
+                    
                 } confirmHandler:^(UIAlertAction *action) {
+                    
                 }];
             //        }
             
@@ -676,11 +694,57 @@
     if(!_label){
         _label=[[UILabel alloc]init];
         _label.text=@"暂无下载文件";
-        _label.font=[UIFont systemFontOfSize:45];
+        _label.font=[UIFont systemFontOfSize:90*HeightScale];
         _label.textAlignment=UITextAlignmentCenter;
         _label.textColor=[UIColor lightGrayColor];
     }
     return _label;
 }
+
+
+-(void)measureTheFrameOfScreen{
+    
+    if (IS_IPHONE) {
+        //getIphoneFrame
+        NSLog(@"iphone");
+        [self getIphoneFrame];
+    }else{
+        //getIpadFrame
+        NSLog(@"ipad");
+        [self getIpadFrame];
+    }
+}
+
+
+-(void)getIphoneFrame{
+    
+    self.backImageBtn.frame=CGRectMake(80*HeightScale, 85*HeightScale, 40*HeightScale, 70*HeightScale);
+    self.backBtn.frame=CGRectMake(80*HeightScale, 80*HeightScale, 380*HeightScale, 80*HeightScale);
+    self.downloadTableView.frame = CGRectMake(0, 180*HeightScale, UIScreenWidth, 1250*HeightScale);
+    self.downloadTableView.backgroundColor=UIColorFromRGB(0xeeeeee);
+    self.label.frame=CGRectMake(0, 0, 0.3*self.view.width, 0.2*self.view.height);
+    self.label.center=self.view.center;
+
+}
+
+
+-(void)getIpadFrame{
+    
+    self.backImageBtn.frame=CGRectMake(40, 42, 20, 35);
+    self.backBtn.frame=CGRectMake(40, 40, 190, 40);
+    self.downloadTableView.frame = CGRectMake(0, 180*HeightScale, 2048*WidthScale, 1000*HeightScale);
+    self.downloadTableView.backgroundColor=UIColorFromRGB(0xeeeeee);
+    self.label.frame=CGRectMake(0, 0, 0.3*self.view.width, 0.2*self.view.height);
+    self.label.center=self.view.center;
+
+    
+    
+}
+
+
+
+
+
+
 
 @end

@@ -191,55 +191,10 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     NSLog(@"%f",self.view.height);
-    self.backImageBtn.frame=CGRectMake(40, 42, 20, 35);
-    self.backBtn.frame=CGRectMake(40, 40, 190, 40);
-    self.userNameLabel.frame=CGRectMake(0, 10, 100, 40);
-    self.userName.frame=CGRectMake(1024-470, 10, 400, 40);
-    self.userSexLabel.frame=CGRectMake(0, 10, 100, 40);
-    self.userSex.frame=CGRectMake(1024-470, 10, 400, 40);
-    self.userSchoolLabel.frame=CGRectMake(0, 10, 100, 40);
-    self.userSchool.frame=CGRectMake(1024-470, 10, 400, 40);
-    self.userDepartmentLabel.frame=CGRectMake(0, 10, 100, 40);
-    self.userDepartment.frame=CGRectMake(1024-470, 10, 400, 40);
-    self.userProfessionLabel.frame=CGRectMake(0, 10, 100, 40);
-    self.userProfession.frame=CGRectMake(1024-470, 10, 400, 40);
-    self.userGradeLabel.frame=CGRectMake(0, 10, 100, 40);
-    self.userGrade.frame=CGRectMake(1024-470, 10, 400, 40);
-    self.userEmailLabel.frame=CGRectMake(0, 10, 100, 40);
-    self.userEmail.frame=CGRectMake(1024-470, 10, 400, 40);
-    self.userImageLabel.frame=CGRectMake(0, 20, 100, 40);
-    self.userImage.frame=CGRectMake(1024-140, 10, 60, 60);
-    self.confirmBtn.frame=CGRectMake(1024/2-350*WidthScale, 768-200*HeightScale, 700*WidthScale, 100*HeightScale);
-    self.imageView.frame=CGRectMake(0, 100, 1024, 80);
-    self.nameView.frame=CGRectMake(0, 182, 1024, 60);
-    self.sexView.frame=CGRectMake(0, 244, 1024, 60);
-    self.emailView.frame=CGRectMake(0, 306, 1024, 60);
-    self.schoolView.frame=CGRectMake(0, 380, 1024, 60);
-    self.departmentView.frame=CGRectMake(0, 442, 1024, 60);
-    self.professionView.frame=CGRectMake(0, 504, 1024, 60);
-    self.gradeView.frame=CGRectMake(0, 566, 1024, 60);
-    
-    self.imageBtn.frame=CGRectMake(1024-60, 20, 40, 40);
-    self.nameBtn.frame=CGRectMake(1024-60, 10, 40, 40);
-    self.sexBtn.frame=CGRectMake(1024-60, 10, 40, 40);
-    self.emainBtn.frame=CGRectMake(1024-60, 10, 40, 40);
-    self.schoolBtn.frame=CGRectMake(1024-60, 10, 40, 40);
-    self.departmentBtn.frame=CGRectMake(1024-60, 10, 40, 40);
-    self.professionBtn.frame=CGRectMake(1024-60, 10, 40, 40);
-    self.gradeBtn.frame=CGRectMake(1024-60, 10, 40, 40);
+    [self measureTheFrameOfScreen];
     
     
-    self.imageBtnHub.frame=CGRectMake(0, 20, 1024, 40);
-    self.nameBtnHub.frame=CGRectMake(0, 10, 1024, 40);
-    self.sexBtnHub.frame=CGRectMake(0, 10, 1024, 40);
-    self.emainBtnHub.frame=CGRectMake(0, 10, 1024, 40);
-    self.schoolBtnHub.frame=CGRectMake(0, 10, 1024, 40);
-    self.departmentBtnHub.frame=CGRectMake(0, 10, 1024, 40);
-    self.professionBtnHub.frame=CGRectMake(0, 10, 1024, 40);
-    self.gradeBtnHub.frame=CGRectMake(0, 10, 1024, 40);
-    
-    self.userImage.layer.masksToBounds=YES;
-    self.userImage.layer.cornerRadius=30;
+
     
 //    self.getImage.frame=CGRectMake(1024/2-350*WidthScale, 1024-200*HeightScale, 700*WidthScale, 100*HeightScale);
 }
@@ -573,7 +528,7 @@
     if(!_userNameLabel){
         _userNameLabel=[[UILabel alloc]init];
         _userNameLabel.text=@"昵称";
-        _userNameLabel.font=[UIFont systemFontOfSize:23.5];
+        _userNameLabel.font=FONT_23;
         _userNameLabel.textColor=[UIColor grayColor];
         _userNameLabel.textAlignment=UITextAlignmentRight;
     }
@@ -583,7 +538,7 @@
     if(!_userSexLabel){
         _userSexLabel=[[UILabel alloc]init];
         _userSexLabel.text=@"性别";
-        _userSexLabel.font=[UIFont systemFontOfSize:23.5];
+        _userSexLabel.font=FONT_23;
         _userSexLabel.textColor=[UIColor grayColor];
         _userSexLabel.textAlignment=UITextAlignmentRight;
     }
@@ -593,7 +548,7 @@
     if(!_userSchoolLabel){
         _userSchoolLabel=[[UILabel alloc]init];
         _userSchoolLabel.text=@"学校";
-        _userSchoolLabel.font=[UIFont systemFontOfSize:23.5];
+        _userSchoolLabel.font=FONT_23;
         _userSchoolLabel.textColor=[UIColor grayColor];
         _userSchoolLabel.textAlignment=UITextAlignmentRight;
     }
@@ -603,7 +558,7 @@
     if(!_userDepartmentLabel){
         _userDepartmentLabel=[[UILabel alloc]init];
         _userDepartmentLabel.text=@"院系";
-        _userDepartmentLabel.font=[UIFont systemFontOfSize:23.5];
+        _userDepartmentLabel.font=FONT_23;
         _userDepartmentLabel.textColor=[UIColor grayColor];
         _userDepartmentLabel.textAlignment=UITextAlignmentRight;
     }
@@ -613,7 +568,7 @@
     if(!_userProfessionLabel){
         _userProfessionLabel=[[UILabel alloc]init];
         _userProfessionLabel.text=@"专业";
-        _userProfessionLabel.font=[UIFont systemFontOfSize:23.5];
+        _userProfessionLabel.font=FONT_23;
         _userProfessionLabel.textColor=[UIColor grayColor];
         _userProfessionLabel.textAlignment=UITextAlignmentRight;
     }
@@ -623,7 +578,7 @@
     if(!_userGradeLabel){
         _userGradeLabel=[[UILabel alloc]init];
         _userGradeLabel.text=@"年级";
-        _userGradeLabel.font=[UIFont systemFontOfSize:23.5];
+        _userGradeLabel.font=FONT_23;
         _userGradeLabel.textColor=[UIColor grayColor];
         _userGradeLabel.textAlignment=UITextAlignmentRight;
     }
@@ -634,7 +589,7 @@
     if(!_userEmailLabel){
         _userEmailLabel=[[UILabel alloc]init];
         _userEmailLabel.text=@"邮箱";
-        _userEmailLabel.font=[UIFont systemFontOfSize:23.5];
+        _userEmailLabel.font=FONT_23;
         _userEmailLabel.textColor=[UIColor grayColor];
         _userEmailLabel.textAlignment=UITextAlignmentRight;
     }
@@ -644,7 +599,7 @@
     if(!_userImageLabel){
         _userImageLabel=[[UILabel alloc]init];
         _userImageLabel.text=@"头像";
-        _userImageLabel.font=[UIFont systemFontOfSize:23.5];
+        _userImageLabel.font=FONT_23;
         _userImageLabel.textColor=[UIColor grayColor];
         _userImageLabel.textAlignment=UITextAlignmentRight;
     }
@@ -656,7 +611,7 @@
         _confirmBtn=[[UIButton alloc]init];
         [_confirmBtn setTitle:@"上传头像" forState:UIControlStateNormal];
         [_confirmBtn addTarget:self action:@selector(getImageClick) forControlEvents:UIControlEventTouchUpInside];
-        [_confirmBtn setFont:[UIFont systemFontOfSize:45*WidthScale]];
+        [_confirmBtn setFont:FONT_23];
         [_confirmBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         _confirmBtn.layer.masksToBounds = YES;
         _confirmBtn.layer.cornerRadius = 26;
@@ -1290,21 +1245,132 @@
 
 
 
-//-(ImagePickerViewController *)pickImage{
-//    if(!_pickImage){
-//        _pickImage=[[ImagePickerViewController alloc]init];
-//    }
-//    return _pickImage;
-//}
-//-(UIButton *)getImage{
-//    if(!_getImage){
-//        _getImage=[[UIButton alloc]init];
-//        [_getImage addTarget:self action:@selector(getImageClick) forControlEvents:UIControlEventTouchUpInside];
-//    }
-//    return _getImage;
-//}
-//-(void)getImageClick{
-//    [self.pickImage clickPickImage];
-//    //[self.navigationController pushViewController:self.pickImage animated:YES];
-//}
+-(void)measureTheFrameOfScreen{
+    
+    if (IS_IPHONE) {
+        //getIphoneFrame
+        NSLog(@"iphone");
+        [self getIphoneFrame];
+    }else{
+        //getIpadFrame
+        NSLog(@"ipad");
+        [self getIpadFrame];
+    }
+}
+
+
+-(void)getIphoneFrame{
+    
+    self.backImageBtn.frame=CGRectMake(80*HeightScale, 85*HeightScale, 40*HeightScale, 70*HeightScale);
+    self.backBtn.frame=CGRectMake(130*HeightScale, 80*HeightScale, 400*HeightScale, 80*HeightScale);
+    self.userNameLabel.frame=CGRectMake(100*HeightScale, 20*HeightScale, 200*HeightScale, 80*HeightScale);
+    self.userName.frame=CGRectMake(UIScreenWidth-1040*HeightScale, 20*HeightScale, 800*HeightScale, 80*HeightScale);
+    self.userSexLabel.frame=CGRectMake(100*HeightScale, 20*HeightScale, 200*HeightScale, 80*HeightScale);
+    self.userSex.frame=CGRectMake(UIScreenWidth-1040*HeightScale, 20*HeightScale, 800*HeightScale, 80*HeightScale);
+    self.userSchoolLabel.frame=CGRectMake(100*HeightScale, 20*HeightScale, 200*HeightScale, 80*HeightScale);
+    self.userSchool.frame=CGRectMake(UIScreenWidth-1040*HeightScale, 20*HeightScale, 800*HeightScale, 80*HeightScale);
+    self.userDepartmentLabel.frame=CGRectMake(100*HeightScale, 20*HeightScale, 200*HeightScale, 80*HeightScale);
+    self.userDepartment.frame=CGRectMake(UIScreenWidth-1040*HeightScale, 20*HeightScale, 800*HeightScale, 80*HeightScale);
+
+    self.userProfessionLabel.frame=CGRectMake(100*HeightScale, 20*HeightScale, 200*HeightScale, 80*HeightScale);
+    self.userProfession.frame=CGRectMake(UIScreenWidth-1040*HeightScale, 20*HeightScale, 800*HeightScale, 80*HeightScale);
+
+    self.userGradeLabel.frame=CGRectMake(100*HeightScale, 20*HeightScale, 200*HeightScale, 80*HeightScale);
+    self.userGrade.frame=CGRectMake(UIScreenWidth-1040*HeightScale, 20*HeightScale, 800*HeightScale, 80*HeightScale);
+
+    self.userEmailLabel.frame=CGRectMake(100*HeightScale, 20*HeightScale, 200*HeightScale, 80*HeightScale);
+    self.userEmail.frame=CGRectMake(UIScreenWidth-1040*HeightScale, 20*HeightScale, 800*HeightScale, 80*HeightScale);
+
+    self.userImageLabel.frame = CGRectMake(100*HeightScale, 40*HeightScale, 200*HeightScale, 80*HeightScale);
+    self.userImage.frame=CGRectMake(UIScreenWidth-370*HeightScale, 20*HeightScale, 120*HeightScale, 120*HeightScale);
+
+    self.confirmBtn.frame=CGRectMake(UIScreenWidth/2-350*WidthScale, 1536*HeightScale-200*HeightScale, 700*WidthScale, 100*HeightScale);
+    self.imageView.frame=CGRectMake(0, 200*HeightScale, UIScreenWidth, 160*HeightScale);
+    self.nameView.frame=CGRectMake(0, 364*HeightScale, UIScreenWidth, 120*HeightScale);
+    self.sexView.frame=CGRectMake(0, 488*HeightScale, UIScreenWidth, 120*HeightScale);
+    self.emailView.frame=CGRectMake(0, 612*HeightScale, UIScreenWidth, 120*HeightScale);
+    self.schoolView.frame=CGRectMake(0, 756*HeightScale, UIScreenWidth, 120*HeightScale);
+    self.departmentView.frame=CGRectMake(0, 880*HeightScale, UIScreenWidth, 120*HeightScale);
+    self.professionView.frame=CGRectMake(0, 1004*HeightScale, UIScreenWidth, 120*HeightScale);
+    self.gradeView.frame=CGRectMake(0, 1128*HeightScale, UIScreenWidth, 120*HeightScale);
+    
+    self.imageBtn.frame=CGRectMake(UIScreenWidth-120*HeightScale,40*HeightScale, 60*HeightScale, 80*HeightScale);
+    self.nameBtn.frame=CGRectMake(UIScreenWidth-120*HeightScale, 30*HeightScale, 60*HeightScale, 70*HeightScale);
+    self.sexBtn.frame=CGRectMake(UIScreenWidth-120*HeightScale, 30*HeightScale, 60*HeightScale, 70*HeightScale);
+    self.emainBtn.frame=CGRectMake(UIScreenWidth-120*HeightScale, 30*HeightScale, 60*HeightScale, 70*HeightScale);
+    self.schoolBtn.frame=CGRectMake(UIScreenWidth-120*HeightScale, 30*HeightScale, 60*HeightScale, 70*HeightScale);
+    self.departmentBtn.frame=CGRectMake(UIScreenWidth-120*HeightScale, 30*HeightScale, 60*HeightScale, 70*HeightScale);
+    self.professionBtn.frame=CGRectMake(UIScreenWidth-120*HeightScale, 30*HeightScale, 60*HeightScale, 70*HeightScale);
+    self.gradeBtn.frame=CGRectMake(UIScreenWidth-120*HeightScale, 30*HeightScale, 60*HeightScale, 70*HeightScale);
+    
+    
+    self.imageBtnHub.frame=CGRectMake(0, 40*HeightScale, UIScreenWidth, 80*HeightScale);
+    self.nameBtnHub.frame=CGRectMake(0, 20*HeightScale, UIScreenWidth, 80*HeightScale);
+    self.sexBtnHub.frame=CGRectMake(0, 20*HeightScale, UIScreenWidth, 80*HeightScale);
+    self.emainBtnHub.frame=CGRectMake(0, 20*HeightScale, UIScreenWidth, 80*HeightScale);
+    self.schoolBtnHub.frame=CGRectMake(0, 20*HeightScale, UIScreenWidth, 80*HeightScale);
+    self.departmentBtnHub.frame=CGRectMake(0, 20*HeightScale, UIScreenWidth, 80*HeightScale);
+    self.professionBtnHub.frame=CGRectMake(0, 20*HeightScale, UIScreenWidth, 80*HeightScale);
+    self.gradeBtnHub.frame=CGRectMake(0, 20*HeightScale, UIScreenWidth, 80*HeightScale);
+    
+    self.userImage.layer.masksToBounds=YES;
+    self.userImage.layer.cornerRadius=60*HeightScale;
+
+    
+}
+
+
+-(void)getIpadFrame{
+    
+    self.backImageBtn.frame=CGRectMake(40, 42, 20, 35);
+    self.backBtn.frame=CGRectMake(55, 40, 100, 40);
+    self.userNameLabel.frame=CGRectMake(0, 10, 100, 40);
+    self.userName.frame=CGRectMake(1024-470, 10, 400, 40);
+    self.userSexLabel.frame=CGRectMake(0, 10, 100, 40);
+    self.userSex.frame=CGRectMake(1024-470, 10, 400, 40);
+    self.userSchoolLabel.frame=CGRectMake(0, 10, 100, 40);
+    self.userSchool.frame=CGRectMake(1024-470, 10, 400, 40);
+    self.userDepartmentLabel.frame=CGRectMake(0, 10, 100, 40);
+    self.userDepartment.frame=CGRectMake(1024-470, 10, 400, 40);
+    self.userProfessionLabel.frame=CGRectMake(0, 10, 100, 40);
+    self.userProfession.frame=CGRectMake(1024-470, 10, 400, 40);
+    self.userGradeLabel.frame=CGRectMake(0, 10, 100, 40);
+    self.userGrade.frame=CGRectMake(1024-470, 10, 400, 40);
+    self.userEmailLabel.frame=CGRectMake(0, 10, 100, 40);
+    self.userEmail.frame=CGRectMake(1024-470, 10, 400, 40);
+    self.userImageLabel.frame=CGRectMake(0, 20, 100, 40);
+    self.userImage.frame=CGRectMake(1024-140, 10, 60, 60);
+    self.confirmBtn.frame=CGRectMake(1024/2-350*WidthScale, 768-200*HeightScale, 700*WidthScale, 100*HeightScale);
+    self.imageView.frame=CGRectMake(0, 100, 1024, 80);
+    self.nameView.frame=CGRectMake(0, 182, 1024, 60);
+    self.sexView.frame=CGRectMake(0, 244, 1024, 60);
+    self.emailView.frame=CGRectMake(0, 306, 1024, 60);
+    self.schoolView.frame=CGRectMake(0, 380, 1024, 60);
+    self.departmentView.frame=CGRectMake(0, 442, 1024, 60);
+    self.professionView.frame=CGRectMake(0, 504, 1024, 60);
+    self.gradeView.frame=CGRectMake(0, 566, 1024, 60);
+    
+    self.imageBtn.frame=CGRectMake(1024-60, 20, 40, 40);
+    self.nameBtn.frame=CGRectMake(1024-60, 10, 40, 40);
+    self.sexBtn.frame=CGRectMake(1024-60, 10, 40, 40);
+    self.emainBtn.frame=CGRectMake(1024-60, 10, 40, 40);
+    self.schoolBtn.frame=CGRectMake(1024-60, 10, 40, 40);
+    self.departmentBtn.frame=CGRectMake(1024-60, 10, 40, 40);
+    self.professionBtn.frame=CGRectMake(1024-60, 10, 40, 40);
+    self.gradeBtn.frame=CGRectMake(1024-60, 10, 40, 40);
+    
+    
+    self.imageBtnHub.frame=CGRectMake(0, 20, 1024, 40);
+    self.nameBtnHub.frame=CGRectMake(0, 10, 1024, 40);
+    self.sexBtnHub.frame=CGRectMake(0, 10, 1024, 40);
+    self.emainBtnHub.frame=CGRectMake(0, 10, 1024, 40);
+    self.schoolBtnHub.frame=CGRectMake(0, 10, 1024, 40);
+    self.departmentBtnHub.frame=CGRectMake(0, 10, 1024, 40);
+    self.professionBtnHub.frame=CGRectMake(0, 10, 1024, 40);
+    self.gradeBtnHub.frame=CGRectMake(0, 10, 1024, 40);
+    
+    self.userImage.layer.masksToBounds=YES;
+    self.userImage.layer.cornerRadius=30;
+    
+}
 @end

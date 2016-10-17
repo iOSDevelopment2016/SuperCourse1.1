@@ -68,7 +68,12 @@
         SCVideoLinkMode *m = linkArr[i];
         
         NSString *text = m.hot_title;
-        CGSize textSize =  [text boundingRectWithSize:boundSize options:NSStringDrawingUsesLineFragmentOrigin attributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:30],NSFontAttributeName, nil] context:nil].size;
+        CGSize textSize;
+        if (IS_IPHONE) {
+            textSize   =  [text boundingRectWithSize:boundSize options:NSStringDrawingUsesLineFragmentOrigin attributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:40*HeightScale],NSFontAttributeName, nil] context:nil].size;
+        }else{
+            textSize =  [text boundingRectWithSize:boundSize options:NSStringDrawingUsesLineFragmentOrigin attributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:60*HeightScale],NSFontAttributeName, nil] context:nil].size;
+        }
         
         textSize.width += HORIZONTAL_PADDING * 2;
         textSize.height += VERTICAL_PADDING * 2;
@@ -104,6 +109,10 @@
         gotPreviousFrame = YES;
 
         button.titleLabel.font = [UIFont systemFontOfSize:35*WidthScale];
+        if (IS_IPHONE) {
+            button.titleLabel.font = [UIFont systemFontOfSize:35*HeightScale];
+
+        }
         button.titleLabel.backgroundColor = [UIColor whiteColor];
         
         if (!lblBackgroundColor) {

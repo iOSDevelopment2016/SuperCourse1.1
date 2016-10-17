@@ -159,30 +159,9 @@
 -(void)layoutSubviews{
     [super layoutSubviews];
     
-    self.headLabel.frame=CGRectMake(0, 0, self.width,self.height*0.172);
-    self.firstCircle.frame=CGRectMake(self.width*0.04, self.height*0.19, self.width*0.028, self.width*0.028);
+    [self measureTheFrameOfScreen];
     
-    self.firseLabelText.frame=CGRectMake(self.width*0.025, self.height*0.23, self.width*0.948, self.height*0.13);
-    self.firstTitle.frame=CGRectMake(self.width*0.1, self.height*0.193, self.width*0.1, self.height*0.042);
     
-    self.secondCircle.frame=CGRectMake(self.width*0.04, self.height*0.364, self.width*0.028, self.width*0.028);
-    self.secondTitle.frame=CGRectMake(self.width*0.1, self.height*0.364, self.width*0.3, self.width*0.028);
-    self.secondLabelText.frame=CGRectMake(self.width*0.025, self.height*0.4, self.width*0.95, self.height*0.148);
-    self.secondLabel.frame=CGRectMake(0, self.height*0.35, self.width, self.height*0.18);
-    
-    self.thirdCircle.frame=CGRectMake(self.width*0.04, self.height*0.555, self.width*0.028, self.width*0.028);
-    self.thirdeTitle.frame=CGRectMake(self.width*0.1, self.height*0.555, self.width*0.543, self.width*0.028);
-    self.thirdLabelText.frame=CGRectMake(self.width*0.025, self.height*0.636, self.width*0.935, self.height*0.187);
-    
-    self.backBtn.frame=CGRectMake(self.width*0.313, self.height*0.837, self.width*0.374, self.height*0.1);
-    
-    self.scorllViewHead.frame=CGRectMake(0, self.height*0.35, self.width, 1);
-    self.scorllViewBottom.frame=CGRectMake(0, self.height*0.53, self.width, 1);
-    //[self setBoarder:self.secondLabel];
-    //[self setBoarder:self.thirdLabel];
-    _backBtn.layer.masksToBounds = YES;
-    _backBtn.layer.cornerRadius = 50*HeightScale;
-    _backBtn.backgroundColor=UIColorFromRGB(0x6fccdb);
     
     
     
@@ -268,7 +247,7 @@
     if(!_firstTitle){
         _firstTitle=[[UILabel alloc]init];
         _firstTitle.text=@"简介";
-        _firstTitle.font=[UIFont systemFontOfSize:23.5];
+        _firstTitle.font=FONT_21;
     }
     return _firstTitle;
 }
@@ -276,7 +255,7 @@
     if(!_secondTitle){
         _secondTitle=[[UILabel alloc]init];
         _secondTitle.text=@"本节预备知识";
-        _secondTitle.font=[UIFont systemFontOfSize:23.5];
+        _secondTitle.font=FONT_21;
     }
     return _secondTitle;
 }
@@ -284,7 +263,7 @@
     if(!_thirdeTitle){
         _thirdeTitle=[[UILabel alloc]init];
         _thirdeTitle.text=@"本节收获";
-        _thirdeTitle.font=[UIFont systemFontOfSize:23.5];
+        _thirdeTitle.font=FONT_21;
     }
     return _thirdeTitle;
 }
@@ -302,5 +281,87 @@
     }
     return _scorllViewBottom;
 }
+
+-(void)measureTheFrameOfScreen{
+    
+    if (IS_IPHONE) {
+        //getIphoneFrame
+        NSLog(@"iphone");
+        [self getIphoneFrame];
+    }else{
+        //getIpadFrame
+        NSLog(@"ipad");
+        [self getIpadFrame];
+    }
+}
+
+
+-(void)getIphoneFrame{
+    
+    self.headLabel.frame=CGRectMake(0, 0, self.width,self.height*0.172);
+    self.firstCircle.frame=CGRectMake(self.width*0.04, self.height*0.19, self.width*0.028, self.width*0.028);
+    self.firseLabelText.frame=CGRectMake(self.width*0.07, self.height*0.25, self.width*0.948, self.height*0.13);
+    self.firseLabelText.font = FONT_20;
+    self.firstTitle.frame=CGRectMake(self.width*0.1, self.height*0.193, self.width*0.1, self.height*0.042);
+    
+    self.secondCircle.frame=CGRectMake(self.width*0.04, self.height*0.364, self.width*0.028, self.width*0.028);
+    self.secondTitle.frame=CGRectMake(self.width*0.1, self.height*0.364, self.width*0.3, self.width*0.028);
+    self.secondLabelText.frame=CGRectMake(self.width*0.07, self.height*0.424, self.width*0.9, self.height*0.148);
+    self.secondLabelText.font = FONT_20;
+
+    self.secondLabel.frame=CGRectMake(0, self.height*0.35, self.width, self.height*0.18);
+    
+    self.thirdCircle.frame=CGRectMake(self.width*0.04, self.height*0.625, self.width*0.028, self.width*0.028);
+    self.thirdeTitle.frame=CGRectMake(self.width*0.1, self.height*0.625, self.width*0.543, self.width*0.028);
+    self.thirdLabelText.frame=CGRectMake(self.width*0.07, self.height*0.686, self.width*0.9, self.height*0.187);
+    self.thirdLabelText.font = FONT_20;
+    self.backBtn.frame=CGRectMake(self.width*0.313, self.height*0.907, self.width*0.374, self.height*0.1);
+    
+    self.scorllViewHead.frame=CGRectMake(0, self.height*0.35, self.width, 2*HeightScale);
+    self.scorllViewBottom.frame=CGRectMake(0, self.height*0.6, self.width, 2*HeightScale);
+    //[self setBoarder:self.secondLabel];
+    //[self setBoarder:self.thirdLabel];
+    _backBtn.layer.masksToBounds = YES;
+    _backBtn.layer.cornerRadius = 50*HeightScale;
+    _backBtn.backgroundColor=UIColorFromRGB(0x6fccdb);
+    
+
+
+}
+
+
+-(void)getIpadFrame{
+    
+    self.headLabel.frame=CGRectMake(0, 0, self.width,self.height*0.172);
+    self.firstCircle.frame=CGRectMake(self.width*0.04, self.height*0.19, self.width*0.028, self.width*0.028);
+    
+    self.firseLabelText.frame=CGRectMake(self.width*0.025, self.height*0.23, self.width*0.948, self.height*0.13);
+    self.firstTitle.frame=CGRectMake(self.width*0.1, self.height*0.193, self.width*0.1, self.height*0.042);
+    
+    self.secondCircle.frame=CGRectMake(self.width*0.04, self.height*0.364, self.width*0.028, self.width*0.028);
+    self.secondTitle.frame=CGRectMake(self.width*0.1, self.height*0.364, self.width*0.3, self.width*0.028);
+    self.secondLabelText.frame=CGRectMake(self.width*0.025, self.height*0.4, self.width*0.95, self.height*0.148);
+    self.secondLabel.frame=CGRectMake(0, self.height*0.35, self.width, self.height*0.18);
+    
+    self.thirdCircle.frame=CGRectMake(self.width*0.04, self.height*0.555, self.width*0.028, self.width*0.028);
+    self.thirdeTitle.frame=CGRectMake(self.width*0.1, self.height*0.555, self.width*0.543, self.width*0.028);
+    self.thirdLabelText.frame=CGRectMake(self.width*0.025, self.height*0.636, self.width*0.935, self.height*0.187);
+    
+    self.backBtn.frame=CGRectMake(self.width*0.313, self.height*0.837, self.width*0.374, self.height*0.1);
+    
+    self.scorllViewHead.frame=CGRectMake(0, self.height*0.35, self.width, 2*HeightScale);
+    self.scorllViewBottom.frame=CGRectMake(0, self.height*0.53, self.width, 2*HeightScale);
+    //[self setBoarder:self.secondLabel];
+    //[self setBoarder:self.thirdLabel];
+    _backBtn.layer.masksToBounds = YES;
+    _backBtn.layer.cornerRadius = 50*HeightScale;
+    _backBtn.backgroundColor=UIColorFromRGB(0x6fccdb);
+    _headLabel.font = FONT_25;
+
+
+}
+
+
+
 
 @end

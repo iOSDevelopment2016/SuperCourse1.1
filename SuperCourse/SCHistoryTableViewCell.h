@@ -21,6 +21,7 @@
 
 @interface SCHistoryTableViewCell : UITableViewCell
 @property (strong, nonatomic) IBOutlet UIButton *historyBtn;
+@property (weak, nonatomic) IBOutlet UIImageView *roundImg;
 @property (strong, nonatomic) IBOutlet UILabel *state;
 @property (nonatomic ,weak) id<SCHistoryTableViewDelegate> delegate;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *leftImage;

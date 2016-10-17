@@ -89,14 +89,9 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     
-    self.backImageBtn.frame=CGRectMake(40, 42, 20, 35);
-    self.backBtn.frame=CGRectMake(55, 40, 100, 40);
-    self.selfConditidonBtn.frame=CGRectMake(0, 100, self.view.width, HeightScale*125);
-    self.downloadConditionBtn.frame=CGRectMake(0, 150+HeightScale*125, self.view.width, HeightScale*125);
-    self.memoryClearBtn.frame=CGRectMake(0, 153+HeightScale*250, self.view.width, HeightScale*125);
-    self.extendBtn.frame=CGRectMake(0, 200+HeightScale*375, self.view.width, HeightScale*125);
-    self.exitBtn.frame=CGRectMake(self.view.width/2-350*WidthScale, 225+HeightScale*500, 700*WidthScale, 100*HeightScale);
-    self.sizeLabel.frame=CGRectMake(self.view.width-200*WidthScale, 153+HeightScale*250, 200*WidthScale, HeightScale*125);
+    [self measureTheFrameOfScreen];
+    
+    
 }
 -(void)changeBtn{
     if([ApplicationDelegate.userSession isEqualToString:UnLoginUserSession])
@@ -311,7 +306,7 @@
         [_exitBtn setFont:[UIFont systemFontOfSize:45*WidthScale]];
         [_exitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         _exitBtn.layer.masksToBounds = YES;
-        _exitBtn.layer.cornerRadius = 26;
+        _exitBtn.layer.cornerRadius = 50*HeightScale;
         //_exitBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
         
     }
@@ -407,6 +402,54 @@
     }
     return _aboutView;
 }
+
+
+
+-(void)measureTheFrameOfScreen{
+    
+    if (IS_IPHONE) {
+        //getIphoneFrame
+        NSLog(@"iphone");
+        [self getIphoneFrame];
+    }else{
+        //getIpadFrame
+        NSLog(@"ipad");
+        [self getIpadFrame];
+    }
+}
+
+
+-(void)getIphoneFrame{
+
+    self.backImageBtn.frame=CGRectMake(80*HeightScale, 85*HeightScale, 40*HeightScale, 70*HeightScale);
+    self.backBtn.frame=CGRectMake(110*HeightScale, 80*HeightScale, 200*HeightScale, 80*HeightScale);
+    self.selfConditidonBtn.frame=CGRectMake(0, 200*HeightScale, self.view.width, HeightScale*125);
+    self.downloadConditionBtn.frame=CGRectMake(0, HeightScale*425, self.view.width, HeightScale*125);
+    self.memoryClearBtn.frame=CGRectMake(0, HeightScale*556, self.view.width, HeightScale*125);
+    self.extendBtn.frame=CGRectMake(0, HeightScale*775, self.view.width, HeightScale*125);
+    self.exitBtn.frame=CGRectMake(self.view.width/2-350*WidthScale, HeightScale*1000, 700*WidthScale, 100*HeightScale);
+    self.sizeLabel.frame=CGRectMake(self.view.width-200*WidthScale, HeightScale*556, 200*WidthScale, HeightScale*125);
+
+    
+}
+
+
+-(void)getIpadFrame{
+    
+    self.backImageBtn.frame=CGRectMake(40, 42, 20, 35);
+    self.backBtn.frame=CGRectMake(55, 40, 100, 40);
+    self.selfConditidonBtn.frame=CGRectMake(0, 100, self.view.width, HeightScale*125);
+    self.downloadConditionBtn.frame=CGRectMake(0, 150+HeightScale*125, self.view.width, HeightScale*125);
+    self.memoryClearBtn.frame=CGRectMake(0, 153+HeightScale*250, self.view.width, HeightScale*125);
+    self.extendBtn.frame=CGRectMake(0, 200+HeightScale*375, self.view.width, HeightScale*125);
+    self.exitBtn.frame=CGRectMake(self.view.width/2-350*WidthScale, 225+HeightScale*500, 700*WidthScale, 100*HeightScale);
+    self.sizeLabel.frame=CGRectMake(self.view.width-200*WidthScale, 153+HeightScale*250, 200*WidthScale, HeightScale*125);
+
+    
+}
+
+
+
 
 
 

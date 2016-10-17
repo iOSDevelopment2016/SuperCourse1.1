@@ -19,6 +19,7 @@
 @interface SCCourseTableViewCell : UITableViewCell
 @property (strong, nonatomic) IBOutlet UIButton *contentField;
 
+@property (weak, nonatomic) IBOutlet UIImageView *roundImage;
 @property (strong, nonatomic) IBOutlet UIButton *imageBtn;
 //@property (strong, nonatomic) IBOutletCollection(UILabel) NSArray *courseLabel;
 @property (strong, nonatomic) IBOutlet UIButton *downloadBtn;
