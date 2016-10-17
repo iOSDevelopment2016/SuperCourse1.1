@@ -1773,12 +1773,16 @@
 -(UIView *)chooseToShare{
     
     UIView *chooseView = [[UIView alloc]initWithFrame:CGRectMake(0, 0.065*SCREEN_HEIGHT, 0.49*SCREEN_WIDTH, 0.369*SCREEN_HEIGHT)];
+
     //    [chooseView setBackgroundColor:UIThemeColor];
     NSArray *arr = @[@"QQ",@"空间",@"微信好友",@"朋友圈"];
     NSArray *titleArr= @[@"QQ好友",@"QQ空间",@"微信好友",@"朋友圈"];
     for (int i=0; i<arr.count; i++){
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
         btn.frame = CGRectMake(0.083*SCREEN_WIDTH+i*0.09*SCREEN_WIDTH, 0.110*SCREEN_HEIGHT, 0.059*SCREEN_WIDTH, 0.059*SCREEN_WIDTH);
+        if (IS_IPHONE) {
+                btn.frame = CGRectMake(0.083*SCREEN_WIDTH+i*0.09*SCREEN_WIDTH, 0.085*SCREEN_HEIGHT, 0.059*SCREEN_WIDTH, 0.059*SCREEN_WIDTH);
+        }
         [btn setImage:[UIImage imageNamed:arr[i]] forState:UIControlStateNormal];
         [chooseView addSubview:btn];
         if (i==0) {
@@ -1846,6 +1850,10 @@
     UIButton *sureBtn=[UIButton buttonWithType:UIButtonTypeCustom];
     [sureBtn setTitle:@"确     定" forState:UIControlStateNormal];
     sureBtn.frame = CGRectMake(0.076*SCREEN_WIDTH, 0.33*SCREEN_HEIGHT, 0.35*SCREEN_WIDTH, 0.065*SCREEN_HEIGHT);
+    if (IS_IPHONE) {
+        sureBtn.titleLabel.font = FONT_21;
+        sureBtn.frame = CGRectMake(0.126*SCREEN_WIDTH, 0.33*SCREEN_HEIGHT, 0.25*UIScreenWidth, 0.055*SCREEN_HEIGHT);
+    }
     [sureBtn setBackgroundImage:[UIImage imageNamed:@"btnn"] forState:UIControlStateNormal];
     [sureBtn addTarget:self action:@selector(backToRoot) forControlEvents:UIControlEventTouchUpInside];
     
