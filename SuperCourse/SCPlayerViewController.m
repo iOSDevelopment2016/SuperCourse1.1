@@ -234,7 +234,9 @@
         NSString *dicStatus = dic[@"status"];
         if ([dicStatus isEqualToString:@"FAIL"]) {
             [self.navigationController popViewControllerAnimated:YES];
-            [UIAlertController showAlertAtViewController:self title:@"提示" message:@"您的登录信息已过期，无法继续观看视频，请重新登录" cancelTitle:@"取消" confirmTitle:@"确认" cancelHandler:nil  confirmHandler:^(UIAlertAction *action) {
+            [UIAlertController showAlertAtViewController:self title:@"提示" message:@"您的登录信息已过期，无法继续观看视频，请重新登录" cancelTitle:@"取消" confirmTitle:@"确认" cancelHandler:^(UIAlertAction *action) {
+                
+                }confirmHandler:^(UIAlertAction *action) {
                 [[NSNotificationCenter defaultCenter]postNotificationName:@"didLogOut" object:self userInfo:nil];
 
             }];
