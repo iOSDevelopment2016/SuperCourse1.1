@@ -1111,15 +1111,17 @@
 				TargetAttributes = {
 					C9E4E63E1C53BAF30052030E = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = 23GQX4X34D;
+						DevelopmentTeam = 2SPA2FSXHP;
 						ProvisioningStyle = Automatic;
 					};
 					C9E4E6571C53BAF30052030E = {
 						CreatedOnToolsVersion = 7.2;
+						DevelopmentTeam = 2SPA2FSXHP;
 						TestTargetID = C9E4E63E1C53BAF30052030E;
 					};
 					C9E4E6621C53BAF30052030E = {
 						CreatedOnToolsVersion = 7.2;
+						DevelopmentTeam = 2SPA2FSXHP;
 						TestTargetID = C9E4E63E1C53BAF30052030E;
 					};
 				};
@@ -1361,6 +1363,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Zhong Jin (2SPA2FSXHP)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 2SPA2FSXHP;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1380,6 +1383,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "4499fc48-fc84-4215-a467-0c981495780c";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
 			};
@@ -1406,6 +1410,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Zhong Jin (2SPA2FSXHP)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 2SPA2FSXHP;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1418,6 +1423,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PROVISIONING_PROFILE = "4499fc48-fc84-4215-a467-0c981495780c";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
 				VALIDATE_PRODUCT = YES;
@@ -1431,7 +1437,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Zhong Jin (2SPA2FSXHP)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 23GQX4X34D;
+				DEVELOPMENT_TEAM = 2SPA2FSXHP;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/SuperCourse/ThirdTools",
@@ -1450,6 +1456,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.sunzhongyuan.SuperCourse;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1461,7 +1468,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Zhong Jin (2SPA2FSXHP)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 23GQX4X34D;
+				DEVELOPMENT_TEAM = 2SPA2FSXHP;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/SuperCourse/ThirdTools",
@@ -1479,6 +1486,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.sunzhongyuan.SuperCourse;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
